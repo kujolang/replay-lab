@@ -33,7 +33,7 @@ Use `ARTIFACT_DIR` to write elsewhere, or `CHROME_CHANNEL=bundled` with `npx pla
 - [C — Extreme scale](../canvas/artifacts/immersive/C-extreme-scale.png). More than 140,000 submitted cells at roughly two raster pixels of pitch.
 - [D — Broad swell at 11 seconds](../canvas/artifacts/immersive/D-wide-swell.png) and [replay phase](../canvas/artifacts/immersive/D-overlapping-waves.png). Broad gray areas fade gradually into white. The caption explains how replay reproduces the triage decision without another model call.
 - [E — Reverse zoom](../canvas/artifacts/immersive/E-reverse-zoom.png). Captured after Playwright wheel events at the same pointer anchor. The receipt includes the camera pitch before and after.
-- [F — Kujo finale](../canvas/artifacts/immersive/F-kujo-finale.png). The [formation frame](../canvas/artifacts/immersive/F-formation.png) shows the field dissipating from the silhouette outward. The cells inside the K keep moving on white paper.
+- [F — Kujo finale](../canvas/artifacts/immersive/F-kujo-finale.png). The [formation frame](../canvas/artifacts/immersive/F-formation.png) shows the field dissipating from the silhouette outward. The cells inside the K keep moving while the surrounding field fades to white. As the address appears, the grid inside the K fades into the solid black logomark.
 
 [Capture receipt](../canvas/artifacts/immersive/acceptance.json) · [Live measurements](../canvas/artifacts/immersive/performance.json) · [Video verification](../canvas/artifacts/immersive/export.json)
 
@@ -45,7 +45,7 @@ The fragment shader draws the same square-cornered plates at every scale. At clo
 
 A broad swell and faint wake drift across the grayscale field at different angles. Each uses a smooth falloff, with gentle bending and variation across its width. Spaced cues and taps add a single soft wash with a smooth envelope along and across its direction of travel. `choreography.mjs` holds the camera and wave cues.
 
-The official SVG is an ink square with the K cut out. At startup the app inverts that alpha and stores a companion distance-to-ink channel. During formation, cells inside the mark darken and continue moving. Exterior cells fade to pure white in order of distance from the silhouette, with variation per cell. The white boundary grows outward from the K and fills its internal cutouts. The raster resolution cap is 1,920 × 1,080 and the hidden raster control can reduce rendering cost.
+The official SVG is an ink square with the K cut out. At startup the app inverts that alpha and stores a companion distance-to-ink channel. During formation, cells inside the mark darken and continue moving. Exterior cells fade to pure white in order of distance from the silhouette, with variation per cell. After that reveal, the address fades in while the renderer blends the cell field into the SVG silhouette sampled per pixel. The white boundary grows outward from the K and fills its internal cutouts. The raster resolution cap is 1,920 × 1,080 and the hidden raster control can reduce rendering cost.
 
 ## Provenance
 
@@ -66,13 +66,20 @@ Measured in headed Chrome 157.0.8103.80 at 1,280 × 720 on a 16 GB Intel Core i7
 
 | Live profile | Mean fps | Frame P95 | Longest frame | GPU draw mean | Peak cells submitted |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Full 30-second sequence | 59.1 | 17.4 ms | 116.9 ms | 1.63 ms | 157,379 |
-| 75% raster, 12–27 seconds | 58.9 | 17.4 ms | 116.5 ms | 1.66 ms | 157,379 |
+| Full 30-second sequence | 59.2 | 17.4 ms | 116.4 ms | 1.62 ms | 157,379 |
+| 75% raster, 12–27 seconds | 59.1 | 17.2 ms | 116.5 ms | 1.66 ms | 157,379 |
 
-The full run averaged 60.0 fps during expansion, massive scale, and logo formation. Five of 1,775 observed frames exceeded 20 ms. Reported GPU draw times exclude compositing. The live renderer used 8.7% of one CPU core, Chrome as a whole used 24.1%, and the main-thread draw-call P95 was 0.2 ms. Total Chrome RSS was 470 MiB, which can include shared pages. Shared macOS GPU counters include other processes. Per-tab GPU utilization and VRAM were unavailable. After 12 repeated phase jumps and forced collection, the browser retained 93 DOM nodes and approximately 2.19 MiB of JS heap.
+The full run averaged 60.0 fps during expansion, massive scale, and logo formation. 5 of 1,776 observed frames exceeded 20 ms. Reported GPU draw times exclude compositing. The live renderer used 9.0% of one CPU core, Chrome as a whole used 24.8%, and the main-thread draw-call P95 was 0.2 ms. Total Chrome RSS was 470 MiB, which can include shared pages. Shared macOS GPU counters include other processes. Per-tab GPU utilization and VRAM were unavailable. After 12 repeated phase jumps and forced collection, the browser retained 93 DOM nodes and approximately 2.19 MiB of JS heap.
 
 The renderer requires WebGL2 and OffscreenCanvas. Browsers without it can open the retained workbench. The raster scale control trades pixel resolution for rendering headroom. This benchmark covers one physical machine.
 
 ## Video export
 
-The exporter seeks the same live renderer at exact increments of 1/60 second and encodes each rendered frame with Chrome WebCodecs. The script verifies each encoded timestamp before writing the stream. FFmpeg muxes the bitstream, applying a bounded bitrate for large outputs. FFprobe checks decoded frame count, rate and duration. The export also produces a 480p fast-start MP4 for mobile. Output cadence is independent of live wall-clock rendering speed.
+The exporter seeks the same live renderer at exact increments of 1/60 second and encodes each rendered frame with Chrome WebCodecs. The script verifies each encoded timestamp before writing the stream. FFmpeg muxes the bitstream, applying a bounded bitrate for large outputs. FFprobe checks decoded frame count, rate and duration. The export adds the original stereo suspense score, with a low synth pulse, sparse keys, and a final chord timed to the wordmark. It also produces a 480p fast-start MP4 for mobile. Both exports retain the same AAC score. Output cadence is independent of live wall-clock rendering speed.
+
+The score is synthesized locally. To regenerate it with Python and NumPy, run these commands from `canvas/`.
+
+```sh
+python3 audio/compose-score.py /tmp/kujo-showcase-score.wav
+ffmpeg -i /tmp/kujo-showcase-score.wav -af 'loudnorm=I=-17:TP=-1.8:LRA=8' -ar 48000 -c:a aac -b:a 160k -movflags +faststart audio/showcase-score.m4a
+```
