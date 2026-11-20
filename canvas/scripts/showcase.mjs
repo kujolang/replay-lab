@@ -52,7 +52,10 @@ async function test() {
     for (let i = 0; i < pixels.length; i += 13) checksum = Math.imul(checksum, 31) + pixels[i] | 0;
     return checksum;
   }, at);
-  assert.notEqual(await bitmap(.55), await bitmap(1.02));
+  const opening = await bitmap(.02);
+  const openingCamera = (await state(page)).camera;
+  assert.notEqual(opening, await bitmap(.14));
+  assert.deepEqual((await state(page)).camera, openingCamera);
   const denseTime = 13.4;
   const a = await bitmap(denseTime);
   const b = await bitmap(denseTime + .25);
@@ -60,6 +63,10 @@ async function test() {
   assert.equal(a, await bitmap(denseTime));
   assert.ok((await state(page)).count > 140000);
   assert.notEqual(await bitmap(23), await bitmap(29.7));
+  const finalA = await bitmap(29.65);
+  const finalCamera = (await state(page)).camera;
+  assert.notEqual(finalA, await bitmap(29.98));
+  assert.deepEqual((await state(page)).camera, finalCamera);
   assert.equal((await state(page)).labels.length, 3);
 
   await seek(page, 5.8);
