@@ -4,22 +4,40 @@ on:
   push:
     branches: [main]
   pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
   native-replay:
+    name: Native replay (${{ matrix.runtime }})
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        runtime: [original, latest]
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
         with:
           persist-credentials: false
+      - name: Resolve Kujo release
+        id: release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUNTIME: ${{ matrix.runtime }}
+        run: |
+          tag=v1.9.0
+          if [[ "$RUNTIME" == latest ]]; then
+            tag=$(gh api repos/kujolang/kujo/releases/latest --jq .tag_name)
+          fi
+          [[ "$tag" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]
+          printf 'tag=%s\n' "$tag" >> "$GITHUB_OUTPUT"
       - uses: kujolang/kujo/.github/actions/setup-kujo@2cfaf185ad03059c89ef4f72fb061074255d00fc
         id: kujo
         with:
-          version: v1.9.0
+          version: ${{ steps.release.outputs.tag }}
       - name: Check Kujo source and test offline
         env:
           KUJO_BIN: ${{ steps.kujo.outputs.kujo-path }}
