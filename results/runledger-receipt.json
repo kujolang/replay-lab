@@ -1,0 +1,18 @@
+{
+  "id": "2026-11-20-codex-kujo-replay-lab-controlled-optimization-001",
+  "task_name": "Kujo Replay Lab controlled optimization",
+  "provider": "openai",
+  "model": "codex",
+  "created_at": "2026-11-20T02:53:14Z",
+  "updated_at": "2026-11-20T02:53:14Z",
+  "status": "pass",
+  "start_commit": null,
+  "end_commit": "d9873fbf5ac71024e3151c4b0bd46cfa2b6f5866",
+  "notes": [
+    {
+      "at": "2026-11-20T03:01:35Z",
+      "text": "Kujo 1.9.0 completed 200 candidates. Evidence: results/experiments.jsonl, results/final.json, results/reproduction.json. Freeze commit 0bfdabc."
+    }
+  ],
+  "verdict": "All 200 deterministic records reproduced. Candidate-36 passed final holdout. Four unsafe controls rejected."
+}
