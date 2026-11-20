@@ -13,12 +13,9 @@ html,body { margin: 0; width: 100%; height: 100%; background: #121212; }
 }
 .paper { --ink: #161616; --dim: #565656; --line: #989898; --paper: #efefef; --box: #e2e2e2; }
 .content { position: absolute; inset: 118px 192px 122px; }
-.header, .footer { position: absolute; left: 192px; right: 192px; display: flex; justify-content: space-between; align-items: center; }
-.header { top: 83px; }
-.footer { top: 946px; padding-top: 22px; border-top: 1px solid var(--line); }
-.kicker,.source,.mono,code,pre,.tabular { font-family: JetBrains, monospace; }
+.header { position: absolute; top: 83px; left: 192px; }
+.kicker,.mono,code,pre,.tabular { font-family: JetBrains, monospace; }
 .kicker { font-size: 21px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--dim); }
-.source { font-size: 19px; color: var(--dim); }
 .small { font-size: 24px; color: var(--dim); }
 h1,h2,p,pre { margin: 0; }
 h1,h2,.chart-info b,.reg-note b,.bar-row b { font-family: Departure, monospace; font-weight: 400; }
@@ -61,7 +58,8 @@ strong,b { font-weight: 700; }
 .chart-info .left span { display: block; }
 .chart-info .right { text-align: right; }
 .chart-info .right b { font-size: 68px; line-height: 1; letter-spacing: -2px; }
-.chart-label { font: 400 19px JetBrains, monospace; fill: #555; }
+.chart-label { font: 400 19px JetBrains, monospace; fill: #505050; }
+.sweep-winner { font-size: 24px; fill: #191919; }
 .rows { position: absolute; top: 323px; left: 0; right: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
 .rows .terminal .output { font-size: 32px; }
 .rows .terminal .command { font-size: 22px; }
@@ -73,9 +71,7 @@ strong,b { font-weight: 700; }
 .bars { position: absolute; top: 244px; left: 0; right: 0; }
 .bar-row { display: grid; grid-template-columns: 220px 1fr 238px; align-items: center; gap: 32px; margin-bottom: 35px; }
 .bar-row b { font-size: 68px; line-height: 1; letter-spacing: -1px; text-align: right; }
-.bar { height: 53px; border-bottom: 1px solid var(--line); background: #d7d7d7; }
-.bar span { display: block; height: 100%; background: #191919; transform-origin: left center; }
-.bar-row:first-child .bar span { background: #767676; }
+.bar { display: block; width: 100%; height: 60px; }
 .cmp {
   position: absolute; top: 53px; left: 0; right: 0;
   display: grid; gap: 38px;

@@ -10,12 +10,26 @@
     <div class="bars">
       <div class="bar-row bar-base">
     <div><div class="noun">Baseline</div><div class="small">12/24 passed</div></div>
-    <div class="bar"><span style="width:59.166666666666664%"></span></div>
+    <svg class="bar" viewBox="0 0 1014 60" preserveAspectRatio="none" aria-hidden="true">
+      <defs><pattern id="bar-base-dither" width="16" height="16" patternUnits="userSpaceOnUse">
+    <rect width="16" height="16" fill="#bdbdbd"/><g fill="#555"><rect x="0" y="0" width="4" height="4"/><rect x="8" y="0" width="4" height="4"/><rect x="4" y="4" width="4" height="4"/><rect x="0" y="8" width="4" height="4"/><rect x="8" y="8" width="4" height="4"/><rect x="12" y="12" width="4" height="4"/></g>
+  </pattern></defs>
+      <rect width="1014" height="60" fill="#ddd"/>
+      <path d="M253.5 0v60" stroke="#a8a8a8"/><path d="M507 0v60" stroke="#a8a8a8"/><path d="M760.5 0v60" stroke="#a8a8a8"/>
+      <rect class="bar-fill" width="599.95" height="60" fill="url(#bar-base-dither)"/>
+    </svg>
     <b>59.2%</b>
   </div>
       <div class="bar-row bar-winner">
     <div><div class="noun">Candidate 36</div><div class="small">24/24 passed</div></div>
-    <div class="bar"><span style="width:100%"></span></div>
+    <svg class="bar" viewBox="0 0 1014 60" preserveAspectRatio="none" aria-hidden="true">
+      <defs><pattern id="bar-winner-dither" width="16" height="16" patternUnits="userSpaceOnUse">
+    <rect width="16" height="16" fill="#292929"/><g fill="#969696"><rect x="0" y="0" width="4" height="4"/><rect x="8" y="0" width="4" height="4"/><rect x="0" y="8" width="4" height="4"/><rect x="8" y="8" width="4" height="4"/></g>
+  </pattern></defs>
+      <rect width="1014" height="60" fill="#ddd"/>
+      <path d="M253.5 0v60" stroke="#a8a8a8"/><path d="M507 0v60" stroke="#a8a8a8"/><path d="M760.5 0v60" stroke="#a8a8a8"/>
+      <rect class="bar-fill" width="1014" height="60" fill="url(#bar-winner-dither)"/>
+    </svg>
     <b>100%</b>
   </div>
     </div>
@@ -38,7 +52,6 @@
     <p class="reproduction">200 candidate records reproduced</p>
   </div>
 </main>
-  <div class="footer"><span class="source">final.json  ·  captured terminal excerpts  ·  reproduction.json</span><span class="source">github.com/kujolang/kujo-replay-lab</span></div>
   <section class="bumper bumper-outro" aria-label="Kujo Replay Lab">
   <div class="bumper-inner">
     <img class="bumper-mark" src="assets/kujo-k.svg" width="174" height="174" alt="Kujo K logomark" />
@@ -57,13 +70,13 @@
   const reveal = (selector, at, duration = 0.44, dy = 16) => timeline.fromTo(inside(selector),
     { opacity: 0, y: dy }, { opacity: 1, y: 0, duration, ease: "power3.out" }, at);
   const fade = (selector, at, duration = 0.30) => timeline.to(inside(selector), { opacity: 0, duration, ease: "power1.inOut" }, at);
-  timeline.fromTo(inside(".bar-base .bar span"), { scaleX: 0 },
-      { scaleX: 1, duration: 1.15, ease: "power3.out" }, 2.5);
-  timeline.fromTo(inside(".bar-winner .bar span"), { scaleX: 0 },
-      { scaleX: 1, duration: 1.15, ease: "power3.out" }, 4.6);
+  timeline.fromTo(inside(".bar-base .bar-fill"), { attr: { width: 0 } },
+      { attr: { width: 599.95 }, duration: 1.15, ease: "power3.out" }, 2.5);
+  timeline.fromTo(inside(".bar-winner .bar-fill"), { attr: { width: 0 } },
+      { attr: { width: 1014 }, duration: 1.15, ease: "power3.out" }, 4.6);
   fade(".result-page", 8.0, 0.3);
   reveal(".cmp", 8.3, 0.45, 10);
-  timeline.set(inside(".header, .content, .footer"), { visibility: "hidden" }, 18.0);
+  timeline.set(inside(".header, .content"), { visibility: "hidden" }, 18.0);
   timeline.set(inside(".bumper-outro"), { visibility: "visible" }, 18.0);
   timeline.fromTo(inside(".bumper-mark"), { scale: 0.92, opacity: 0.55 },
       { scale: 1, opacity: 1, duration: 0.46, ease: "power3.out" }, 18.0);

@@ -36,3 +36,11 @@ the editable index and reproduce its media placement without those receipts.
 ## Brand revision
 
 The logomark is copied byte-for-byte from `kujo-command/img/kujo-logomark-black.svg`. It matches the files in the Hermes and OpenCode videos. Departure Mono and its license come from `kujo-command/fonts`. The first 2.5 seconds lead with repeatable inputs. The final four seconds lead with catching regressions and show `tools/lab test`. The comparison screen stacks the terminal panels, request hash, and reproduced-record count in normal grid flow with 38 px gaps. The regression screen also has clearance above and below its rule.
+
+## Chart revision
+
+The video drops the bottom rule and text from every evidence scene. The sweep
+marks each candidate and distinguishes eligible runs, rejected runs, and the
+best eligible score. The sweep area and held-out bars use the same 4×4 Bayer
+order as Watchdog. SVG draws the pattern so it stays fixed while the chart
+reveals. [Dither Kit](https://tripwire.sh/dither-kit)
