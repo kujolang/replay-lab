@@ -1,0 +1,8 @@
+{
+  "capture": ["Issue JSON", "Kujo ai_chat · record", "Scripted loopback provider", "Native version-1 cassette"],
+  "replay": ["Issue JSON", "Kujo ai_chat · strict", "Cassette lookup by request SHA-256", "Recorded classifier response", "Deterministic policy", "Fixed oracle"],
+  "model": "triage-fixture-v1",
+  "fixed_parameters": {"temperature": 0, "max_tokens": 100},
+  "on_miss": "Native replay_miss. Candidate fails replay gate. No HTTP request.",
+  "example_hash": "800b44749f9307b18c443ef73846e7b6775b2ce5f035518bbf7418a4b0effab9"
+}

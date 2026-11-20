@@ -1,0 +1,1 @@
+{"baseline_replay_hits":100,"candidate_replay_hits":20000,"candidate_replay_misses":0,"external_model_calls":0,"heldout_cassettes":24,"heldout_replay_hits":48,"recording_provenance":"native Kujo HTTP recording against the local scripted fixture provider","tuning_cassettes":100}

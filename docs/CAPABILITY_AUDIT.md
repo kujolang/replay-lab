@@ -19,3 +19,10 @@ The core [HTTP/AI implementation](https://github.com/kujolang/kujo/blob/v1.9.0/s
 The fixture provider is a small Kujo loopback HTTP endpoint with scripted OpenAI-shaped responses. The native runtime records its actual HTTP exchanges and replays them. There were zero external provider calls and no original billed usage. Policy code executes anew for every candidate while the model boundary runs through native replay for every scenario.
 
 The [standard library](https://github.com/kujolang/kujo/blob/v1.9.0/docs/STANDARD_LIBRARY.md) provides `parse_json`, `to_json`, `read_file`, `write_file`, `append_file`, `sha256`, and `performance_now`. `kujo check` compiles entry points and `kujo test-run -v <file>` runs native assertions. Candidate changes are configuration values passed to previously checked shared source. Every candidate executes that source against the full tuning split.
+
+## Verified v1.9.0 behavior
+
+- VM `kujo run` passed all tuning runs. The separate held-out rerun used `kujo run --interpreter` and produced the same decisions, scores and gate outcomes. Run the replay commands with `--untrusted --allow-ai --allow-fs-read`. The optimizer also needs filesystem write and clock permissions.
+- In the tested release, `structured_errors: true` wraps strict replay misses under the outer `kind: "network"`. The native message contains `kind:"replay_miss"` and explicitly says strict replay does not use the network. Tests verify the native message and confirm a changed prompt or temperature cannot reuse the original cassette.
+- The native `test-run` runner collects test blocks and executes them in a separate interpreter. Put imports inside each test or in `test_setup`. A top-level `kujo check` does not validate all transitive module bodies, so the evidence checks every Kujo source individually and executes the normal entry points.
+- Eval counts the terminal newline as an additional line for `file_line_count` in the inspected version. The independent Kujo verifier counts 200 parsed JSONL rows. The Eval suite checks the selection count and final gate evidence.

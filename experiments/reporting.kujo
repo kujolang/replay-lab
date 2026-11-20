@@ -1,0 +1,91 @@
+from experiments.candidates import rank_compare
+
+func save(path, data) {
+    write_file(path, to_json(data) + "\n")
+}
+
+let argv := args()
+if len(argv) != 2 {
+    eprint("usage: reporting.kujo -- EVIDENCE_DIR REPORT_DIR")
+    exit(2)
+}
+let evidence := argv[0]
+let out := argv[1]
+if !path_exists(out) {
+    create_dir(out)
+}
+let baseline := parse_json(read_file(evidence + "/baseline.json"))
+let final := parse_json(read_file(evidence + "/final.json"))
+let selection := parse_json(read_file(evidence + "/selection.json"))
+let winner := selection["winner"]
+mut rows := []
+mut milestones := []
+mut rejections := []
+mut scores := "ordinal,id,phase,score_pct,passed,failed,regressions,safety_violations,runtime_ms,gate_passed\n"
+mut record := baseline["score_points"]
+mut hits := 0
+mut misses := 0
+mut outcomes := {}
+mut timings := []
+mut regression_events := []
+mut distributions := {}
+for line in read_lines(evidence + "/experiments.jsonl") {
+    mut row := parse_json(line)
+    mut item := {"id": row["experiment_id"], "ordinal": row["ordinal"], "phase": row["phase"],
+        "parent": row["parent_candidate_id"], "score_pct": row["score_pct"],
+        "score_points": row["score_points"], "gate_passed": row["gate_passed"],
+        "passed_tests": row["passed_tests"], "failed_tests": row["failed_tests"],
+        "regression_count": row["regression_count"], "runtime_ms": row["runtime_ms"],
+        "safety_violations": row["safety_violations"], "disposition": row["disposition"]}
+    rows = push(rows, item)
+    if row["gate_passed"] && row["score_points"] > record {
+        record = row["score_points"]
+        milestones = push(milestones, item)
+    }
+    if !row["gate_passed"] {
+        rejections = push(rejections, row)
+    }
+    if row["regression_count"] > 0 {
+        regression_events = push(regression_events, item)
+    }
+    mut passed := to_string(row["passed_tests"])
+    distributions[passed] := get_default(distributions, passed, 0) + 1
+    hits = hits + row["successful_replays"]
+    misses = misses + row["replay_mismatches"]
+    outcomes[row["decision_sha256"]] := true
+    timings = push(timings, row["runtime_ms"])
+    scores = scores + join([to_string(item["ordinal"]), item["id"], item["phase"],
+        to_string(item["score_pct"]), passed, to_string(item["failed_tests"]),
+        to_string(item["regression_count"]), to_string(item["safety_violations"]),
+        to_string(item["runtime_ms"]), to_string(item["gate_passed"])], ",") + "\n"
+}
+let ordered_timings := sort_by(timings, func(left, right) {
+    if left < right { return -1 }
+    if left > right { return 1 }
+    return 0
+})
+let replay := {"candidate_replay_hits": hits, "candidate_replay_misses": misses,
+    "tuning_cassettes": baseline["scenario_count"], "heldout_cassettes": final["winner"]["scenario_count"],
+    "heldout_replay_hits": final["baseline"]["successful_replays"] + final["winner"]["successful_replays"],
+    "baseline_replay_hits": baseline["successful_replays"], "external_model_calls": 0,
+    "recording_provenance": "native Kujo HTTP recording against the local scripted fixture provider"}
+let metrics := {"candidate_count": len(rows), "invalid_proposals": selection["invalid"],
+    "eligible_candidates": len(rows) - len(rejections), "rejected_candidates": len(rejections),
+    "distinct_decision_sets": len(keys(outcomes)), "winner_id": winner["experiment_id"],
+    "tuning_baseline_pct": baseline["score_pct"], "tuning_winner_pct": winner["score_pct"],
+    "heldout_baseline_pct": final["baseline"]["score_pct"], "heldout_winner_pct": final["winner"]["score_pct"],
+    "runtime_ms": {"tuning_baseline": baseline["runtime_ms"], "tuning_winner": winner["runtime_ms"],
+        "candidate_median": (ordered_timings[99] + ordered_timings[100]) / 2.0,
+        "heldout_baseline": final["baseline"]["runtime_ms"], "heldout_winner": final["winner"]["runtime_ms"]},
+    "replay": replay, "policy_changes": selection["baseline_delta"]}
+save(out + "/summary.json", metrics)
+save(out + "/leaderboard.json", sort_by(rows, rank_compare))
+save(out + "/milestones.json", milestones)
+save(out + "/test-distribution.json", distributions)
+save(out + "/regression-events.json", regression_events)
+save(out + "/caught-regressions.json", rejections)
+save(out + "/cassette-reuse.json", replay)
+write_file(out + "/score-progression.csv", scores)
+write_file(out + "/baseline-policy.json", read_file("scenarios/baseline-policy.json"))
+write_file(out + "/winner-policy.json", read_file(evidence + "/winner-policy.json"))
+write_file(out + "/triage-policy.kujo.txt", read_file("src/triage.kujo"))

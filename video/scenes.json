@@ -1,0 +1,12 @@
+{
+  "duration_seconds": 92,
+  "aspect_ratio": "16:9",
+  "scenes": [
+    {"id":"baseline","duration_seconds":12,"graphic":"Issue text and baseline JSON terminal","data":["../scenarios/example.json","visual-data/baseline-terminal.json"],"assets":[]},
+    {"id":"record","duration_seconds":13,"graphic":"Native cassette digest and recorded response inset","data":["../cassettes/800b44749f9307b18c443ef73846e7b6775b2ce5f035518bbf7418a4b0effab9.json"],"assets":["assets/replay-flow.svg"]},
+    {"id":"replay","duration_seconds":13,"graphic":"Animate issue → digest → cassette → policy and show expected strict miss","data":["visual-data/cassette-flow.json","../results/tests.log","visual-data/triage-policy.kujo.txt"],"assets":["assets/replay-flow.svg"]},
+    {"id":"sweep","duration_seconds":17,"graphic":"Candidate score scatter with best eligible score thresholds","data":["visual-data/score-progression.csv","visual-data/milestones.json","visual-data/cassette-reuse.json","../results/optimization.log"],"assets":[]},
+    {"id":"regression","duration_seconds":15,"graphic":"Candidate 193 expected vs actual with policy diff and hard gate","data":["visual-data/caught-regressions.json","../results/tests.log"],"assets":[]},
+    {"id":"validated","duration_seconds":22,"graphic":"Heldout scores and paired terminal outputs","data":["../results/final.json","visual-data/summary.json","visual-data/baseline-policy.json","visual-data/winner-policy.json","visual-data/winner-terminal.json","../results/reproduction.json"],"assets":[]}
+  ]
+}

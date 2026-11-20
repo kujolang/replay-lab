@@ -1,0 +1,1 @@
+{"decision":{"action":"queue_feature","category":"feature","confidence":91,"explanation":"Classification meets the routing threshold. Severity includes reported impact.","human_review":false,"priority":"P3","severity":1.0},"replay_error":null,"request_hash":"800b44749f9307b18c443ef73846e7b6775b2ce5f035518bbf7418a4b0effab9"}
