@@ -43,8 +43,8 @@ const operate = async (page, action, expected) => {
 async function zoomContinuously(page, direction) {
   const box = await controls(page).boundingBox();
   await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
-  for (let frame = 0; frame < 24; frame++) {
-    await page.mouse.wheel(0, direction * 135);
+  for (let frame = 0; frame < 16; frame++) {
+    await page.mouse.wheel(0, direction * 195);
     await clock(26);
   }
 }
@@ -257,50 +257,61 @@ async function benchmark() {
     p95ms: item.cadenceMs.p95.toFixed(1), gpuMs: item.gpuDrawMs?.mean.toFixed(2) })));
 }
 
-async function capture() {
-  await mkdir(artifactDir, { recursive: true });
-  const recording = join(artifactDir, '.recording');
-  const context = await browser.newContext({
-    viewport: desktop, deviceScaleFactor: 1, recordVideo: { dir: recording, size: desktop },
-  });
-  const { page, errors } = await setup(context);
-  const screenshot = (name) => page.screenshot({ path: join(artifactDir, name + '.png'), fullPage: true });
-  await clock(900);
-  await screenshot('01-execution-field');
+async function tour(page, snapshot) {
+  await snapshot('01-execution-field');
   await operate(page, 'execute', 'Routed Review · Completed');
   await page.selectOption('#card-pick', 'step-plan');
   await page.locator('#inspector summary', { hasText: 'Recorded event sequence' }).click();
-  await clock(1250);
+  await clock(900);
   await operate(page, 'replay', 'Winning policy · Replayed');
   await page.locator('#compare').click();
-  await screenshot('02-cassette-comparison');
-  await clock(1800);
+  await snapshot('02-cassette-comparison');
+  await clock(1300);
   await operate(page, 'evaluate', 'Policy checks · Passed');
   await page.selectOption('#card-pick', 'check-1');
   await page.locator('#inspector summary', { hasText: 'Full evidence' }).click();
-  await clock(1300);
+  await clock(850);
   await controls(page).press('Home');
   await zoomContinuously(page, -1);
   await zoomContinuously(page, 1);
   await page.selectOption('#mode', 'synthetic');
   await zoomContinuously(page, 1);
-  await page.waitForFunction(() => labBenchmark.state().count > 7000);
-  await clock(900);
-  await screenshot('03-synthetic-field');
-  await clock(1300);
+  await page.waitForFunction(() => labBenchmark.state().count > 245000 ||
+    labBenchmark.state().capabilities.mode === 'Canvas 2D' && labBenchmark.state().count > 7000);
+  await snapshot('03-synthetic-field');
+  await clock(1000);
   await zoomContinuously(page, -1);
   await page.selectOption('#mode', 'evidence');
   await controls(page).press('Home');
-  await clock(1000);
+  await clock(750);
+}
+
+async function capture() {
+  await mkdir(artifactDir, { recursive: true });
+  const context = await browser.newContext({ viewport: desktop, deviceScaleFactor: 1 });
+  const { page, errors } = await setup(context);
+  const screenshot = (name) => page.screenshot({ path: join(artifactDir, name + '.png'), fullPage: true });
+  await clock(1100);
+  await tour(page, screenshot);
   await context.close();
-  const video = await page.video().path();
-  await rename(video, join(artifactDir, 'replay-lab-demo.webm'));
-  await rm(recording, { recursive: true, force: true });
   assert.deepEqual(errors, []);
   const mobile = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, deviceScaleFactor: 2 });
   const { page: phone } = await setup(mobile);
   await phone.screenshot({ path: join(artifactDir, '04-touch-layout.png'), fullPage: true });
   await mobile.close();
+
+  const recording = join(artifactDir, '.recording');
+  const videoContext = await browser.newContext({
+    viewport: { width: 1280, height: 940 }, deviceScaleFactor: 1,
+    recordVideo: { dir: recording, size: { width: 960, height: 704 } },
+  });
+  const videoPage = await setup(videoContext);
+  await tour(videoPage.page, () => {});
+  await videoContext.close();
+  assert.deepEqual(videoPage.errors, []);
+  const video = await videoPage.page.video().path();
+  await rename(video, join(artifactDir, 'replay-lab-demo.webm'));
+  await rm(recording, { recursive: true, force: true });
 }
 
 try {

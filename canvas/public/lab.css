@@ -111,7 +111,7 @@ select { background: #fff; border: 1px solid #aaa9a3; color: var(--ink); padding
 .readout b { font-weight: 400; color: var(--ink); }
 #fps { margin-left: auto; }
 .legend { padding: 12px 0 24px; display: flex; justify-content: space-between; gap: 10px; color: var(--quiet); font-size: .75rem; }
-.legend a { text-decoration: none; white-space: nowrap; }
+.legend a { display: inline-flex; align-items: center; gap: 5px; text-decoration: none; white-space: nowrap; }
 @keyframes glyph { from { opacity: .02; } to { opacity: .42; } }
 @keyframes scan { to { transform: translateX(25px); } }
 @keyframes signal { from { opacity: .55; } to { opacity: 1; } }

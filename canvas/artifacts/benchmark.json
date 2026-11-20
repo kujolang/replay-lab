@@ -1,0 +1,454 @@
+{
+  "measuredAt": "2026-11-20T18:56:39.325Z",
+  "machine": {
+    "os": "darwin",
+    "kernel": "25.6.0",
+    "arch": "x64",
+    "cpu": "Intel(R) Core(TM) i7-9750H CPU @ 2.60GHz",
+    "logicalCores": 12,
+    "ramGiB": 16
+  },
+  "browserVersion": "157.0.8103.80",
+  "headed": true,
+  "samples": [
+    {
+      "profile": "Evidence",
+      "cpuThrottling": 1,
+      "field": {
+        "width": 1045,
+        "height": 547,
+        "count": 12
+      },
+      "requestedMs": 8000,
+      "cadenceMs": {
+        "samples": 363,
+        "mean": 20.343250688705236,
+        "p50": 16.699999999999818,
+        "p95": 18,
+        "max": 833.5999999999999
+      },
+      "meanFps": 49.156352409067516,
+      "cpuRenderMs": {
+        "samples": 363,
+        "mean": 0.00688705299839829,
+        "p50": 0,
+        "p95": 0.10000002384185791,
+        "max": 0.10000002384185791
+      },
+      "gpuDrawMs": null,
+      "browser": {
+        "cpuPercentOfOneCore": 22.06661207301268,
+        "rssMiB": 476.33984375
+      },
+      "renderer": {
+        "cpuPercentOfOneCore": 11.467639590111244,
+        "rssMiB": 217.40234375
+      },
+      "gpuProcess": {
+        "cpuPercentOfOneCore": 8.707926327899871,
+        "rssMiB": 73.56640625
+      },
+      "sharedOsGPU": {
+        "Device Utilization %": 99
+      },
+      "jsHeapMiB": {
+        "used": 1.8717460632324219,
+        "reserved": 3.0390625
+      }
+    },
+    {
+      "profile": "WebGL2 16K",
+      "cpuThrottling": 1,
+      "field": {
+        "width": 1045,
+        "height": 547,
+        "count": 16215,
+        "capabilities": {
+          "mode": "WebGL2",
+          "limit": 262144,
+          "pointSizeRange": [
+            1,
+            511
+          ],
+          "maxTextureSize": 16384,
+          "maxViewport": [
+            16384,
+            16384
+          ],
+          "gpu": "ANGLE (AMD, ANGLE Metal Renderer: AMD Radeon Pro 5300M, Unspecified Version)",
+          "gpuTimer": true
+        }
+      },
+      "requestedMs": 8000,
+      "cadenceMs": {
+        "samples": 480,
+        "mean": 16.66270833333333,
+        "p50": 16.700000000000728,
+        "p95": 18,
+        "max": 18.600000000000364
+      },
+      "meanFps": 60.01425338517899,
+      "cpuRenderMs": {
+        "samples": 480,
+        "mean": 0.08645833407839139,
+        "p50": 0.10000002384185791,
+        "p95": 0.20000004768371582,
+        "max": 0.30000007152557373
+      },
+      "gpuDrawMs": {
+        "samples": 95,
+        "mean": 1.0802761052631578,
+        "p50": 1.07588,
+        "p95": 1.146599,
+        "max": 1.187039
+      },
+      "browser": {
+        "cpuPercentOfOneCore": 23.99927637081787,
+        "rssMiB": 490.99609375
+      },
+      "renderer": {
+        "cpuPercentOfOneCore": 8.34449530101704,
+        "rssMiB": 221.51953125
+      },
+      "gpuProcess": {
+        "cpuPercentOfOneCore": 15.178844230227629,
+        "rssMiB": 83.4140625
+      },
+      "sharedOsGPU": {
+        "Device Utilization %": 100
+      },
+      "jsHeapMiB": {
+        "used": 2.0035247802734375,
+        "reserved": 4.2890625
+      }
+    },
+    {
+      "profile": "WebGL2 65K",
+      "cpuThrottling": 1,
+      "field": {
+        "width": 1045,
+        "height": 547,
+        "count": 64911,
+        "capabilities": {
+          "mode": "WebGL2",
+          "limit": 262144,
+          "pointSizeRange": [
+            1,
+            511
+          ],
+          "maxTextureSize": 16384,
+          "maxViewport": [
+            16384,
+            16384
+          ],
+          "gpu": "ANGLE (AMD, ANGLE Metal Renderer: AMD Radeon Pro 5300M, Unspecified Version)",
+          "gpuTimer": true
+        }
+      },
+      "requestedMs": 8000,
+      "cadenceMs": {
+        "samples": 480,
+        "mean": 16.667083333333334,
+        "p50": 16.700000000000728,
+        "p95": 18,
+        "max": 18.700000000000728
+      },
+      "meanFps": 59.998500037499056,
+      "cpuRenderMs": {
+        "samples": 480,
+        "mean": 0.0545833316942056,
+        "p50": 0,
+        "p95": 0.10000002384185791,
+        "max": 0.20000004768371582
+      },
+      "gpuDrawMs": {
+        "samples": 95,
+        "mean": 1.102236936842105,
+        "p50": 1.09876,
+        "p95": 1.17048,
+        "max": 1.207479
+      },
+      "browser": {
+        "cpuPercentOfOneCore": 24.43536881111426,
+        "rssMiB": 494.015625
+      },
+      "renderer": {
+        "cpuPercentOfOneCore": 8.41138538248256,
+        "rssMiB": 223.45703125
+      },
+      "gpuProcess": {
+        "cpuPercentOfOneCore": 15.847542908985305,
+        "rssMiB": 84.53515625
+      },
+      "sharedOsGPU": {
+        "Device Utilization %": 99
+      },
+      "jsHeapMiB": {
+        "used": 2.1485366821289062,
+        "reserved": 5.2890625
+      }
+    },
+    {
+      "profile": "WebGL2 262K",
+      "cpuThrottling": 1,
+      "field": {
+        "width": 1045,
+        "height": 547,
+        "count": 260669,
+        "capabilities": {
+          "mode": "WebGL2",
+          "limit": 262144,
+          "pointSizeRange": [
+            1,
+            511
+          ],
+          "maxTextureSize": 16384,
+          "maxViewport": [
+            16384,
+            16384
+          ],
+          "gpu": "ANGLE (AMD, ANGLE Metal Renderer: AMD Radeon Pro 5300M, Unspecified Version)",
+          "gpuTimer": true
+        }
+      },
+      "requestedMs": 8000,
+      "cadenceMs": {
+        "samples": 480,
+        "mean": 16.670000000000005,
+        "p50": 16.69999999999709,
+        "p95": 18,
+        "max": 18.700000000004366
+      },
+      "meanFps": 59.98800239952008,
+      "cpuRenderMs": {
+        "samples": 480,
+        "mean": 0.05437500203649203,
+        "p50": 0,
+        "p95": 0.10000002384185791,
+        "max": 0.20000004768371582
+      },
+      "gpuDrawMs": {
+        "samples": 95,
+        "mean": 1.0624314842105267,
+        "p50": 1.052639,
+        "p95": 1.14612,
+        "max": 1.181239
+      },
+      "browser": {
+        "cpuPercentOfOneCore": 25.61613154496552,
+        "rssMiB": 494.515625
+      },
+      "renderer": {
+        "cpuPercentOfOneCore": 9.1043884901644,
+        "rssMiB": 221.4375
+      },
+      "gpuProcess": {
+        "cpuPercentOfOneCore": 15.266465816721476,
+        "rssMiB": 85.82421875
+      },
+      "sharedOsGPU": {
+        "Device Utilization %": 96
+      },
+      "jsHeapMiB": {
+        "used": 2.0533370971679688,
+        "reserved": 4.5390625
+      }
+    },
+    {
+      "profile": "262K, throttled renderer",
+      "cpuThrottling": 4,
+      "field": {
+        "width": 1045,
+        "height": 547,
+        "count": 260669,
+        "capabilities": {
+          "mode": "WebGL2",
+          "limit": 262144,
+          "pointSizeRange": [
+            1,
+            511
+          ],
+          "maxTextureSize": 16384,
+          "maxViewport": [
+            16384,
+            16384
+          ],
+          "gpu": "ANGLE (AMD, ANGLE Metal Renderer: AMD Radeon Pro 5300M, Unspecified Version)",
+          "gpuTimer": true
+        }
+      },
+      "requestedMs": 8000,
+      "cadenceMs": {
+        "samples": 481,
+        "mean": 16.665072765072768,
+        "p50": 16.60000000000582,
+        "p95": 17.900000000001455,
+        "max": 18.5
+      },
+      "meanFps": 60.00573859454333,
+      "cpuRenderMs": {
+        "samples": 481,
+        "mean": 0.18419958152295152,
+        "p50": 0.09999990463256836,
+        "p95": 0.8000000715255737,
+        "max": 1.2000000476837158
+      },
+      "gpuDrawMs": {
+        "samples": 96,
+        "mean": 1.072068302083333,
+        "p50": 1.06868,
+        "p95": 1.143199,
+        "max": 1.168439
+      },
+      "browser": {
+        "cpuPercentOfOneCore": 103.08739181247098,
+        "rssMiB": 495.77734375
+      },
+      "renderer": {
+        "cpuPercentOfOneCore": 90.01436657719003,
+        "rssMiB": 221.4765625
+      },
+      "gpuProcess": {
+        "cpuPercentOfOneCore": 12.920002713563004,
+        "rssMiB": 87.046875
+      },
+      "sharedOsGPU": {
+        "Device Utilization %": 99
+      },
+      "jsHeapMiB": {
+        "used": 2.338062286376953,
+        "reserved": 4.5390625
+      }
+    },
+    {
+      "profile": "Mobile layout, Canvas 2D fallback",
+      "cpuThrottling": 1,
+      "field": {
+        "width": 364,
+        "height": 430,
+        "count": 8107,
+        "capabilities": {
+          "mode": "Canvas 2D",
+          "limit": 8192,
+          "gpuTimer": false
+        }
+      },
+      "requestedMs": 8000,
+      "cadenceMs": {
+        "samples": 233,
+        "mean": 34.450214592274676,
+        "p50": 33.20000000000073,
+        "p95": 54.20000000000073,
+        "max": 434.1999999999998
+      },
+      "meanFps": 29.027395383024583,
+      "cpuRenderMs": {
+        "samples": 233,
+        "mean": 4.392274681079029,
+        "p50": 4.600000023841858,
+        "p95": 5,
+        "max": 5.699999928474426
+      },
+      "gpuDrawMs": null,
+      "browser": {
+        "cpuPercentOfOneCore": 56.42368320142712,
+        "rssMiB": 531.2109375
+      },
+      "renderer": {
+        "cpuPercentOfOneCore": 17.88477391971833,
+        "rssMiB": 216.0234375
+      },
+      "gpuProcess": {
+        "cpuPercentOfOneCore": 11.778762257378489,
+        "rssMiB": 88.75390625
+      },
+      "sharedOsGPU": {
+        "Device Utilization %": 100
+      },
+      "jsHeapMiB": {
+        "used": 2.1730422973632812,
+        "reserved": 5.2890625
+      }
+    },
+    {
+      "profile": "Mobile layout, Canvas 2D 1K",
+      "cpuThrottling": 1,
+      "field": {
+        "width": 364,
+        "height": 430,
+        "count": 943,
+        "capabilities": {
+          "mode": "Canvas 2D",
+          "limit": 8192,
+          "gpuTimer": false
+        }
+      },
+      "requestedMs": 8000,
+      "cadenceMs": {
+        "samples": 230,
+        "mean": 30.72565217391305,
+        "p50": 32.099999999998545,
+        "p95": 51.19999999999891,
+        "max": 67.39999999999964
+      },
+      "meanFps": 32.54609517610267,
+      "cpuRenderMs": {
+        "samples": 230,
+        "mean": 1.9404347792915675,
+        "p50": 2.100000023841858,
+        "p95": 2.600000023841858,
+        "max": 3
+      },
+      "gpuDrawMs": null,
+      "browser": {
+        "cpuPercentOfOneCore": 24.718165772065262,
+        "rssMiB": 534.15234375
+      },
+      "renderer": {
+        "cpuPercentOfOneCore": 11.282136018242124,
+        "rssMiB": 218.0703125
+      },
+      "gpuProcess": {
+        "cpuPercentOfOneCore": 12.95695990825279,
+        "rssMiB": 89.5703125
+      },
+      "sharedOsGPU": {
+        "Device Utilization %": 100
+      },
+      "jsHeapMiB": {
+        "used": 2.3466110229492188,
+        "reserved": 3.5390625
+      }
+    }
+  ],
+  "memory": [
+    {
+      "cycle": 0,
+      "usedMiB": 1.6943092346191406,
+      "documents": 3,
+      "nodes": 631,
+      "jsEventListeners": 57
+    },
+    {
+      "cycle": 5,
+      "usedMiB": 1.7251510620117188,
+      "documents": 3,
+      "nodes": 631,
+      "jsEventListeners": 57
+    },
+    {
+      "cycle": 10,
+      "usedMiB": 1.7355918884277344,
+      "documents": 3,
+      "nodes": 631,
+      "jsEventListeners": 57
+    },
+    {
+      "cycle": 15,
+      "usedMiB": 1.7395133972167969,
+      "documents": 3,
+      "nodes": 631,
+      "jsEventListeners": 57
+    }
+  ]
+}
