@@ -4,7 +4,7 @@ The composition uses HyperFrames CLI 0.9.71, Chrome hardware browser capture
 when available and fixed 1920 × 1080, 30 fps, 92-second output. The preview runs
 locally. The six sub-compositions follow the handoff's 12, 13, 13, 17, 15 and
 22-second scene durations. The last scene switches from held-out scores to the
-paired terminal excerpts, then holds the closing test command for four seconds. Headline and JSON excerpts are editable text. The native test error
+paired terminal excerpts, then holds the closing bumper for four seconds. Headline and JSON excerpts are editable text. The native test error
 uses the literal strict replay marker and network wording from the log.
 
 `hyperframes/tools/build-scenes.mjs` pulls the published evidence from the
@@ -35,7 +35,7 @@ the editable index and reproduce its media placement without those receipts.
 
 ## Brand revision
 
-The logomark is copied byte-for-byte from `kujo-command/img/kujo-logomark-black.svg`. It matches the files in the Hermes and OpenCode videos. Departure Mono and its license come from `kujo-command/fonts`. The first 2.5 seconds lead with repeatable inputs. The final four seconds lead with catching regressions and show `tools/lab test`. The comparison screen stacks the terminal panels, request hash, and reproduced-record count in normal grid flow with 38 px gaps. The regression screen also has clearance above and below its rule.
+The logomark uses the K paths from `kujo-command/img/kujo-logomark-black.svg`, the same artwork used in the Hermes and OpenCode videos. The bumper SVG fills the K directly against black so its edges stay dark. Departure Mono and its license come from `kujo-command/fonts`. The first 2.5 seconds lead with repeatable inputs. The final four seconds lead with catching regressions. The comparison screen stacks the terminal panels, request hash, and reproduced-record count in normal grid flow with 38 px gaps. The regression screen also has clearance above and below its rule.
 
 ## Chart revision
 
@@ -44,3 +44,8 @@ marks each candidate and distinguishes eligible runs, rejected runs, and the
 best eligible score. The sweep area and held-out bars use the same 4×4 Bayer
 order as Watchdog. SVG draws the pattern so it stays fixed while the chart
 reveals. [Dither Kit](https://tripwire.sh/dither-kit)
+
+## Bumper cleanup
+
+Both bumpers show the K and benefit headline. The first issue scene opens
+with the headline and goes straight to the evidence.

@@ -40,15 +40,11 @@ const clipLine = (key, value, comma = ",") => `  "${key}": <span class="output-v
 const output = (decision) => [clipLine("action", decision.action), clipLine("priority", decision.priority), clipLine("human_review", decision.human_review, "")].join("\n");
 const terminal = (className, label, cmd, content) => `<div class="terminal ${className}"><div class="command">${esc(label)}<span style="float:right">${esc(cmd)}</span></div><pre class="output">${content}</pre></div>`;
 
-function bumper(variant, first, second, action = "") {
+function bumper(variant, first, second) {
   return `<section class="bumper bumper-${variant}" aria-label="Kujo Replay Lab">
   <div class="bumper-inner">
     <img class="bumper-mark" src="assets/kujo-k.svg" width="174" height="174" alt="Kujo K logomark" />
-    <div class="bumper-copy">
-      <h2 class="bumper-benefit"><span>${esc(first)}</span><span>${esc(second)}</span></h2>
-      <div class="bumper-rule"></div>
-      <div class="bumper-support"><span class="kicker">Kujo Replay Lab</span>${action ? `<code>${esc(action)}</code>` : ""}</div>
-    </div>
+    <h2 class="bumper-benefit"><span>${esc(first)}</span><span>${esc(second)}</span></h2>
   </div>
 </section>`;
 }
@@ -59,8 +55,7 @@ function scene(id, kind, body, animation, overlay = "") {
 <html lang="en"><head><meta charset="utf-8" /></head><body><template>
 <style>#root { position: absolute; inset: 0; width: 100%; height: 100%; }</style>
 <div id="root" class="scene ${kind} ${id}" data-composition-id="${id}" data-width="1920" data-height="1080" data-duration="${row.duration_seconds}">
-  <div class="header"><span class="kicker">Kujo Replay Lab</span></div>
-  <main class="content">${body}</main>
+${id === "baseline" ? "" : '  <div class="header"><span class="kicker">Kujo Replay Lab</span></div>\n'}  <main class="content">${body}</main>
 ${overlay ? `  ${overlay}\n` : ""}</div>
 <script>
 (() => {
@@ -78,18 +73,15 @@ ${overlay ? `  ${overlay}\n` : ""}</div>
 }
 const description = issue.description.match(/Existing production jobs have stopped/)[0];
 scene("baseline", "", `
-  <p class="kicker heading opening">Issue report</p>
-  <h1 class="quote opening">${esc(description)}.</h1>
-  <p class="scenario opening">${esc(issue.title)} <span class="small"> / filed as ${esc(issue.labels[0])}</span></p>
+  <h1 class="quote">${esc(description)}.</h1>
+  <p class="scenario">${esc(issue.title)} <span class="small"> / filed as ${esc(issue.labels[0])}</span></p>
   ${terminal("baseline-terminal", "Baseline · captured output excerpt", "tools/lab triage scenarios/example.json", `{\n${output(capture.decision)}\n}`)}
 `, `
-  timeline.set(inside(".header, .content"), { visibility: "hidden" }, 0);
+  timeline.set(inside(".content"), { visibility: "hidden" }, 0);
   timeline.fromTo(inside(".bumper-mark"), { scale: 0.92, opacity: 0.55 },
       { scale: 1, opacity: 1, duration: 0.46, ease: "power3.out" }, 0);
-  timeline.fromTo(inside(".bumper-rule"), { scaleX: 0 },
-      { scaleX: 1, duration: 0.50, ease: "power2.out" }, 0.12);
   timeline.set(inside(".bumper-intro"), { visibility: "hidden" }, 2.5);
-  timeline.set(inside(".header, .content"), { visibility: "visible" }, 2.5);
+  timeline.set(inside(".content"), { visibility: "visible" }, 2.5);
   reveal(".baseline-terminal", 3.5, 0.58);
 `, bumper("intro", "Test AI changes", "with repeatable inputs."));
 
@@ -268,9 +260,7 @@ scene("validated", "paper", `
   timeline.set(inside(".bumper-outro"), { visibility: "visible" }, 18.0);
   timeline.fromTo(inside(".bumper-mark"), { scale: 0.92, opacity: 0.55 },
       { scale: 1, opacity: 1, duration: 0.46, ease: "power3.out" }, 18.0);
-  timeline.fromTo(inside(".bumper-rule"), { scaleX: 0 },
-      { scaleX: 1, duration: 0.50, ease: "power2.out" }, 18.12);
-`, bumper("outro", "Catch regressions", "before you ship.", "tools/lab test"));
+`, bumper("outro", "Catch regressions", "before you ship."));
 
 const duration = handoff.scenes.reduce((total, row) => total + row.duration_seconds, 0);
 if (duration !== 92) throw new Error("Unexpected composition length");

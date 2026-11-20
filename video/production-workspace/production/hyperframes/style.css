@@ -35,7 +35,7 @@ strong,b { font-weight: 700; }
 .noun { font-weight: 700; letter-spacing: -1px; }
 .note { padding: 16px 0; font: 400 23px/1.25 JetBrains, monospace; color: var(--dim); }
 .quote { display: block; max-width: 1380px; }
-.baseline-terminal { position: absolute; top: 409px; left: 0; right: 0; }
+.baseline-terminal { position: absolute; top: 374px; left: 0; right: 0; }
 .baseline .quote { margin-top: 29px; }
 .baseline .scenario { margin: 25px 0 0; font-size: 27px; }
 .digest { margin-top: 48px; padding: 20px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
@@ -90,20 +90,12 @@ strong,b { font-weight: 700; }
 .bumper-inner {
   margin: 0 192px;
   display: grid; grid-template-columns: 174px minmax(0, 1fr);
-  column-gap: 64px; align-items: start;
+  column-gap: 64px; align-items: center;
 }
 .bumper-mark {
-  width: 174px; height: 174px; background: #f3f3f3;
+  width: 174px; height: 174px; background: #000;
   display: block;
 }
-.bumper-copy { display: grid; gap: 26px; }
 .bumper-benefit { font-size: 83px; line-height: 1.07; letter-spacing: -2px; }
 .bumper-benefit span { display: block; }
-.bumper-support {
-  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 14px 34px;
-  min-height: 40px;
-}
-.bumper-support .kicker { color: #c4c4c4; }
-.bumper-support code { font-size: 28px; }
-.bumper-rule { height: 1px; background: #777; transform-origin: left center; }
 .bumper-outro { visibility: hidden; }

@@ -55,11 +55,7 @@
   <section class="bumper bumper-outro" aria-label="Kujo Replay Lab">
   <div class="bumper-inner">
     <img class="bumper-mark" src="assets/kujo-k.svg" width="174" height="174" alt="Kujo K logomark" />
-    <div class="bumper-copy">
-      <h2 class="bumper-benefit"><span>Catch regressions</span><span>before you ship.</span></h2>
-      <div class="bumper-rule"></div>
-      <div class="bumper-support"><span class="kicker">Kujo Replay Lab</span><code>tools/lab test</code></div>
-    </div>
+    <h2 class="bumper-benefit"><span>Catch regressions</span><span>before you ship.</span></h2>
   </div>
 </section>
 </div>
@@ -80,8 +76,6 @@
   timeline.set(inside(".bumper-outro"), { visibility: "visible" }, 18.0);
   timeline.fromTo(inside(".bumper-mark"), { scale: 0.92, opacity: 0.55 },
       { scale: 1, opacity: 1, duration: 0.46, ease: "power3.out" }, 18.0);
-  timeline.fromTo(inside(".bumper-rule"), { scaleX: 0 },
-      { scaleX: 1, duration: 0.50, ease: "power2.out" }, 18.12);
   window.__timelines["validated"] = timeline;
 })();
 </script>
