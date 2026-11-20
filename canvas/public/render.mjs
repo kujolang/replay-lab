@@ -171,7 +171,7 @@ export function syntheticRenderer(canvas, forceFallback = false) {
   };
 }
 
-export function decorate(ctx, camera, width, height, time, cards, ripples, field) {
+export function decorate(ctx, camera, width, height, time, ripples, field) {
   const ratio = ctx.canvas.width / width;
   ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
   ctx.clearRect(0, 0, width, height);
@@ -187,30 +187,6 @@ export function decorate(ctx, camera, width, height, time, cards, ripples, field
   }
   ctx.fill();
   ctx.globalAlpha = 1;
-  if (!field) {
-    ctx.save();
-    ctx.translate(camera.x, camera.y);
-    ctx.scale(camera.z, camera.z);
-    for (let index = 0; index < cards.length; index++) {
-      const { x, y } = cards[index];
-      const next = cards[index + 1];
-      if (next?.y === y) {
-        ctx.fillStyle = '#555950';
-        ctx.globalAlpha = .32;
-        ctx.fillRect(x + 226, y + 67, 28, 1 / camera.z);
-        ctx.globalAlpha = .82;
-        ctx.fillRect(x + 228 + (time * 11 + index * 2) % 24, y + 66, 3, 3);
-      }
-      if (camera.z < .68) {
-        const detail = Math.max(0, Math.min(1, (camera.z - .15) / .39));
-        const pulse = .70 + .24 * Math.sin(time * 2.3 + index);
-        ctx.globalAlpha = (1 - detail) * pulse;
-        ctx.fillStyle = cards[index].color;
-        ctx.fillRect(x, y, 226, 134);
-      }
-    }
-    ctx.restore();
-  }
   for (const ripple of ripples) {
     const age = time - ripple.start;
     if (age < 0 || age > .85) continue;

@@ -52,8 +52,13 @@ select { background: #fff; border: 1px solid #aaa9a3; color: var(--ink); padding
 .stage { position: relative; height: clamp(422px, calc(100vh - 477px), 690px); overflow: hidden; touch-action: none; cursor: grab; background: #f7f7f4; outline-offset: -3px !important; user-select: none; }
 .stage[data-drag] { cursor: grabbing; }
 .stage canvas, .world { position: absolute; inset: 0; pointer-events: none; }
-.world { transform-origin: 0 0; width: 0; height: 0; will-change: transform; }
-.field-card { position: absolute; width: 226px; height: 134px; padding: 12px; text-align: left; background: #fff; border: 1.5px solid #262626; color: var(--ink); display: grid; grid-template-rows: auto auto 1fr auto; gap: 5px; cursor: pointer; pointer-events: auto; box-shadow: 3px 3px 0 #17171718; line-height: 1.12; transition: border-color .15s, background-color .2s; }
+.world { --detail: 1; transform-origin: 0 0; width: 0; height: 0; will-change: transform; }
+.card-glyph, .card-connection { position: absolute; pointer-events: none; }
+.card-glyph { width: 226px; height: 134px; opacity: calc(1 - var(--detail)); }
+.card-glyph::before { content: ""; position: absolute; inset: 0; background: #fff; animation: glyph 2.2s var(--delay, 0s) infinite alternate ease-in-out; }
+.card-connection { width: 28px; height: 1px; background: #55595055; }
+.card-connection::before { content: ""; display: block; width: 3px; height: 3px; margin-top: -1px; background: #555950; animation: scan 2.2s var(--delay, 0s) infinite linear; }
+.field-card { opacity: var(--detail); position: absolute; width: 226px; height: 134px; padding: 12px; text-align: left; background: #fff; border: 1.5px solid #262626; color: var(--ink); display: grid; grid-template-rows: auto auto 1fr auto; gap: 5px; cursor: pointer; pointer-events: auto; box-shadow: 3px 3px 0 #17171718; line-height: 1.12; transition: border-color .15s, background-color .2s; }
 .field-card:hover, .field-card[aria-pressed="true"] { outline: 2px solid var(--ink); outline-offset: 2px; background: #fff; }
 .field-card:focus-visible { outline: 3px solid #174891; }
 .field-card[data-running] { border-color: var(--rust); background: var(--peach); }
@@ -107,9 +112,11 @@ select { background: #fff; border: 1px solid #aaa9a3; color: var(--ink); padding
 #fps { margin-left: auto; }
 .legend { padding: 12px 0 24px; display: flex; justify-content: space-between; gap: 10px; color: var(--quiet); font-size: .75rem; }
 .legend a { text-decoration: none; white-space: nowrap; }
+@keyframes glyph { from { opacity: .02; } to { opacity: .42; } }
+@keyframes scan { to { transform: translateX(25px); } }
 @keyframes signal { from { opacity: .55; } to { opacity: 1; } }
 @keyframes progress { to { transform: translateX(253%); } }
-body[data-paused] .pill::before, body[data-paused] .field-card::after, body[data-paused] .status-dot { animation-play-state: paused !important; }
+body[data-paused] .card-glyph::before, body[data-paused] .card-connection::before, body[data-paused] .pill::before, body[data-paused] .field-card::after, body[data-paused] .status-dot { animation-play-state: paused !important; }
 @media (max-width: 1010px) { #coordinates { display: none; } }
 @media (max-width: 790px) {
   main { width: calc(100% - 24px); }

@@ -77,8 +77,13 @@ const maxZoom = 3.4;
 function positionCards() {
   cards.forEach((card, index) => {
     Object.assign(card, cardPosition(index, columns));
-    card.button.style.left = card.x + 'px';
-    card.button.style.top = card.y + 'px';
+    for (const element of [card.button, card.glyph]) {
+      element.style.left = card.x + 'px';
+      element.style.top = card.y + 'px';
+    }
+    card.connection.hidden = index % columns === columns - 1 || index === cards.length - 1;
+    card.connection.style.left = card.x + cardSize.x + 'px';
+    card.connection.style.top = card.y + cardSize.y / 2 + 'px';
   });
 }
 
@@ -101,10 +106,19 @@ function renderCards() {
       const placed = cards.find((entry) => entry.id === card.id);
       if (placed) revealCard(placed);
     });
-    world.append(button);
-    return { ...card, group, button, color: colors[colorState(card.state)] || '#505050' };
+    const glyph = node('span', 'card-glyph');
+    glyph.setAttribute('aria-hidden', 'true');
+    glyph.style.backgroundColor = colors[colorState(card.state)] || '#505050';
+    const connection = node('span', 'card-connection');
+    connection.setAttribute('aria-hidden', 'true');
+    world.append(connection, glyph, button);
+    return { ...card, group, button, glyph, connection };
   }));
-  cards.forEach((card, index) => card.button.style.setProperty('--delay', '-' + index * .19 + 's'));
+  cards.forEach((card, index) => {
+    for (const element of [card.button, card.glyph, card.connection]) {
+      element.style.setProperty('--delay', '-' + index * .19 + 's');
+    }
+  });
   positionCards();
   dirty = true;
 }
@@ -206,6 +220,13 @@ function updateScale() {
   dirty = true;
 }
 
+function setDensityOptions() {
+  const selector = $('density');
+  const limit = renderer.capabilities.limit;
+  for (const option of selector.options) option.disabled = Number(option.value) > limit;
+  if (Number(selector.value) > limit) selector.value = String(limit);
+}
+
 function fieldRenderer(canvas) {
   const next = syntheticRenderer(canvas, fallback);
   next.canvas.addEventListener('webglcontextlost', (event) => {
@@ -216,6 +237,7 @@ function fieldRenderer(canvas) {
     fallback = true;
     renderer = fieldRenderer(replacement);
     if (isSynthetic) {
+      setDensityOptions();
       $('renderer').textContent = 'Canvas 2D / procedural';
       inspector.querySelector('details')?.replaceWith(evidenceJSON('Device limits', renderer.capabilities));
       resize();
@@ -231,6 +253,7 @@ function setMode(synthetic) {
     savedEvidenceCamera = camera;
     renderer ??= fieldRenderer($('synthetic-canvas'));
     renderer.canvas.hidden = false;
+    setDensityOptions();
     fitField();
     const text = node('p', 'inspector-note', 'This field animates procedural cards to test rendering load. Zoom out to increase the number of objects. Select a density limit for slower devices.');
     inspector.replaceChildren(node('p', 'inspect-kicker', 'Rendering benchmark'), node('h3', '', 'Synthetic field'), text);
@@ -296,12 +319,12 @@ function animate(now) {
   if (!isSynthetic && dirty) {
     const detail = Math.max(0, Math.min(1, (camera.z - .15) / .39));
     world.style.transform = `translate(${camera.x}px,${camera.y}px) scale(${camera.z})`;
-    world.style.opacity = detail;
-    world.inert = detail < .55;
+    world.style.setProperty('--detail', detail);
+    for (const card of cards) card.button.inert = detail < .55;
   }
   while (ripples.length && sceneTime - ripples[0].start > .85) ripples.shift();
-  if (!isSynthetic || dirty || ripples.length || drewRipples) {
-    decorate(decoration, camera, width, height, sceneTime, cards, ripples, isSynthetic);
+  if (dirty || ripples.length || drewRipples) {
+    decorate(decoration, camera, width, height, sceneTime, ripples, isSynthetic);
   }
   drewRipples = ripples.length > 0;
   dirty = false;
