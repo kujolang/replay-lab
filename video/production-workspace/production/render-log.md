@@ -47,3 +47,11 @@ in 118.0 seconds. The final composition checks passed. The MP4 decoded at
 92.000 seconds and 2,760 frames, and the encoded AAC hash matched. Rendered
 frames confirmed the new chart styles and the removal of the footer. See
 [render metadata](../output/metadata.json).
+
+## Bumper cleanup
+
+HyperFrames 0.9.71 rendered the cleaned bumpers and first issue scene at
+delivery quality. The final check and full decode passed at 92.000 seconds
+and 2,760 frames. Pixel checks on both rendered bumpers confirmed dark
+side edges around the K. The encoded AAC hash matched the prior render.
+[Render metadata](../output/metadata.json)

@@ -1,8 +1,8 @@
 {
   "file": "kujo-replay-lab.mp4",
-  "sha256": "489058455f935288bcf9c5599568e81fe2622a64260fb2bd603fe5616f5f0004",
+  "sha256": "22628a58b868dd216d1ce9983041d5106c1f11183a124d825fe5f5694c37546c",
   "duration_seconds": 92.000000,
-  "bytes": 4097474,
+  "bytes": 4085109,
   "video": {
     "codec": "h264",
     "width": 1920,
@@ -21,5 +21,5 @@
   },
   "toolchain": "HyperFrames 0.9.71",
   "experiment_source_commit": "e56110be4ac9bf35bc59b8bb803ed3f424e42165",
-  "previous_render_sha256": "81277ae433c61a13a63afb7c3cbc32909ff48a73559487e7bb3190efccdbce8b"
+  "previous_render_sha256": "489058455f935288bcf9c5599568e81fe2622a64260fb2bd603fe5616f5f0004"
 }

@@ -1,6 +1,12 @@
 # Render verification
 
-The [current MP4](../output/kujo-replay-lab.mp4) removes the bottom rule and text from the evidence scenes and adds ordered dither to the sweep and held-out charts. Its SHA-256 is `489058455f935288bcf9c5599568e81fe2622a64260fb2bd603fe5616f5f0004`.
+The [current MP4](../output/kujo-replay-lab.mp4) shows the K and benefit headline on each bumper. The first issue scene opens with its headline. Its SHA-256 is `22628a58b868dd216d1ce9983041d5106c1f11183a124d825fe5f5694c37546c`.
+
+HyperFrames passed its checks. Full decoding passed at 92.000 seconds and 2,760 frames. Rendered stills show both clean bumpers and the opening issue screen. The pixel checks confirmed dark logo edges on both bumpers. The AAC stream matches the previous version byte-for-byte.
+
+## Chart revision
+
+The chart revision removed the bottom rule and text from the evidence scenes and added ordered dither to the sweep and held-out charts. Its SHA-256 is `489058455f935288bcf9c5599568e81fe2622a64260fb2bd603fe5616f5f0004`.
 
 HyperFrames passed lint, runtime, layout, contrast, and audio checks. Full decoding passed at 92.000 seconds, 1920 × 1080, and 2,760 frames. Rendered stills confirm the revised charts, terminal comparison, and both bumpers. The AAC stream matches the previous version byte-for-byte.
 
