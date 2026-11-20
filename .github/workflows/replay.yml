@@ -1,0 +1,43 @@
+name: Replay
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  native-replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+        with:
+          persist-credentials: false
+      - uses: kujolang/kujo/.github/actions/setup-kujo@2cfaf185ad03059c89ef4f72fb061074255d00fc
+        id: kujo
+        with:
+          version: v1.9.0
+      - name: Check Kujo source and test offline
+        env:
+          KUJO_BIN: ${{ steps.kujo.outputs.kujo-path }}
+        run: |
+          git ls-files '*.kujo' | while IFS= read -r file; do
+            "$KUJO_BIN" check "$file"
+          done
+          tools/lab test
+          (cd examples/invoice && ../../tools/replay replay cassettes test-run route_test.kujo)
+      - name: Reproduce experiment decisions and reports
+        env:
+          KUJO_BIN: ${{ steps.kujo.outputs.kujo-path }}
+        run: |
+          mkdir -p .scratch
+          tools/lab search .scratch/ci-sweep
+          tools/lab final .scratch/ci-sweep
+          tools/lab verify results .scratch/ci-sweep --behavior
+          tools/lab report results .scratch/ci-visual-data
+          for file in .scratch/ci-visual-data/*; do
+            cmp "$file" "video/visual-data/${file##*/}"
+          done
