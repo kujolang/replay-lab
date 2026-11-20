@@ -25,3 +25,11 @@ Asset Scout's shared workspace.
 Motion repair during visual preflight used HyperFrames' scene-scoped document
 queries instead of querying authored root attributes. The compiler flattens
 those inner roots. The revised scenes register and seek independently.
+
+The approved narration consisted of six complete ElevenLabs Siren takes.
+The render uses the normalized scene derivatives with 0.55 seconds of lead-in
+per shot. It adds local original music and three aligned cut cues. The music
+uses the HyperFrames voiceover-carve script at strength 0.8 with six speech
+sources. Source audio and receipts are managed by the Asset Scout and Media
+Generator. The project-local timing and carve files are sufficient to regenerate
+the editable index and reproduce its media placement without those receipts.

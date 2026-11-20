@@ -15,3 +15,18 @@
 
 The editor hands off the exact technically verified bytes to the independent
 Video Critic. Editorial approval is recorded separately.
+
+## Exact render
+
+The render completed in 96.6 seconds using screenshot capture and hardware
+browser GPU. FFprobe verified exactly 2,760 video frames and 92.000 seconds for
+both the H.264 and stereo AAC streams. Full software decode emitted no errors.
+Integrated loudness was −15.7 LUFS and true peak was −2.8 dBTP. The candidate
+SHA-256 is `04b789133dff1bf425b17a4b78567c1835a69af250d450c0d692dd7cf8ad866a`.
+
+The first voiced check ran concurrently with the render and completed its
+content checks, but Chrome did not shut down on time. The sequential retry
+`qa/check-voiced-retry.json` passed lint, runtime, layout, contrast and audio
+checks on the unchanged editable candidate. Exact-render stills are available
+in `qa/render-contact-sheet.jpg`. The cold-copy root regeneration check
+passed using only published lab evidence and the project's local audio.

@@ -1,0 +1,23 @@
+{
+  "file": "kujo-replay-lab.mp4",
+  "sha256": "04b789133dff1bf425b17a4b78567c1835a69af250d450c0d692dd7cf8ad866a",
+  "duration_seconds": 92.000000,
+  "bytes": 4250473,
+  "video": {
+    "codec": "h264",
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "frames": 2760
+  },
+  "audio": {
+    "codec": "aac",
+    "channels": 2,
+    "integrated_loudness_lufs": -15.7,
+    "true_peak_dbtp": -2.8,
+    "voice": "Siren",
+    "model": "eleven_v4"
+  },
+  "toolchain": "HyperFrames 0.9.71",
+  "experiment_source_commit": "e56110be4ac9bf35bc59b8bb803ed3f424e42165"
+}

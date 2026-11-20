@@ -1,0 +1,27 @@
+{
+  "version": "videoops-review-decision/v1",
+  "id": "replaylab-independent-review-01",
+  "candidate_sha256": "04b789133dff1bf425b17a4b78567c1835a69af250d450c0d692dd7cf8ad866a",
+  "technical": "PASS",
+  "perceptual": "REVIEW_INCOMPLETE",
+  "reviewer": {
+    "identity": "VideoOps Critic (separate from HyperFrames Editor)",
+    "type": "agent",
+    "capabilities_exercised": [
+      "deterministic_validation",
+      "visual_playback"
+    ]
+  },
+  "evidence": [
+    "review/critique.md",
+    "review/evidence/independent-render-frames.jpg",
+    "review/evidence/independent-streams.json",
+    "review/evidence/independent-decode.log",
+    "review/evidence/independent-levels.log",
+    "review/evidence/independent-voice-mix.json",
+    "review/evidence/independent-asr.json",
+    "review/evidence/independent-source-asr.json"
+  ],
+  "defects": [],
+  "reviewed_at": "2026-11-19T22:23:20.949487-05:00"
+}
