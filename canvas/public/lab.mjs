@@ -465,6 +465,13 @@ function runningCard(id) {
   for (const card of cards) card.button.toggleAttribute('data-running', Boolean(active) && (card.id === mainCard[active.action] || card.id === id));
 }
 
+function showProvenance(snapshot) {
+  const latest = Object.values(snapshot.updated).sort().at(-1);
+  $('provenance').textContent = latest
+    ? 'Latest operation · ' + latest.replace('T', ' ').slice(0, 19) + ' UTC'
+    : 'Offline fixtures prepared ' + snapshot.preparedAt.slice(0, 10) + ' UTC.';
+}
+
 const activeText = { execute: 'Running Dispatch fixture', replay: 'Replaying strict cassette', evaluate: 'Running Eval checks' };
 async function runOperation(action) {
   if (!data || active) return;
@@ -498,7 +505,7 @@ async function runOperation(action) {
     inspect(current);
     const card = cards.find((entry) => entry.id === mainCard[action]);
     status(card.title + ' · ' + labeledState(card.state), { error: colorState(card.state) === 'fail' });
-    $('provenance').textContent = 'Latest operation · ' + result.updated[action].replace('T', ' ').slice(0, 19) + ' UTC';
+    showProvenance(result);
   } catch (error) {
     status(error.message, { error: true });
   } finally {
@@ -520,8 +527,8 @@ const start = async () => {
     resize();
     renderCards();
     inspect(selected);
-    status('Prepared fixture evidence');
-    $('provenance').textContent = 'Offline fixtures prepared ' + data.preparedAt.slice(0, 10) + ' UTC.';
+    status(Object.keys(data.updated).length ? 'Local execution evidence' : 'Prepared fixture evidence');
+    showProvenance(data);
   } catch {
     status('Evidence unavailable. Check the local server and reload.', { error: true });
   }
