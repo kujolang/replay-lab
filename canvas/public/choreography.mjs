@@ -8,6 +8,8 @@ export const scene = Object.freeze({
   workflow: 19.25,
   formation: 21,
   hold: 27,
+  wordmark: 27.28,
+  settled: 28.45,
 });
 
 // A cell is 1 × 1 in lattice space. The extra width is a rendering proportion.
@@ -84,6 +86,7 @@ export function logoAt(time, width, height) {
   const artHeight = Math.min(height * .84, width * .88);
   return {
     amount: smooth(time, scene.formation, scene.hold),
+    solid: smooth(time, scene.wordmark, scene.settled),
     // The SVG artboard, including its margins, keeps the exact source aspect.
     x: 0, y: -height * .07 / finalPitch, height: artHeight / finalPitch,
   };

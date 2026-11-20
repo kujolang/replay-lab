@@ -5,6 +5,7 @@ import { mkdir, open, rm, stat, writeFile } from 'node:fs/promises';
 import { arch, cpus, platform, release, totalmem } from 'node:os';
 import { join, resolve } from 'node:path';
 import { promisify } from 'node:util';
+import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
 import { createLabServer } from '../server.mjs';
 import { scene, worldAt } from '../public/choreography.mjs';
@@ -12,6 +13,7 @@ import { scene, worldAt } from '../public/choreography.mjs';
 const mode = process.argv[2];
 const artifacts = resolve(process.env.ARTIFACT_DIR || './artifacts/immersive');
 const size = { width: 1280, height: 720 };
+const score = fileURLToPath(new URL('../audio/showcase-score.m4a', import.meta.url));
 const headed = process.env.HEADED === '1' || (mode === 'export' && process.env.HEADED !== '0');
 const cli = promisify(execFile);
 const sleep = (ms) => new Promise((ok) => setTimeout(ok, ms));
@@ -63,9 +65,10 @@ async function test() {
   assert.equal(a, await bitmap(denseTime));
   assert.ok((await state(page)).count > 140000);
   assert.notEqual(await bitmap(23), await bitmap(29.7));
+  assert.notEqual(await bitmap(27.04), await bitmap(27.23));
   const finalA = await bitmap(29.65);
   const finalCamera = (await state(page)).camera;
-  assert.notEqual(finalA, await bitmap(29.98));
+  assert.equal(finalA, await bitmap(29.98));
   assert.deepEqual((await state(page)).camera, finalCamera);
   assert.equal((await state(page)).labels.length, 3);
   const colorChecks = await page.evaluate(() => {
@@ -85,7 +88,7 @@ async function test() {
   });
   assert.ok(colorChecks.every(({ neutral }) => neutral));
   assert.equal(colorChecks.at(-1).corner, 255);
-  assert.ok(colorChecks.at(-1).mark < 200);
+  assert.equal(colorChecks.at(-1).mark, 0);
 
   await seek(page, 5.8);
   const before = await state(page);
@@ -315,7 +318,7 @@ async function exportVideo() {
   const videoCodec = cappedBitrate
     ? ['-c:v','libx264','-preset','medium','-crf','18','-maxrate','12M','-bufsize','12M','-pix_fmt','yuv420p'] : ['-c:v','copy'];
   await cli('ffmpeg', ['-y','-v','error','-fflags','+genpts','-r',String(fps),'-f','h264','-i',paths.stream,
-    ...videoCodec,'-movflags','+faststart',paths.mp4]);
+    '-i',score,'-map','0:v:0','-map','1:a:0',...videoCodec,'-c:a','copy','-movflags','+faststart',paths.mp4]);
   const verify = async (path, width, height) => {
     const { stdout } = await cli('ffprobe', ['-v','error','-count_frames','-select_streams','v:0','-show_entries',
       'stream=nb_read_frames,avg_frame_rate,width,height,duration','-of','json',path]);
@@ -325,13 +328,19 @@ async function exportVideo() {
     assert.equal(video.width, width);
     assert.equal(video.height, height);
     assert.ok(Math.abs(Number(video.duration) - scene.duration) < .02);
-    return video;
+    const { stdout: audioInfo } = await cli('ffprobe', ['-v','error','-select_streams','a:0',
+      '-show_entries','stream=codec_name,channels,duration','-of','json',path]);
+    const audio = JSON.parse(audioInfo).streams[0];
+    assert.equal(audio.codec_name, 'aac');
+    assert.equal(audio.channels, 2);
+    assert.ok(Math.abs(Number(audio.duration) - scene.duration) < .03);
+    return { ...video, audio };
   };
   const video = await verify(paths.mp4, size.width, size.height);
   const mobilePath = join(artifacts, 'kujo-infinite-canvas-480p.mp4');
   await cli('ffmpeg', ['-y','-v','error','-i',paths.mp4,'-vf','scale=854:480:flags=lanczos,setsar=1',
     '-c:v','libx264','-preset','fast','-crf','23','-maxrate','2M','-bufsize','2M','-pix_fmt','yuv420p',
-    '-movflags','+faststart',mobilePath]);
+    '-c:a','copy','-movflags','+faststart',mobilePath]);
   const mobile = await verify(mobilePath, 854, 480);
   await writeFile(join(artifacts, 'export.json'), JSON.stringify({ codec, video, renderedFrames: encoded,
     wallSeconds: (performance.now() - start) / 1000, browser: browser.version(),

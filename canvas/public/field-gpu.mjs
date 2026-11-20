@@ -17,6 +17,7 @@ uniform sampler2D uMask;
 uniform vec4 uLogo;
 uniform float uOpening;
 out vec2 vLocal;
+out vec2 vLogoPoint;
 flat out vec4 vDrive;
 flat out vec4 vInk;
 
@@ -76,6 +77,7 @@ void main() {
   vDrive = vec4(atlasSlot, level, tide, status);
 
   vec2 lp = (world - uLogo.xy) * vec2(ASPECT * 1536.0 / 1527.0, 1.0) / uLogo.z;
+  vLogoPoint = lp + q * vec2(ASPECT * 1536.0 / 1527.0, 1.0) / uLogo.z;
   float inside = 0.0;
   float shore = 1.0;
   if (uLogo.w > 0.0) {
@@ -100,7 +102,10 @@ precision highp float;
 uniform float uPitch;
 uniform float uTime;
 uniform sampler2D uCards;
+uniform sampler2D uMask;
+uniform float uSolid;
 in vec2 vLocal;
+in vec2 vLogoPoint;
 flat in vec4 vDrive;
 flat in vec4 vInk;
 out vec4 outColor;
@@ -156,7 +161,13 @@ void main() {
   float outside = mix(square, 1.0, vInk.x);
   float ink = mix(1.0, .025 + amplitude * .15 + (stipple * .03), body);
   float inside = mix(square, ink, vInk.y);
-  outColor = vec4(vec3(mix(1.0, mix(outside, inside, vInk.z), vInk.w)), 1.0);
+  float field = mix(1.0, mix(outside, inside, vInk.z), vInk.w);
+  if (uSolid > 0.0) {
+    float silhouette = max(abs(vLogoPoint.x), abs(vLogoPoint.y)) <= .5
+      ? texture(uMask, vLogoPoint + .5).r : 0.0;
+    field = mix(field, 1.0 - silhouette, uSolid);
+  }
+  outColor = vec4(vec3(field), 1.0);
 }`;
 
 function distanceToInk(ink, width, height) {
@@ -249,7 +260,7 @@ export function createField(canvas, mask, cards) {
   if (!gl) throw new Error('WebGL2 is unavailable.');
   const program = link(gl);
   gl.useProgram(program);
-  const names = ['Viewport','Center','Pitch','Time','Origin','Columns','Evidence','Waves','WaveShape','WaveCount','Mask','Cards','Logo','Opening'];
+  const names = ['Viewport','Center','Pitch','Time','Origin','Columns','Evidence','Waves','WaveShape','WaveCount','Mask','Cards','Logo','Solid','Opening'];
   const u = Object.fromEntries(names.map((key) => [key, gl.getUniformLocation(program, 'u' + key)]));
   gl.pixelStorei(gl.UNPACK_ALIGNMENT, 1);
   function upload(source, unit, format, channels) {
@@ -292,6 +303,7 @@ export function createField(canvas, mask, cards) {
       gl.uniform1i(u.Columns, grid.columns);
       gl.uniform1f(u.Opening, opening);
       gl.uniform4f(u.Logo, logo.x, logo.y, logo.height, logo.amount);
+      gl.uniform1f(u.Solid, logo.solid);
       const active = waves.slice(-6);
       active.forEach((wave, i) => {
         packedWaves.set([wave.x,wave.y,wave.start,wave.velocity], i * 4);

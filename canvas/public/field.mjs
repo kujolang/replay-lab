@@ -60,7 +60,7 @@ function currentCamera() {
 
 function drawCaption() {
   const normalized = Math.max(.64, Math.min(width / 1280, height / 650));
-  const wordmark = smooth(time, scene.hold + .28, scene.hold + 1.45);
+  const wordmark = smooth(time, scene.wordmark, scene.settled);
   const introduction = time < scene.activation + 1.1
     ? smooth(time, .10, .40) * (1 - smooth(time, scene.activation, scene.activation + 1.1)) : 0;
   const label = evidence.labels.find(([at]) => time >= at && time < at + 1.9);
@@ -131,6 +131,7 @@ function draw(sample) {
   const change = manual ? smooth(performance.now(), blendStart, blendStart + 850) : 0;
   const logo = logoAt(manual ? manualStarted : time, width, height);
   logo.amount *= 1 - change;
+  logo.solid *= 1 - change;
   count = gpu.draw({
     width, height, camera: current, time, waves: [...active, ...manualWaves], logo, sample,
     opening: (smooth(time, .26, scene.activation) + change * 2) * (5 + .17 * Math.max(width, height) / current.pitch),

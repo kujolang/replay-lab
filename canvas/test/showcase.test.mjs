@@ -19,6 +19,9 @@ test('showcase projection scales continuously through the act boundaries', () =>
   assert.ok(counts[0] < 60 && counts[1] > 250 && counts[2] > 10000 && counts[3] > 140000);
   assert.equal(logoAt(scene.formation, w, h).amount, 0);
   assert.equal(logoAt(scene.hold + .1, w, h).amount, 1);
+  assert.equal(logoAt(scene.wordmark, w, h).solid, 0);
+  assert.ok(logoAt((scene.wordmark + scene.settled) / 2, w, h).solid > 0);
+  assert.equal(logoAt(scene.settled, w, h).solid, 1);
 });
 
 test('a cell projects to the same anchor through zoom and reverse', () => {
