@@ -1,0 +1,82 @@
+#!/bin/sh
+set -eu
+
+usage() {
+    cat >&2 <<'USAGE'
+usage: tools/replay record|replay CASSETTE_DIR run FILE.kujo [-- ARG ...]
+       tools/replay record|replay CASSETTE_DIR test-run FILE.kujo
+
+Run from the workload's project directory. Set KUJO_BIN to override kujo.
+Recording requires KUJO_AI_ALLOWED_ENDPOINTS and a new cassette directory.
+USAGE
+    exit 2
+}
+
+[ "$#" -ge 4 ] || usage
+mode=$1
+directory=$2
+command=$3
+file=$4
+shift 4
+[ -n "$directory" ] && [ -n "$file" ] || usage
+case "$directory" in /*) ;; *) directory=$PWD/$directory ;; esac
+case "$file" in /*) ;; *) file=./$file ;; esac
+case "$command" in
+    run) if [ "$#" -gt 0 ]; then [ "$1" = -- ] || usage; shift; fi ;;
+    test-run) [ "$#" -eq 0 ] || usage ;;
+    *) usage ;;
+esac
+
+runtime=${KUJO_BIN:-kujo}
+incomplete=$directory/.replay-lab-incomplete
+
+has_cassettes() {
+    for cassette in "$directory"/*.json; do
+        [ ! -f "$cassette" ] || return 0
+    done
+    return 1
+}
+
+run_workload() {
+    case "$command" in
+        run) "$runtime" run --untrusted --allow-ai --allow-fs-read --allow-env-read "$file" -- "$@" ;;
+        test-run) "$runtime" test-run --untrusted --allow-ai --allow-fs-read --allow-env-read -v "$file" ;;
+    esac
+}
+
+[ -f "$file" ] || { printf 'Workload not found: %s\n' "$file" >&2; exit 2; }
+
+case "$mode" in
+    record)
+        case "${KUJO_AI_ALLOWED_ENDPOINTS:-}" in
+            http://*|https://*) ;;
+            *) printf '%s\n' 'Set KUJO_AI_ALLOWED_ENDPOINTS to allowed provider URLs for recording.' >&2; exit 2 ;;
+        esac
+        mkdir -m 700 "$directory" || exit 2
+        : > "$incomplete"
+        unset KUJO_AI_REPLAY KUJO_AI_REPLAY_MODE
+        export KUJO_AI_RECORD="$directory"
+        if run_workload "$@"; then
+            if ! has_cassettes; then
+                printf 'No cassettes recorded in %s. Check that the workload uses native AI helpers and inherits cassette settings.\n' "$directory" >&2
+                exit 1
+            fi
+            rm "$incomplete"
+            printf 'Recorded cassettes in %s\n' "$directory" >&2
+        else
+            status=$?
+            printf 'Recording failed. Incomplete cassettes remain in %s.\n' "$directory" >&2
+            exit "$status"
+        fi
+        ;;
+    replay)
+        if [ ! -d "$directory" ] || [ -e "$incomplete" ] || ! has_cassettes; then
+            printf 'Cassette directory is missing, empty, or incomplete: %s\n' "$directory" >&2
+            exit 2
+        fi
+        unset KUJO_AI_RECORD
+        export KUJO_AI_REPLAY="$directory" KUJO_AI_REPLAY_MODE=strict
+        run_workload "$@"
+        ;;
+    *) usage ;;
+esac
