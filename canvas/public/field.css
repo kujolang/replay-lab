@@ -3,7 +3,8 @@
   src: url("/vendor/fonts/DepartureMono-Regular.woff2") format("woff2");
   font-display: swap;
 }
-:root { color-scheme: light; background: #f7f6f0; color: #171718; font-family: "Departure Mono", monospace; }
+button, select { border-radius: 0; }
+:root { color-scheme: light; background: #fff; color: #171717; font-family: "Departure Mono", monospace; }
 html, body, main { width: 100%; height: 100%; margin: 0; overflow: hidden; }
 canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 #field { touch-action: none; cursor: crosshair; }
@@ -13,7 +14,7 @@ canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block
 [hidden] { display: none !important; }
 #failure, #tools { position: absolute; z-index: 2; margin: 16px; padding: 19px; max-width: min(360px, calc(100vw - 76px)); background: #fff; border: 1px solid; box-shadow: 4px 4px #141414; font-size: 13px; line-height: 1.6; }
 #tools h1 { font-size: 16px; margin: 0 0 12px; }
-#tools :is(button, select) { font: inherit; cursor: pointer; background: #f7f6f0; border: 1px solid; padding: 4px 8px; }
-#tools :focus-visible { outline: 2px solid #176daf; outline-offset: 2px; }
+#tools :is(button, select) { font: inherit; cursor: pointer; background: #fff; border: 1px solid; padding: 4px 8px; }
+#tools :focus-visible { outline: 2px solid #171717; outline-offset: 2px; }
 #failure { left: 50%; top: 50%; transform: translate(-50%, -50%); width: max-content; margin: 0; }
 a { color: inherit; }

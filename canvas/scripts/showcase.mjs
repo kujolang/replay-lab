@@ -68,6 +68,24 @@ async function test() {
   assert.notEqual(finalA, await bitmap(29.98));
   assert.deepEqual((await state(page)).camera, finalCamera);
   assert.equal((await state(page)).labels.length, 3);
+  const colorChecks = await page.evaluate(() => {
+    const fetchPixels = (at) => {
+      const frame = kujoShowcase.compose(at);
+      return frame.getContext('2d').getImageData(0, 0, frame.width, frame.height).data;
+    };
+    const samples = [.43, 16.22, 24.4, 29.65].map((at) => {
+      const pixels = fetchPixels(at);
+      let neutral = true;
+      for (let i = 0; i < pixels.length; i += 4) {
+        if (pixels[i] !== pixels[i + 1] || pixels[i] !== pixels[i + 2]) { neutral = false; break; }
+      }
+      return { neutral, corner: pixels[0], mark: pixels[(210 * 1280 + 490) * 4] };
+    });
+    return samples;
+  });
+  assert.ok(colorChecks.every(({ neutral }) => neutral));
+  assert.equal(colorChecks.at(-1).corner, 255);
+  assert.ok(colorChecks.at(-1).mark < 200);
 
   await seek(page, 5.8);
   const before = await state(page);
@@ -126,6 +144,7 @@ async function capture() {
   const frames = [
     ['A-opening', .43], ['B-expansion', 4.92], ['C-extreme-scale', 13.68],
     ['D-overlapping-waves', 16.22], ['F-kujo-finale', 29.65],
+    ['F-formation', 24.4],
   ];
   const record = {};
   for (const [name, at] of frames) {
@@ -257,7 +276,7 @@ async function exportVideo() {
       for (let index = start; index < end; index++) {
         if (failure) throw failure;
         if (encoder.encodeQueueSize >= 12) await new Promise((resolve) => encoder.addEventListener('dequeue', resolve, { once: true }));
-        const canvas = kujoShowcase.compose(index / fps);
+        const canvas = kujoShowcase.compose(index / fps, true);
         const timestamp = Math.round(index * 1e6 / fps);
         const frame = new VideoFrame(canvas, { timestamp, duration: Math.round((index + 1) * 1e6 / fps) - timestamp });
         encoder.encode(frame, { keyFrame: index % fps === 0 });

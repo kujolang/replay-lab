@@ -9,9 +9,9 @@ uniform float uPitch;
 uniform float uTime;
 uniform ivec2 uOrigin;
 uniform int uColumns;
-uniform vec2 uEvidence[12];
+uniform float uEvidence[12];
 uniform vec4 uWaves[6];
-uniform vec2 uWaveShape[6];
+uniform vec3 uWaveShape[6];
 uniform int uWaveCount;
 uniform sampler2D uMask;
 uniform vec4 uLogo;
@@ -19,11 +19,7 @@ uniform float uOpening;
 out vec2 vLocal;
 flat out vec4 vDrive;
 flat out vec4 vInk;
-flat out vec3 vTone;
-const vec3 palette[6] = vec3[](
-  vec3(.75, .94, .18), vec3(.16, .76, .96), vec3(.65, .50, 1.0),
-  vec3(1.0, .34, .36), vec3(1.0, .61, .16), vec3(.97, .47, .80)
-);
+
 const float ASPECT = ${aspect.toFixed(2)};
 uint hash(uvec2 p) {
   uint n = p.x * 747796405u + p.y * 2891336453u;
@@ -44,15 +40,8 @@ void main() {
   float alternate = noise(h >> 15u);
   int slot = (id.y + 1) * 4 + id.x + 2;
   bool actual = id.x >= -2 && id.x <= 1 && id.y >= -1 && id.y <= 1;
-  vec2 evidence = uEvidence[actual ? slot : int(h % 12u)];
-  int color = int(evidence.x);
-  if (!actual && alternate > .56) color = int((h >> 22u) % 6u);
-  // Flowing color neighborhoods remain anchored to the same lattice while the camera moves.
-  float hue = mod(3.0 + 1.72 * sin(world.x * .025 - world.y * .019 + uTime * .47) +
-    1.51 * sin(world.y * .037 + world.x * .013 - uTime * .53) + random * .44, 6.0);
-  int index = int(hue);
-  vec3 ribbon = mix(palette[index], palette[(index + 1) % 6], smoothstep(0.0, 1.0, fract(hue)));
-  vTone = mix(palette[color], ribbon, actual ? 0.0 : .66);
+  float status = uEvidence[actual ? slot : int(h % 12u)];
+  float atlasSlot = actual && status >= 0.0 ? float(slot) : 12.0;
   float tick = uTime * (.65 + alternate * 1.02) + random * 9.0;
   float beat = floor(tick);
   float phase = fract(tick);
@@ -61,138 +50,161 @@ void main() {
   float spring = (1.0 - exp(-phase * 7.3) * cos(phase * 11.0));
   spring = mix(spring, 1.0, smoothstep(.69, 1.0, phase));
   float level = clamp(mix(before, after, spring), 0.0, 1.0);
-  float toggled = smoothstep(.40, .60, level);
-
-  float weight = 0.0;
-  float rhythm = 0.0;
+  // Long crests run across the field. A transverse swell bends each crest without a circular front.
+  vec2 lattice = world * vec2(ASPECT, 1.0);
+  float swell = sin(lattice.y * .116 + 2.1 * sin(lattice.x * .026 + uTime * .38) - uTime * 2.0);
+  float crossSwell = sin(lattice.y * .071 - lattice.x * .035 + uTime * 1.15);
+  float current = mix(swell, crossSwell, .31);
   for (int i = 0; i < 6; i++) {
     if (i >= uWaveCount) break;
     vec4 wave = uWaves[i];
-    vec2 origin = (world - wave.xy) * vec2(ASPECT, 1.0);
-    vec2 directional = vec2(cos(uWaveShape[i].x), sin(uWaveShape[i].x));
+    vec2 d = (world - wave.xy) * vec2(ASPECT, 1.0);
+    vec2 axis = uWaveShape[i].xy;
     float elapsed = uTime - wave.z;
-    float width = wave.w * .23;
-    float radial = length(origin) - elapsed * wave.w;
-    float plane = dot(origin, directional) - elapsed * wave.w * .72 + wave.w * .36;
-    float d = radial / width;
-    float travel = exp(-abs(d) * .59) * (.62 + .38 * cos(d * 3.1));
-    float stripe = exp(-abs(plane / width) * 1.68) * .38;
-    float edge = smoothstep(0.0, .12, elapsed) * (1.0 - smoothstep(uWaveShape[i].y * .74, uWaveShape[i].y, elapsed));
-    weight += (travel + stripe) * edge;
-    rhythm += sin(d * 2.4 + uWaveShape[i].x) * travel * edge;
+    float along = dot(d, axis) / wave.w;
+    float across = dot(d, vec2(-axis.y, axis.x)) / wave.w;
+    float bend = .30 * sin(across * 2.2 + elapsed * .7) + .11 * sin(across * 4.3 - elapsed);
+    float flow = along - elapsed + bend;
+    float envelope = exp(-abs(flow + .38) * 1.3) * exp(-abs(across) * .28);
+    float life = smoothstep(0.0, .26, elapsed) * (1.0 - smoothstep(.64, 1.0, elapsed / uWaveShape[i].z));
+    current += sin(flow * 5.1) * envelope * life * .95;
   }
-  float wave = 1.0 - exp(-weight * 2.45);
-  level = mix(level, clamp(.48 + .41 * rhythm, .03, .98), wave * .72);
-  vDrive = vec4(float(color), level, toggled, actual ? evidence.y : 0.0);
+  float tide = smoothstep(-1.0, 1.0, current);
+  vDrive = vec4(atlasSlot, level, tide, status);
 
   vec2 lp = (world - uLogo.xy) * vec2(ASPECT * 1536.0 / 1527.0, 1.0) / uLogo.z;
   float inside = 0.0;
-  if (uLogo.w > 0.0 && max(abs(lp.x), abs(lp.y)) <= .5) inside = textureLod(uMask, lp + .5, 0.0).r;
-  float arrival = clamp(.45 + (lp.x * .53 + lp.y * .46) + (random - .5) * .12, 0.0, .87);
-  float reveal = smoothstep(arrival, arrival + .13, uLogo.w);
-  float sweep = exp(-abs(uLogo.w - arrival) * 22.0) * smoothstep(.001, .035, uLogo.w) * (1.0 - smoothstep(.93, 1.0, uLogo.w));
+  float shore = 1.0;
+  if (uLogo.w > 0.0) {
+    vec2 nearest = clamp(lp, -.5, .5);
+    vec2 sampleMask = textureLod(uMask, nearest + .5, 0.0).rg;
+    inside = max(abs(lp.x), abs(lp.y)) <= .5 ? sampleMask.r : 0.0;
+    shore = min(1.0, sampleMask.g * .63 + length(lp - nearest) * .72);
+  }
+  float fadeStart = clamp(shore * .65 + random * .21, 0.0, .82);
+  float outsideFade = smoothstep(fadeStart, fadeStart + .17, uLogo.w);
+  float ink = smoothstep(random * .26, .62 + random * .25, uLogo.w);
   float coverage = 1.0;
-  if (abs(id.x) > 2 || abs(id.y) > 1) {
-    float advance = max(max(abs(world.x) - 2.0, abs(world.y) - 1.0), 1.0);
+  if (id.x < -2 || id.x > 1 || abs(id.y) > 1) {
+    float advance = max(max(abs(world.x + .5) - 1.5, abs(world.y) - 1.0), 1.0);
     coverage = smoothstep(advance * .10, advance * .10 + .29, uOpening);
   }
-  vInk = vec4(clamp(wave + sweep * .84, 0.0, 1.0), reveal, inside, coverage);
+  vInk = vec4(outsideFade, ink, inside, coverage);
 }`;
 
 const fragment = `#version 300 es
 precision highp float;
-precision highp int;
 uniform float uPitch;
 uniform float uTime;
+uniform sampler2D uCards;
 in vec2 vLocal;
 flat in vec4 vDrive;
 flat in vec4 vInk;
-flat in vec3 vTone;
 out vec4 outColor;
-const vec3 paper = vec3(.969, .965, .941);
-const vec3 black = vec3(.065, .064, .07);
 
-float rounded(vec2 p, vec2 b, float r) {
-  vec2 q = abs(p) - b + r;
-  return length(max(q, 0.0)) + min(max(q.x, q.y), 0.0) - r;
+float box(vec2 p, vec2 halfSize, float aa) {
+  vec2 delta = abs(p) - halfSize;
+  return (1.0 - smoothstep(-aa, aa, delta.x)) * (1.0 - smoothstep(-aa, aa, delta.y));
 }
-float mark(float d, float aa) { return 1.0 - smoothstep(-aa, aa, d); }
-float shape(vec2 q, vec2 size, float radius, float aa) { return mark(rounded(q, size, radius), aa); }
-int segments(int digit) {
-  const int data[10] = int[](63,6,91,79,102,109,125,7,127,111);
-  return data[digit];
-}
-float digit(vec2 p, int val, float aa) {
-  int mask = segments(val);
-  float use = 0.0;
-  if ((mask & 1) != 0) use = max(use, shape(p + vec2(0,.062), vec2(.027,.0049), .0035, aa));
-  if ((mask & 2) != 0) use = max(use, shape(p - vec2(.031,-.031), vec2(.0049,.024), .0035, aa));
-  if ((mask & 4) != 0) use = max(use, shape(p - vec2(.031, .031), vec2(.0049,.024), .0035, aa));
-  if ((mask & 8) != 0) use = max(use, shape(p - vec2(0,.062), vec2(.027,.0049), .0035, aa));
-  if ((mask & 16) != 0) use = max(use, shape(p - vec2(-.031, .031), vec2(.0049,.024), .0035, aa));
-  if ((mask & 32) != 0) use = max(use, shape(p - vec2(-.031,-.031), vec2(.0049,.024), .0035, aa));
-  if ((mask & 64) != 0) use = max(use, shape(p, vec2(.027,.0049), .0035, aa));
-  return use;
-}
+
 void main() {
-  vec2 p = vLocal;
-  p.x *= 1.28;
-  float aa = min(.19, .64 / uPitch);
-  float d = rounded(p, vec2(.556, .434), .071);
-  float body = mark(d, aa);
-  float offset = .021 * smoothstep(5.0, 35.0, uPitch);
-  float shadow = shape(p - vec2(offset, offset), vec2(.562, .438), .075, aa);
-  float detail = smoothstep(5.4, 31.0, uPitch);
-  float typography = smoothstep(21., 60., uPitch);
-  float activity = vDrive.y;
-  vec3 tint = vTone;
-  float stipple = mod(floor(gl_FragCoord.x) + floor(gl_FragCoord.y) + mod(floor(uTime * 9.0 + vDrive.y * 41.0), 2.0), 2.0);
-  vec3 pulse = mix(tint * (.54 + .35 * activity), tint, activity);
-  vec3 fill = mix(mix(pulse, paper, .08), mix(paper, tint, .07 + activity * .13), detail);
-  float edge = 1.0 - mark(d + .010, aa);
-  float edgeWeight = edge * smoothstep(3.4, 20.0, uPitch) * .93;
-  vec3 surface = fill;
-  if (detail > 0.0 && body > .005 && vInk.y < .999) {
-    vec2 slider = p - vec2(.311, .004);
-    float track = shape(slider, vec2(.096,.302), .025, aa);
-    float fillEnd = mix(.27, -.27, activity);
-    float juice = track * smoothstep(fillEnd-aa, fillEnd+aa, slider.y) *
-      shape(slider, vec2(.080,.282), .017, aa);
-    float hatch = step(.7, fract((slider.y + slider.x * .38) * 27.0));
-    vec3 juiceColor = mix(tint * .71, tint, .76 + hatch * .24);
-    surface = mix(surface, mix(vec3(.88,.87,.84), black, .11), track * detail);
-    surface = mix(surface, juiceColor, juice * detail);
-    float meter = shape(slider - vec2(0.0, fillEnd), vec2(.074,.008), .004, aa);
-    surface = mix(surface, black, meter * juice * detail * .7);
+  vec2 p = vLocal * vec2(1.28, 1.0);
+  float aa = min(.17, .54 / uPitch);
+  float density = 1.0 - smoothstep(5.0, 48.0, uPitch);
+  float detail = 1.0 - density;
+  float body = box(p, vec2(.566, .438), aa);
+  float inner = box(p, vec2(.558, .430), aa);
+  float tide = vDrive.z;
+  float amplitude = vDrive.y;
+  float stipple = mod(floor(gl_FragCoord.x) + floor(gl_FragCoord.y), 2.0);
+  float grain = (stipple - .5) * .07;
+  float tone = mix(.985, .16 + .57 * tide + .07 * amplitude + grain, density);
+  float edge = body - inner;
+  float paper = mix(1.0, .97 - .035 * (1.0 - tide), density);
 
-    vec2 toggle = p - vec2(-.225, -.199);
-    float housing = shape(toggle, vec2(.183,.090), .089, aa);
-    float knob = mark(length(toggle - vec2(mix(-.091, .091, vDrive.z),0)) - .067, aa);
-    surface = mix(surface, black, housing * detail);
-    surface = mix(surface, mix(paper, tint, vDrive.z * .8), knob * housing * detail);
+  if (detail > 0.01 && body > .005 && vInk.y < .97) {
+    // Ruled evidence record with a diagram between the title and result.
+    float seams = box(p - vec2(0., -.242), vec2(.565, .004), aa)
+      + box(p - vec2(0., .234), vec2(.565, .004), aa);
+    tone = mix(tone, .65, seams * detail);
+    vec2 chart = p - vec2(0., .083);
+    float chartArea = box(chart, vec2(.475, .113), aa);
+    float graphGrid = step(.94, fract((chart.x + .476) * 9.0))
+      + step(.93, fract((chart.y + .113) * 18.0));
+    tone = mix(tone, .64, min(1.0, graphGrid) * chartArea * detail * .36);
+    float trace = floor((.5 + .37 * sin(floor((chart.x + .49) * 13.0) * .86 + amplitude * 4.0)
+      + .10 * sin(uTime * 2.2 + chart.x * 11.0)) * 5.0) / 5.0;
+    float y = (trace - .5) * .164;
+    float line = (1.0 - smoothstep(.004, .004 + aa, abs(chart.y - y))) * chartArea;
+    float cursor = box(chart - vec2(mix(-.43,.43,amplitude), y), vec2(.016), aa) * chartArea;
+    tone = mix(tone, mix(.13, .46, tide), max(line, cursor) * detail);
 
-    if (typography > .001) {
-      vec2 led = p - vec2(-.22, .137);
-      int value = int(clamp(round(activity * 999.0), 0.0, 999.0));
-      float letters = max(digit(led + vec2(.091,0), value/100, aa),
-        max(digit(led, (value/10)%10, aa), digit(led - vec2(.091,0), value%10, aa)));
-      float evidenceDot = shape(p + vec2(.47,.346), vec2(.022), .01, aa) * vDrive.w;
-      surface = mix(surface, black, clamp(letters + evidenceDot, 0.0, 1.0) * typography);
-      float ticks = shape(p - vec2(-.214,.288), vec2(.155,.015), .008, aa);
-      surface = mix(surface, black, ticks * typography * (.15 + stipple * .17));
+    float lettering = smoothstep(36., 90., uPitch);
+    if (lettering > .001) {
+      vec2 uv = p / vec2(1.132, .876) + .5;
+      vec2 tile = vec2(mod(vDrive.x, 4.0), floor(vDrive.x / 4.0));
+      float glyph = texture(uCards, (tile + clamp(uv, .002, .998)) / 4.0).r;
+      tone = mix(tone, .045, glyph * lettering * inner);
     }
   }
-  surface = mix(surface, black, edgeWeight);
-  float waveShade = smoothstep(.12, .85, activity * .76 + stipple * .24);
-  vec3 mono = mix(vec3(.001), vec3(.998), waveShade);
-  surface = mix(surface, mono, vInk.x);
-  vec3 outerPaper = mix(vec3(.962, .959, .944), mono, vInk.x * .34);
-  vec3 innerInk = mix(vec3(.011 + activity * .13), mono, vInk.x * .22);
-  vec3 markColor = mix(outerPaper, innerInk, vInk.z);
-  surface = mix(surface, markColor, vInk.y);
-  vec3 pixel = mix(mix(paper, black, shadow * (.17 + vInk.x * .08) * (1.0-vInk.y)), surface, body);
-  outColor = vec4(mix(paper, pixel, vInk.w), 1.0);
+  float square = mix(paper, tone, body);
+  square = mix(square, .09, edge * smoothstep(4.0, 41.0, uPitch));
+  // White paper advances out from the silhouette; the intact cells become moving ink.
+  float outside = mix(square, 1.0, vInk.x);
+  float ink = mix(1.0, .025 + amplitude * .15 + (stipple * .03), body);
+  float inside = mix(square, ink, vInk.y);
+  outColor = vec4(vec3(mix(1.0, mix(outside, inside, vInk.z), vInk.w)), 1.0);
 }`;
+
+function distanceToInk(ink, width, height) {
+  const distances = Float32Array.from(ink, (value) => value > 127 ? 0 : Infinity);
+  // Two chamfer passes approximate Euclidean distance to the nearest ink pixel.
+  for (const direction of [1, -1]) {
+    for (let row = 0; row < height; row++) {
+      const y = direction === 1 ? row : height - 1 - row;
+      for (let col = 0; col < width; col++) {
+        const x = direction === 1 ? col : width - 1 - col;
+        const i = y * width + x;
+        if (col > 0) distances[i] = Math.min(distances[i], distances[i - direction] + 1);
+        if (row > 0) {
+          const upper = i - direction * width;
+          distances[i] = Math.min(distances[i], distances[upper] + 1,
+            x > 0 ? distances[upper - 1] + 1.414 : Infinity,
+            x < width - 1 ? distances[upper + 1] + 1.414 : Infinity);
+        }
+      }
+    }
+  }
+  return distances;
+}
+
+function cardAtlas(cards) {
+  const width = 256, height = 200;
+  const atlas = new OffscreenCanvas(width * 4, height * 4);
+  const ctx = atlas.getContext('2d', { willReadFrequently: true });
+  ctx.fillStyle = '#fff';
+  ctx.textBaseline = 'middle';
+  const write = (label, x, y, size) => {
+    ctx.font = `${size}px "Departure Mono"`;
+    ctx.fillText(label, x, y, width - 24);
+  };
+  const synthetic = { kind: 'SIMULATION', title: 'Field activity', result: 'Procedural signal', state: 'SIMULATED', tone: 5 };
+  [...cards, synthetic].forEach((entry, i) => {
+    const card = entry || synthetic;
+    const x = i % 4 * width;
+    const y = Math.floor(i / 4) * height;
+    write(card.kind, x + 12, y + 23, 13);
+    write(card.title, x + 12, y + 69, 25);
+    write(card.state.toUpperCase(), x + 12, y + 162, 13);
+    write(card.result, x + 12, y + 181, 14);
+    const marks = card.tone === 3 ? 1 : card.tone === 5 ? 2 : 4;
+    for (let slot = 0; slot < marks; slot++) ctx.fillRect(x + 211 + slot * 8, y + 19, 5, 7);
+  });
+  const pixels = ctx.getImageData(0, 0, atlas.width, atlas.height).data;
+  const bytes = new Uint8Array(atlas.width * atlas.height);
+  for (let i = 0; i < bytes.length; i++) bytes[i] = pixels[i * 4 + 3];
+  return { bytes, width: atlas.width, height: atlas.height };
+}
 
 export async function loadMask() {
   const image = new Image();
@@ -205,7 +217,13 @@ export async function loadMask() {
   const bytes = new Uint8Array(canvas.width * canvas.height);
   // The published SVG is the transparent K cut out of an ink square.
   for (let i = 0; i < bytes.length; i++) bytes[i] = 255 - pixels[i * 4 + 3];
-  return { bytes, width: canvas.width, height: canvas.height };
+  const distance = distanceToInk(bytes, canvas.width, canvas.height);
+  const mask = new Uint8Array(bytes.length * 2);
+  for (let i = 0; i < bytes.length; i++) {
+    mask[2 * i] = bytes[i];
+    mask[2 * i + 1] = Math.round(Math.min(1, distance[i] / (canvas.height * .55)) * 255);
+  }
+  return { bytes: mask, width: canvas.width, height: canvas.height };
 }
 
 function link(gl) {
@@ -223,30 +241,37 @@ function link(gl) {
   return program;
 }
 
-export function createField(canvas, mask, evidence) {
+export function createField(canvas, mask, cards) {
   const gl = canvas.getContext('webgl2', { alpha: false, antialias: false, stencil: false, depth: false, powerPreference: 'high-performance' });
   if (!gl) throw new Error('WebGL2 is unavailable.');
   const program = link(gl);
   gl.useProgram(program);
-  const names = ['Viewport','Center','Pitch','Time','Origin','Columns','Evidence','Waves','WaveShape','WaveCount','Mask','Logo','Opening'];
+  const names = ['Viewport','Center','Pitch','Time','Origin','Columns','Evidence','Waves','WaveShape','WaveCount','Mask','Cards','Logo','Opening'];
   const u = Object.fromEntries(names.map((key) => [key, gl.getUniformLocation(program, 'u' + key)]));
-  const texture = gl.createTexture();
-  gl.bindTexture(gl.TEXTURE_2D, texture);
   gl.pixelStorei(gl.UNPACK_ALIGNMENT, 1);
-  gl.texImage2D(gl.TEXTURE_2D, 0, gl.R8, mask.width, mask.height, 0, gl.RED, gl.UNSIGNED_BYTE, mask.bytes);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+  function upload(source, unit, format, channels) {
+    const texture = gl.createTexture();
+    gl.activeTexture(gl.TEXTURE0 + unit);
+    gl.bindTexture(gl.TEXTURE_2D, texture);
+    gl.texImage2D(gl.TEXTURE_2D, 0, format, source.width, source.height, 0, channels, gl.UNSIGNED_BYTE, source.bytes);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    return texture;
+  }
+  const texture = upload(mask, 0, gl.RG8, gl.RG);
+  const atlas = upload(cardAtlas(cards), 1, gl.R8, gl.RED);
   gl.uniform1i(u.Mask, 0);
-  gl.uniform2fv(u.Evidence, evidence);
-  gl.clearColor(.969, .965, .941, 1);
+  gl.uniform1i(u.Cards, 1);
+  gl.uniform1fv(u.Evidence, new Float32Array(cards.map((card) => card?.tone ?? -1)));
+  gl.clearColor(1, 1, 1, 1);
   const debuggerInfo = gl.getExtension('WEBGL_debug_renderer_info');
   const timer = gl.getExtension('EXT_disjoint_timer_query_webgl2');
   const queries = [];
   const gpu = [];
   const packedWaves = new Float32Array(24);
-  const packedShapes = new Float32Array(12);
+  const packedShapes = new Float32Array(18);
   let draws = 0;
   return {
     gpu, info: { renderer: debuggerInfo ? gl.getParameter(debuggerInfo.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER),
@@ -267,10 +292,10 @@ export function createField(canvas, mask, evidence) {
       const active = waves.slice(-6);
       active.forEach((wave, i) => {
         packedWaves.set([wave.x,wave.y,wave.start,wave.velocity], i * 4);
-        packedShapes.set([wave.direction,wave.lifetime], i * 2);
+        packedShapes.set([Math.cos(wave.direction),Math.sin(wave.direction),wave.lifetime], i * 3);
       });
       gl.uniform4fv(u.Waves, packedWaves);
-      gl.uniform2fv(u.WaveShape, packedShapes);
+      gl.uniform3fv(u.WaveShape, packedShapes);
       gl.uniform1i(u.WaveCount, active.length);
       const old = queries[0];
       if (old && gl.getQueryParameter(old, gl.QUERY_RESULT_AVAILABLE)) {
@@ -292,6 +317,7 @@ export function createField(canvas, mask, evidence) {
     dispose() {
       for (const query of queries) gl.deleteQuery(query);
       gl.deleteTexture(texture);
+      gl.deleteTexture(atlas);
       gl.deleteProgram(program);
       gl.getExtension('WEBGL_lose_context')?.loseContext();
     },

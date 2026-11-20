@@ -41,21 +41,27 @@ test('concurrent replay waves have fixed world origins and positive velocities',
   assert.equal(waveField(23, w, h).length, 0);
 });
 
-test('labels and evidence tones follow the recorded scenarios, including unfavorable results', () => {
+test('cards and plain-language captions reflect the saved results', () => {
   const fixture = JSON.parse(readFileSync(new URL('../public/snapshot.json', import.meta.url)));
   const evidence = evidenceFor(fixture);
-  assert.equal(evidence.count, 12);
+  assert.equal(evidence.cards.length, 12);
+  assert.equal(evidence.cards[0].title, 'Original decision');
+  assert.match(evidence.cards[0].result, /P3/);
+  assert.match(evidence.cards[1].result, /P1/);
+  assert.equal(evidence.cards[7].result, 'Review required');
   assert.equal(evidence.labels.length, 3);
-  assert.deepEqual(evidence.labels.map((label) => label[2]), [
-    'Baseline matched · Same cassette', '3/3 checks passed', '2/2 steps completed',
-  ]);
+  assert.match(evidence.labels[0][2], /reproduced the original decision/);
+  assert.match(evidence.labels[1][2], /human review/);
+  assert.match(evidence.labels[2][2], /review plan and the report/);
   fixture.scenarios.replay[3].evidence.comparison.baselineMatches = false;
   fixture.scenarios.replay[3].state = 'Mismatch';
   fixture.scenarios.evaluate[0].evidence.output.data.passed = 2;
   fixture.scenarios.evaluate[0].state = 'Failed';
+  fixture.scenarios.execute[0].evidence.state.steps[1].status = 'failed';
   const changed = evidenceFor(fixture);
-  assert.equal(changed.signals[6], 3);
-  assert.equal(changed.signals[8], 3);
-  assert.equal(changed.labels[0][2], 'Baseline diverged');
-  assert.equal(changed.labels[1][2], '2/3 checks passed');
+  assert.equal(changed.cards[3].state, 'Mismatch');
+  assert.equal(changed.cards[4].tone, 3);
+  assert.match(changed.labels[0][2], /differed/);
+  assert.match(changed.labels[1][2], /shows which checks failed/);
+  assert.match(changed.labels[2][2], /where work stopped/);
 });

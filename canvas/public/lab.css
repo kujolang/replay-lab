@@ -136,3 +136,7 @@ body[data-paused] .card-glyph::before, body[data-paused] .card-connection::befor
   .legend { flex-wrap: wrap; }
   #navigation-help { font-size: .625rem; }
 }
+
+/* Keep the inspection route in the same monochrome palette. */
+body { filter: grayscale(1); }
+button, select { border-radius: 0; }

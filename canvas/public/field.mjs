@@ -62,7 +62,7 @@ function drawCaption() {
   const normalized = Math.max(.64, Math.min(width / 1280, height / 650));
   const wordmark = smooth(time, scene.hold + .28, scene.hold + 1.45);
   const introduction = time < scene.activation + 1.1
-    ? smooth(time, .24, .74) * (1 - smooth(time, scene.activation, scene.activation + 1.1)) : 0;
+    ? smooth(time, .10, .40) * (1 - smooth(time, scene.activation, scene.activation + 1.1)) : 0;
   const label = evidence.labels.find(([at]) => time >= at && time < at + 1.9);
   const opacity = label ? smooth(time, label[0], label[0] + .26) * (1 - smooth(time, label[0] + 1.52, label[0] + 1.9)) : 0;
   const alpha = manual ? 0 : wordmark || opacity || introduction;
@@ -71,19 +71,30 @@ function drawCaption() {
     caption.style.opacity = alpha;
   }
   if (!alpha) return;
-  const message = wordmark ? 'kujolang.ai' : label ? label[1] + '  /  ' + label[2]
-    : `${evidence.count} KUJO FIXTURE RECORDS  /  PROCEDURAL FIELD`;
-  const key = [message, width, height, ratio].join('/');
+  const [title, explanation] = wordmark ? ['kujolang.ai'] : label ? label.slice(1)
+    : ['Make AI decisions reproducible', 'The opening cards show saved results from an AI triage run.'];
+  const key = [title, explanation, width, height, ratio].join('/');
   if (key === lastCaption) return;
   lastCaption = key;
 
-  const fontSize = wordmark ? Math.max(19, Math.round(height * .037)) : Math.round(15 * normalized);
+  const fontSize = wordmark ? Math.max(19, Math.round(height * .037)) : Math.round(20 * normalized);
   const font = `${fontSize}px "Departure Mono"`;
-  const pad = Math.round(14 * normalized);
-  const margin = Math.round(23 * normalized);
+  const small = `${Math.round(13 * normalized)}px "Departure Mono"`;
+  const pad = Math.round(12 * normalized);
+  const margin = Math.round(25 * normalized);
+  const maxLine = width - 2 * (margin + pad);
   text.font = font;
-  const boxWidth = Math.ceil(text.measureText(message).width + pad * 2);
-  const boxHeight = wordmark ? fontSize * 2 : pad * 2;
+  const headingWidth = Math.min(maxLine, text.measureText(title).width);
+  text.font = small;
+  const lines = [];
+  for (const word of (explanation || '').split(' ').filter(Boolean)) {
+    const last = lines.at(-1);
+    if (last && text.measureText(last + ' ' + word).width <= maxLine) lines[lines.length - 1] += ' ' + word;
+    else lines.push(word);
+  }
+  const lineHeight = Math.round(19 * normalized);
+  const boxWidth = Math.ceil(Math.max(headingWidth, ...lines.map((line) => text.measureText(line).width)) + pad * 2);
+  const boxHeight = wordmark ? fontSize * 2 : 2 * pad + fontSize + lines.length * lineHeight;
   captionRect = {
     x: wordmark ? (width - boxWidth) / 2 : margin,
     y: wordmark ? height * .895 - boxHeight / 2 : height - margin - boxHeight,
@@ -91,19 +102,25 @@ function drawCaption() {
   };
   caption.width = Math.ceil(boxWidth * ratio);
   caption.height = Math.ceil(boxHeight * ratio);
-  for (const [key, value] of [['left',captionRect.x],['top',captionRect.y],['width',boxWidth],['height',boxHeight]]) {
-    caption.style[key] = value + 'px';
+  for (const [property, value] of [['left',captionRect.x],['top',captionRect.y],['width',boxWidth],['height',boxHeight]]) {
+    caption.style[property] = value + 'px';
   }
   text.setTransform(caption.width / boxWidth, 0, 0, caption.height / boxHeight, 0, 0);
   if (!wordmark) {
-    text.fillStyle = label ? '#161618' : '#f7f6f0';
+    text.fillStyle = '#fff';
     text.fillRect(0, 0, boxWidth, boxHeight);
+    text.fillStyle = '#171717';
+    text.fillRect(0, 0, 2, boxHeight);
   }
   text.font = font;
   text.textAlign = 'left';
   text.textBaseline = 'middle';
-  text.fillStyle = label && !wordmark ? '#fffefa' : '#171718';
-  text.fillText(message, pad, boxHeight / 2);
+  text.fillStyle = '#111';
+  text.fillText(title, pad, wordmark ? boxHeight / 2 : pad + fontSize / 2, maxLine);
+  text.font = small;
+  text.fillStyle = '#333';
+  lines.forEach((line, i) => text.fillText(line, pad, pad + fontSize + lineHeight * (i + .52)));
+
 }
 
 function draw(sample) {
@@ -295,7 +312,7 @@ try {
   // Fonts are drawn into the live caption canvas and share the same video pixels.
   const [mask, data] = await Promise.all([loadMask(), loadEvidence(), document.fonts.load('16px "Departure Mono"')]);
   evidence = data;
-  gpu = createField(canvas, mask, evidence.signals);
+  gpu = createField(canvas, mask, evidence.cards);
   resize();
   pause(playing);
   draw(false);
@@ -332,8 +349,9 @@ if (testMode && gpu) {
       manualWaves.length = 0;
       draw(false);
     },
-    compose(at) {
+    compose(at, direct = false) {
       this.seek(at);
+      if (direct && !captionOpacity) return canvas;
       output.drawImage(canvas, 0, 0);
       if (captionOpacity && captionRect) {
         output.globalAlpha = captionOpacity;

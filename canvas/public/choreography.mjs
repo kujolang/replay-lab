@@ -20,7 +20,7 @@ export const smooth = (time, low, high) => {
   return t * t * (3 - 2 * t);
 };
 const expMix = (a, b, t) => a * (b / a) ** t;
-const openingPitch = (width, height) => Math.min(height * .32, width / (5 * aspect)) / height;
+const openingPitch = (width, height) => Math.min(height * .273, width / (4.22 * aspect)) / height;
 
 export function cameraAt(time, width, height) {
   const { activation, expansion, scale, formation, hold } = scene;
@@ -37,7 +37,7 @@ export function cameraAt(time, width, height) {
   if (time > formation) size = expMix(dense, settle, smooth(time, formation, hold));
   const drift = smooth(time, 2.2, 8.4) * (1 - smooth(time, formation, hold));
   return {
-    x: Math.sin(time * TAU / 16) * drift * 13,
+    x: Math.sin(time * TAU / 16) * drift * 13 - .5 * (1 - smooth(time, 2.2, 8.4)),
     y: Math.sin(time * TAU / 22) * drift * 9,
     pitch: height * size,
   };
