@@ -1,0 +1,303 @@
+{
+  "measuredAt": "2026-11-20T19:45:43.257Z",
+  "headed": true,
+  "viewport": {
+    "width": 1280,
+    "height": 720
+  },
+  "browser": "157.0.8103.80",
+  "hardware": {
+    "renderer": "ANGLE (AMD, ANGLE Metal Renderer: AMD Radeon Pro 5300M, Unspecified Version)",
+    "maxTexture": 16384,
+    "maxViewport": [
+      16384,
+      16384
+    ],
+    "timer": true
+  },
+  "host": {
+    "platform": "darwin",
+    "kernel": "25.6.0",
+    "arch": "x64",
+    "cpu": "Intel(R) Core(TM) i7-9750H CPU @ 2.60GHz",
+    "threads": 12,
+    "ramGiB": 16
+  },
+  "profiles": [
+    {
+      "name": "Full showcase",
+      "quality": 1,
+      "from": 0,
+      "duration": 30,
+      "fps": 59.099015016416395,
+      "frameMs": {
+        "samples": 1773,
+        "mean": 16.920755781161873,
+        "p50": 16.69999999999891,
+        "p95": 17.30000000000291,
+        "max": 133.20000000000073
+      },
+      "mainThreadDrawMs": {
+        "samples": 1773,
+        "mean": 0.10795262259275175,
+        "p50": 0.10000002384185791,
+        "p95": 0.20000004768371582,
+        "max": 4.700000047683716
+      },
+      "gpuDrawMs": {
+        "samples": 221,
+        "mean": 1.5697667556561095,
+        "p50": 1.573612,
+        "p95": 1.969947,
+        "max": 2.048649
+      },
+      "slowFramesOver20ms": 5,
+      "population": [
+        49,
+        157379
+      ],
+      "phases": {
+        "activation": {
+          "fps": 57.98947474273455,
+          "frameMs": {
+            "samples": 173,
+            "mean": 17.244508670520233,
+            "p50": 16.699999999999818,
+            "p95": 17.300000000000182,
+            "max": 117
+          },
+          "mainThreadDrawMs": {
+            "samples": 173,
+            "mean": 0.15028901665196942,
+            "p50": 0.10000002384185791,
+            "p95": 0.20000004768371582,
+            "max": 4.700000047683716
+          },
+          "gpuDrawMs": {
+            "samples": 21,
+            "mean": 1.5026012857142859,
+            "p50": 1.512879,
+            "p95": 1.559898,
+            "max": 1.604365
+          },
+          "slowFramesOver20ms": 1,
+          "population": [
+            49,
+            130
+          ]
+        },
+        "expansion": {
+          "fps": 59.995200383969284,
+          "frameMs": {
+            "samples": 300,
+            "mean": 16.668,
+            "p50": 16.699999999999818,
+            "p95": 17.200000000000728,
+            "max": 17.600000000000364
+          },
+          "mainThreadDrawMs": {
+            "samples": 300,
+            "mean": 0.09633333365122478,
+            "p50": 0.10000002384185791,
+            "p95": 0.20000004768371582,
+            "max": 0.5999999046325684
+          },
+          "gpuDrawMs": {
+            "samples": 38,
+            "mean": 1.3973784736842105,
+            "p50": 1.480072,
+            "p95": 1.763819,
+            "max": 1.872936
+          },
+          "slowFramesOver20ms": 0,
+          "population": [
+            120,
+            7128
+          ]
+        },
+        "massive-scale": {
+          "fps": 60.00300015000751,
+          "frameMs": {
+            "samples": 360,
+            "mean": 16.66583333333333,
+            "p50": 16.69999999999891,
+            "p95": 17.399999999999636,
+            "max": 17.600000000002183
+          },
+          "mainThreadDrawMs": {
+            "samples": 360,
+            "mean": 0.10499999754958683,
+            "p50": 0.10000002384185791,
+            "p95": 0.20000004768371582,
+            "max": 0.30000007152557373
+          },
+          "gpuDrawMs": {
+            "samples": 45,
+            "mean": 1.346028222222222,
+            "p50": 1.247462,
+            "p95": 1.83477,
+            "max": 1.975841
+          },
+          "slowFramesOver20ms": 0,
+          "population": [
+            7128,
+            149695
+          ]
+        },
+        "replay-waves": {
+          "fps": 57.567316620241414,
+          "frameMs": {
+            "samples": 403,
+            "mean": 17.370967741935484,
+            "p50": 16.700000000000728,
+            "p95": 17.30000000000291,
+            "max": 133.20000000000073
+          },
+          "mainThreadDrawMs": {
+            "samples": 403,
+            "mean": 0.10967742361442623,
+            "p50": 0.10000002384185791,
+            "p95": 0.20000004768371582,
+            "max": 1.0999999046325684
+          },
+          "gpuDrawMs": {
+            "samples": 50,
+            "mean": 1.8799465599999996,
+            "p50": 1.873922,
+            "p95": 2.035269,
+            "max": 2.048649
+          },
+          "slowFramesOver20ms": 3,
+          "population": [
+            142080,
+            157379
+          ]
+        },
+        "logo-formation": {
+          "fps": 60.00200006666886,
+          "frameMs": {
+            "samples": 360,
+            "mean": 16.666111111111118,
+            "p50": 16.69999999999709,
+            "p95": 17.299999999999272,
+            "max": 17.700000000000728
+          },
+          "mainThreadDrawMs": {
+            "samples": 360,
+            "mean": 0.09444444245762296,
+            "p50": 0.10000002384185791,
+            "p95": 0.20000004768371582,
+            "max": 0.30000007152557373
+          },
+          "gpuDrawMs": {
+            "samples": 45,
+            "mean": 1.6585584888888885,
+            "p50": 1.642949,
+            "p95": 1.887675,
+            "max": 1.959054
+          },
+          "slowFramesOver20ms": 0,
+          "population": [
+            115311,
+            149366
+          ]
+        },
+        "brand-hold": {
+          "fps": 58.662755816278974,
+          "frameMs": {
+            "samples": 176,
+            "mean": 17.04659090909089,
+            "p50": 16.700000000000728,
+            "p95": 17.200000000000728,
+            "max": 82.5
+          },
+          "mainThreadDrawMs": {
+            "samples": 176,
+            "mean": 0.1164772713726217,
+            "p50": 0.10000002384185791,
+            "p95": 0.20000004768371582,
+            "max": 0.8999999761581421
+          },
+          "gpuDrawMs": {
+            "samples": 22,
+            "mean": 1.502714272727273,
+            "p50": 1.535119,
+            "p95": 1.581257,
+            "max": 1.59616
+          },
+          "slowFramesOver20ms": 1,
+          "population": [
+            115311,
+            115311
+          ]
+        }
+      },
+      "browser": {
+        "cpuCorePercent": 24.496454695874778,
+        "rssMiB": 465.91015625
+      },
+      "renderer": {
+        "cpuCorePercent": 8.828897997906118,
+        "rssMiB": 204.65234375
+      },
+      "gpuProcess": {
+        "cpuCorePercent": 14.604066916433881,
+        "rssMiB": 71.6796875
+      },
+      "sharedGPUPercent": [
+        [
+          0,
+          8,
+          0,
+          8,
+          100
+        ],
+        [
+          0,
+          9,
+          0,
+          12,
+          91
+        ],
+        [
+          0,
+          11,
+          0,
+          11,
+          78
+        ]
+      ],
+      "jsHeapMiB": 3.2620468139648438
+    }
+  ],
+  "memory": [
+    {
+      "cycle": 0,
+      "heapMiB": 2.22119140625,
+      "documents": 1,
+      "nodes": 93,
+      "jsEventListeners": 42
+    },
+    {
+      "cycle": 4,
+      "heapMiB": 2.2213058471679688,
+      "documents": 1,
+      "nodes": 93,
+      "jsEventListeners": 42
+    },
+    {
+      "cycle": 8,
+      "heapMiB": 2.221363067626953,
+      "documents": 1,
+      "nodes": 93,
+      "jsEventListeners": 42
+    },
+    {
+      "cycle": 12,
+      "heapMiB": 2.221363067626953,
+      "documents": 1,
+      "nodes": 93,
+      "jsEventListeners": 42
+    }
+  ]
+}
