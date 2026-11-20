@@ -56,5 +56,4 @@ jobs:
           tools/lab final .scratch/ci-sweep
           tools/lab verify results .scratch/ci-sweep --behavior
           tools/lab report results .scratch/ci-visual-data
-          diff -r -x README.md -x cassette-flow.json -x baseline-terminal.json -x winner-terminal.json \
-            video/visual-data .scratch/ci-visual-data
+          python3 tools/compare-visual-data.py video/visual-data .scratch/ci-visual-data
