@@ -39,3 +39,11 @@ seconds and 2,760 frames. Sampled frames verified the K bumpers at 0 and 88
 seconds and the added spacing on the proof screens. The AAC stream matched the
 original render, including the Siren narration, music, and cut cues. See
 [render metadata](../output/metadata.json) for both digests.
+
+## Chart revision
+
+HyperFrames 0.9.71 rendered the chart and footer changes at delivery quality
+in 118.0 seconds. The final composition checks passed. The MP4 decoded at
+92.000 seconds and 2,760 frames, and the encoded AAC hash matched. Rendered
+frames confirmed the new chart styles and the removal of the footer. See
+[render metadata](../output/metadata.json).
