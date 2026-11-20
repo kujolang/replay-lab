@@ -1,0 +1,28 @@
+from src.model import messages_for
+
+func fixture_index(paths) {
+    mut index := {}
+    for path in paths {
+        for row in parse_json(read_file(path)) {
+            mut content := messages_for(row["issue"])[1]["content"]
+            assert_equal(has_key(index, content), 0)
+            index[content] := row["reply"]
+        }
+    }
+    return index
+}
+
+let index := fixture_index(args())
+mut server := http_listen("127.0.0.1", 18743)
+server = server.route("GET", "/ready", func(request) { return json_response(200, {"ready": true}) })
+server = server.route("POST", "/v1/chat/completions", func(request) {
+    let payload := parse_json(request["body"])
+    let content := payload["messages"][1]["content"]
+    if payload["model"] != "triage-fixture-v1" || has_key(index, content) == 0 {
+        return json_response(404, {"error": "unknown fixture request"})
+    }
+    return json_response(200, {"model": "triage-fixture-v1", "choices": [
+        {"index": 0, "message": {"role": "assistant", "content": index[content]}, "finish_reason": "stop"}
+    ]})
+})
+server.listen()

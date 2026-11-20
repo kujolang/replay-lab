@@ -1,0 +1,14 @@
+export func baseline_policy() {
+    return {"confidence_min": 75, "impact_weight": 0, "label_weight": 0,
+            "hold_conflicts": false, "escalate_exposure": true}
+}
+
+export func policy_valid(policy) {
+    return type(policy) == "dict" && len(keys(policy)) == 5 &&
+        type(get_default(policy, "confidence_min", null)) == "int" &&
+        policy["confidence_min"] >= 35 && policy["confidence_min"] <= 90 &&
+        contains([0, 1, 2, 3], get_default(policy, "impact_weight", null)) == true &&
+        contains([0, 1, 2, 3], get_default(policy, "label_weight", null)) == true &&
+        type(get_default(policy, "hold_conflicts", null)) == "bool" &&
+        type(get_default(policy, "escalate_exposure", null)) == "bool"
+}

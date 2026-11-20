@@ -1,0 +1,7 @@
+{
+  "confidence_min": 75,
+  "impact_weight": 0,
+  "label_weight": 0,
+  "hold_conflicts": false,
+  "escalate_exposure": true
+}

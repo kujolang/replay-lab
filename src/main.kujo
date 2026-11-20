@@ -1,0 +1,24 @@
+from src.model import classify, model_options
+from src.policy import baseline_policy, policy_valid
+from src.triage import triage
+
+let argv := args()
+if len(argv) < 1 || len(argv) > 2 {
+    eprint("usage: kujo run src/main.kujo -- ISSUE_JSON_FILE [POLICY_JSON_FILE]")
+    exit(2)
+}
+mut policy := baseline_policy()
+if len(argv) == 2 {
+    policy = parse_json(read_file(argv[1]))
+}
+if !policy_valid(policy) || !policy["escalate_exposure"] {
+    eprint("invalid or unsafe triage policy")
+    exit(2)
+}
+let issue := parse_json(read_file(argv[0]))
+let model := classify(issue, model_options("strict", "cassettes"))
+let decision := triage(issue, model["prediction"], policy)
+print(to_json({"decision": decision, "request_hash": model["request_hash"], "replay_error": model["error"]}))
+if !model["replayed"] {
+    exit(1)
+}

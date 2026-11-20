@@ -1,0 +1,1102 @@
+[
+  {
+    "id": "crash-console",
+    "hard": false,
+    "expected": {
+      "category": "bug",
+      "severity": 2,
+      "priority": "P2",
+      "action": "investigate_bug",
+      "human_review": false
+    }
+  },
+  {
+    "id": "crash-mobile",
+    "hard": false,
+    "expected": {
+      "category": "bug",
+      "severity": 2,
+      "priority": "P2",
+      "action": "investigate_bug",
+      "human_review": false
+    }
+  },
+  {
+    "id": "crash-api",
+    "hard": false,
+    "expected": {
+      "category": "bug",
+      "severity": 2,
+      "priority": "P2",
+      "action": "investigate_bug",
+      "human_review": false
+    }
+  },
+  {
+    "id": "crash-worker",
+    "hard": false,
+    "expected": {
+      "category": "bug",
+      "severity": 2,
+      "priority": "P2",
+      "action": "investigate_bug",
+      "human_review": false
+    }
+  },
+  {
+    "id": "outage-console",
+    "hard": false,
+    "expected": {
+      "category": "bug",
+      "severity": 4,
+      "priority": "P0",
+      "action": "investigate_bug",
+      "human_review": true
+    }
+  },
+  {
+    "id": "outage-mobile",
+    "hard": false,
+    "expected": {
+      "category": "bug",
+      "severity": 4,
+      "priority": "P0",
+      "action": "investigate_bug",
+      "human_review": true
+    }
+  },
+  {
+    "id": "outage-api",
+    "hard": false,
+    "expected": {
+      "category": "bug",
+      "severity": 4,
+      "priority": "P0",
+      "action": "investigate_bug",
+      "human_review": true
+    }
+  },
+  {
+    "id": "outage-worker",
+    "hard": false,
+    "expected": {
+      "category": "bug",
+      "severity": 4,
+      "priority": "P0",
+      "action": "investigate_bug",
+      "human_review": true
+    }
+  },
+  {
+    "id": "degraded-console",
+    "hard": false,
+    "expected": {
+      "category": "bug",
+      "severity": 3,
+      "priority": "P1",
+      "action": "investigate_bug",
+      "human_review": true
+    }
+  },
+  {
+    "id": "degraded-mobile",
+    "hard": false,
+    "expected": {
+      "category": "bug",
+      "severity": 3,
+      "priority": "P1",
+      "action": "investigate_bug",
+      "human_review": true
+    }
+  },
+  {
+    "id": "degraded-api",
+    "hard": false,
+    "expected": {
+      "category": "bug",
+      "severity": 3,
+      "priority": "P1",
+      "action": "investigate_bug",
+      "human_review": true
+    }
+  },
+  {
+    "id": "degraded-worker",
+    "hard": false,
+    "expected": {
+      "category": "bug",
+      "severity": 3,
+      "priority": "P1",
+      "action": "investigate_bug",
+      "human_review": true
+    }
+  },
+  {
+    "id": "feature-console",
+    "hard": false,
+    "expected": {
+      "category": "feature",
+      "severity": 1,
+      "priority": "P3",
+      "action": "queue_feature",
+      "human_review": false
+    }
+  },
+  {
+    "id": "feature-mobile",
+    "hard": false,
+    "expected": {
+      "category": "feature",
+      "severity": 1,
+      "priority": "P3",
+      "action": "queue_feature",
+      "human_review": false
+    }
+  },
+  {
+    "id": "feature-api",
+    "hard": false,
+    "expected": {
+      "category": "feature",
+      "severity": 1,
+      "priority": "P3",
+      "action": "queue_feature",
+      "human_review": false
+    }
+  },
+  {
+    "id": "feature-worker",
+    "hard": false,
+    "expected": {
+      "category": "feature",
+      "severity": 1,
+      "priority": "P3",
+      "action": "queue_feature",
+      "human_review": false
+    }
+  },
+  {
+    "id": "docs-console",
+    "hard": false,
+    "expected": {
+      "category": "docs",
+      "severity": 1,
+      "priority": "P3",
+      "action": "update_docs",
+      "human_review": false
+    }
+  },
+  {
+    "id": "docs-mobile",
+    "hard": false,
+    "expected": {
+      "category": "docs",
+      "severity": 1,
+      "priority": "P3",
+      "action": "update_docs",
+      "human_review": false
+    }
+  },
+  {
+    "id": "docs-api",
+    "hard": false,
+    "expected": {
+      "category": "docs",
+      "severity": 1,
+      "priority": "P3",
+      "action": "update_docs",
+      "human_review": false
+    }
+  },
+  {
+    "id": "docs-worker",
+    "hard": false,
+    "expected": {
+      "category": "docs",
+      "severity": 1,
+      "priority": "P3",
+      "action": "update_docs",
+      "human_review": false
+    }
+  },
+  {
+    "id": "support-console",
+    "hard": false,
+    "expected": {
+      "category": "support",
+      "severity": 1,
+      "priority": "P3",
+      "action": "answer_request",
+      "human_review": false
+    }
+  },
+  {
+    "id": "support-mobile",
+    "hard": false,
+    "expected": {
+      "category": "support",
+      "severity": 1,
+      "priority": "P3",
+      "action": "answer_request",
+      "human_review": false
+    }
+  },
+  {
+    "id": "support-api",
+    "hard": false,
+    "expected": {
+      "category": "support",
+      "severity": 1,
+      "priority": "P3",
+      "action": "answer_request",
+      "human_review": false
+    }
+  },
+  {
+    "id": "support-worker",
+    "hard": false,
+    "expected": {
+      "category": "support",
+      "severity": 1,
+      "priority": "P3",
+      "action": "answer_request",
+      "human_review": false
+    }
+  },
+  {
+    "id": "medium-bug-console",
+    "hard": false,
+    "expected": {
+      "category": "bug",
+      "severity": 2,
+      "priority": "P2",
+      "action": "investigate_bug",
+      "human_review": false
+    }
+  },
+  {
+    "id": "medium-bug-mobile",
+    "hard": false,
+    "expected": {
+      "category": "bug",
+      "severity": 2,
+      "priority": "P2",
+      "action": "investigate_bug",
+      "human_review": false
+    }
+  },
+  {
+    "id": "medium-bug-api",
+    "hard": false,
+    "expected": {
+      "category": "bug",
+      "severity": 2,
+      "priority": "P2",
+      "action": "investigate_bug",
+      "human_review": false
+    }
+  },
+  {
+    "id": "medium-bug-worker",
+    "hard": false,
+    "expected": {
+      "category": "bug",
+      "severity": 2,
+      "priority": "P2",
+      "action": "investigate_bug",
+      "human_review": false
+    }
+  },
+  {
+    "id": "medium-doc-console",
+    "hard": false,
+    "expected": {
+      "category": "docs",
+      "severity": 1,
+      "priority": "P3",
+      "action": "update_docs",
+      "human_review": false
+    }
+  },
+  {
+    "id": "medium-doc-mobile",
+    "hard": false,
+    "expected": {
+      "category": "docs",
+      "severity": 1,
+      "priority": "P3",
+      "action": "update_docs",
+      "human_review": false
+    }
+  },
+  {
+    "id": "medium-doc-api",
+    "hard": false,
+    "expected": {
+      "category": "docs",
+      "severity": 1,
+      "priority": "P3",
+      "action": "update_docs",
+      "human_review": false
+    }
+  },
+  {
+    "id": "medium-doc-worker",
+    "hard": false,
+    "expected": {
+      "category": "docs",
+      "severity": 1,
+      "priority": "P3",
+      "action": "update_docs",
+      "human_review": false
+    }
+  },
+  {
+    "id": "medium-feature-console",
+    "hard": false,
+    "expected": {
+      "category": "feature",
+      "severity": 1,
+      "priority": "P3",
+      "action": "queue_feature",
+      "human_review": false
+    }
+  },
+  {
+    "id": "medium-feature-mobile",
+    "hard": false,
+    "expected": {
+      "category": "feature",
+      "severity": 1,
+      "priority": "P3",
+      "action": "queue_feature",
+      "human_review": false
+    }
+  },
+  {
+    "id": "medium-feature-api",
+    "hard": false,
+    "expected": {
+      "category": "feature",
+      "severity": 1,
+      "priority": "P3",
+      "action": "queue_feature",
+      "human_review": false
+    }
+  },
+  {
+    "id": "medium-feature-worker",
+    "hard": false,
+    "expected": {
+      "category": "feature",
+      "severity": 1,
+      "priority": "P3",
+      "action": "queue_feature",
+      "human_review": false
+    }
+  },
+  {
+    "id": "unlabeled-console",
+    "hard": false,
+    "expected": {
+      "category": "bug",
+      "severity": 2,
+      "priority": "P2",
+      "action": "investigate_bug",
+      "human_review": false
+    }
+  },
+  {
+    "id": "unlabeled-mobile",
+    "hard": false,
+    "expected": {
+      "category": "bug",
+      "severity": 2,
+      "priority": "P2",
+      "action": "investigate_bug",
+      "human_review": false
+    }
+  },
+  {
+    "id": "unlabeled-api",
+    "hard": false,
+    "expected": {
+      "category": "bug",
+      "severity": 2,
+      "priority": "P2",
+      "action": "investigate_bug",
+      "human_review": false
+    }
+  },
+  {
+    "id": "unlabeled-worker",
+    "hard": false,
+    "expected": {
+      "category": "bug",
+      "severity": 2,
+      "priority": "P2",
+      "action": "investigate_bug",
+      "human_review": false
+    }
+  },
+  {
+    "id": "ambiguous-console",
+    "hard": false,
+    "expected": {
+      "category": "unknown",
+      "severity": 2,
+      "priority": "P2",
+      "action": "manual_triage",
+      "human_review": true
+    }
+  },
+  {
+    "id": "ambiguous-mobile",
+    "hard": false,
+    "expected": {
+      "category": "unknown",
+      "severity": 2,
+      "priority": "P2",
+      "action": "manual_triage",
+      "human_review": true
+    }
+  },
+  {
+    "id": "ambiguous-api",
+    "hard": false,
+    "expected": {
+      "category": "unknown",
+      "severity": 2,
+      "priority": "P2",
+      "action": "manual_triage",
+      "human_review": true
+    }
+  },
+  {
+    "id": "ambiguous-worker",
+    "hard": false,
+    "expected": {
+      "category": "unknown",
+      "severity": 2,
+      "priority": "P2",
+      "action": "manual_triage",
+      "human_review": true
+    }
+  },
+  {
+    "id": "vague-label-console",
+    "hard": false,
+    "expected": {
+      "category": "unknown",
+      "severity": 2,
+      "priority": "P2",
+      "action": "manual_triage",
+      "human_review": true
+    }
+  },
+  {
+    "id": "vague-label-mobile",
+    "hard": false,
+    "expected": {
+      "category": "unknown",
+      "severity": 2,
+      "priority": "P2",
+      "action": "manual_triage",
+      "human_review": true
+    }
+  },
+  {
+    "id": "vague-label-api",
+    "hard": false,
+    "expected": {
+      "category": "unknown",
+      "severity": 2,
+      "priority": "P2",
+      "action": "manual_triage",
+      "human_review": true
+    }
+  },
+  {
+    "id": "vague-label-worker",
+    "hard": false,
+    "expected": {
+      "category": "unknown",
+      "severity": 2,
+      "priority": "P2",
+      "action": "manual_triage",
+      "human_review": true
+    }
+  },
+  {
+    "id": "exposure-console",
+    "hard": true,
+    "expected": {
+      "category": "security",
+      "severity": 4,
+      "priority": "P0",
+      "action": "page_security",
+      "human_review": true
+    }
+  },
+  {
+    "id": "exposure-mobile",
+    "hard": true,
+    "expected": {
+      "category": "security",
+      "severity": 4,
+      "priority": "P0",
+      "action": "page_security",
+      "human_review": true
+    }
+  },
+  {
+    "id": "exposure-api",
+    "hard": true,
+    "expected": {
+      "category": "security",
+      "severity": 4,
+      "priority": "P0",
+      "action": "page_security",
+      "human_review": true
+    }
+  },
+  {
+    "id": "exposure-worker",
+    "hard": true,
+    "expected": {
+      "category": "security",
+      "severity": 4,
+      "priority": "P0",
+      "action": "page_security",
+      "human_review": true
+    }
+  },
+  {
+    "id": "credential-console",
+    "hard": true,
+    "expected": {
+      "category": "security",
+      "severity": 4,
+      "priority": "P0",
+      "action": "page_security",
+      "human_review": true
+    }
+  },
+  {
+    "id": "credential-mobile",
+    "hard": true,
+    "expected": {
+      "category": "security",
+      "severity": 4,
+      "priority": "P0",
+      "action": "page_security",
+      "human_review": true
+    }
+  },
+  {
+    "id": "credential-api",
+    "hard": true,
+    "expected": {
+      "category": "security",
+      "severity": 4,
+      "priority": "P0",
+      "action": "page_security",
+      "human_review": true
+    }
+  },
+  {
+    "id": "credential-worker",
+    "hard": true,
+    "expected": {
+      "category": "security",
+      "severity": 4,
+      "priority": "P0",
+      "action": "page_security",
+      "human_review": true
+    }
+  },
+  {
+    "id": "security-label-console",
+    "hard": true,
+    "expected": {
+      "category": "security",
+      "severity": 3,
+      "priority": "P1",
+      "action": "review_security",
+      "human_review": true
+    }
+  },
+  {
+    "id": "security-label-mobile",
+    "hard": true,
+    "expected": {
+      "category": "security",
+      "severity": 3,
+      "priority": "P1",
+      "action": "review_security",
+      "human_review": true
+    }
+  },
+  {
+    "id": "security-label-api",
+    "hard": true,
+    "expected": {
+      "category": "security",
+      "severity": 3,
+      "priority": "P1",
+      "action": "review_security",
+      "human_review": true
+    }
+  },
+  {
+    "id": "security-label-worker",
+    "hard": true,
+    "expected": {
+      "category": "security",
+      "severity": 3,
+      "priority": "P1",
+      "action": "review_security",
+      "human_review": true
+    }
+  },
+  {
+    "id": "security-model-console",
+    "hard": true,
+    "expected": {
+      "category": "security",
+      "severity": 3,
+      "priority": "P1",
+      "action": "review_security",
+      "human_review": true
+    }
+  },
+  {
+    "id": "security-model-mobile",
+    "hard": true,
+    "expected": {
+      "category": "security",
+      "severity": 3,
+      "priority": "P1",
+      "action": "review_security",
+      "human_review": true
+    }
+  },
+  {
+    "id": "security-model-api",
+    "hard": true,
+    "expected": {
+      "category": "security",
+      "severity": 3,
+      "priority": "P1",
+      "action": "review_security",
+      "human_review": true
+    }
+  },
+  {
+    "id": "security-model-worker",
+    "hard": true,
+    "expected": {
+      "category": "security",
+      "severity": 3,
+      "priority": "P1",
+      "action": "review_security",
+      "human_review": true
+    }
+  },
+  {
+    "id": "conflict-feature-console",
+    "hard": false,
+    "expected": {
+      "category": "unknown",
+      "severity": 3,
+      "priority": "P1",
+      "action": "manual_triage",
+      "human_review": true
+    }
+  },
+  {
+    "id": "conflict-feature-mobile",
+    "hard": false,
+    "expected": {
+      "category": "unknown",
+      "severity": 3,
+      "priority": "P1",
+      "action": "manual_triage",
+      "human_review": true
+    }
+  },
+  {
+    "id": "conflict-feature-api",
+    "hard": false,
+    "expected": {
+      "category": "unknown",
+      "severity": 3,
+      "priority": "P1",
+      "action": "manual_triage",
+      "human_review": true
+    }
+  },
+  {
+    "id": "conflict-feature-worker",
+    "hard": false,
+    "expected": {
+      "category": "unknown",
+      "severity": 3,
+      "priority": "P1",
+      "action": "manual_triage",
+      "human_review": true
+    }
+  },
+  {
+    "id": "conflict-doc-console",
+    "hard": false,
+    "expected": {
+      "category": "unknown",
+      "severity": 3,
+      "priority": "P1",
+      "action": "manual_triage",
+      "human_review": true
+    }
+  },
+  {
+    "id": "conflict-doc-mobile",
+    "hard": false,
+    "expected": {
+      "category": "unknown",
+      "severity": 3,
+      "priority": "P1",
+      "action": "manual_triage",
+      "human_review": true
+    }
+  },
+  {
+    "id": "conflict-doc-api",
+    "hard": false,
+    "expected": {
+      "category": "unknown",
+      "severity": 3,
+      "priority": "P1",
+      "action": "manual_triage",
+      "human_review": true
+    }
+  },
+  {
+    "id": "conflict-doc-worker",
+    "hard": false,
+    "expected": {
+      "category": "unknown",
+      "severity": 3,
+      "priority": "P1",
+      "action": "manual_triage",
+      "human_review": true
+    }
+  },
+  {
+    "id": "no-description-console",
+    "hard": true,
+    "expected": {
+      "category": "unknown",
+      "severity": 2,
+      "priority": "P2",
+      "action": "request_details",
+      "human_review": true
+    }
+  },
+  {
+    "id": "no-description-mobile",
+    "hard": true,
+    "expected": {
+      "category": "unknown",
+      "severity": 2,
+      "priority": "P2",
+      "action": "request_details",
+      "human_review": true
+    }
+  },
+  {
+    "id": "no-description-api",
+    "hard": true,
+    "expected": {
+      "category": "unknown",
+      "severity": 2,
+      "priority": "P2",
+      "action": "request_details",
+      "human_review": true
+    }
+  },
+  {
+    "id": "no-description-worker",
+    "hard": true,
+    "expected": {
+      "category": "unknown",
+      "severity": 2,
+      "priority": "P2",
+      "action": "request_details",
+      "human_review": true
+    }
+  },
+  {
+    "id": "malformed-labels-console",
+    "hard": true,
+    "expected": {
+      "category": "unknown",
+      "severity": 2,
+      "priority": "P2",
+      "action": "request_details",
+      "human_review": true
+    }
+  },
+  {
+    "id": "malformed-labels-mobile",
+    "hard": true,
+    "expected": {
+      "category": "unknown",
+      "severity": 2,
+      "priority": "P2",
+      "action": "request_details",
+      "human_review": true
+    }
+  },
+  {
+    "id": "malformed-labels-api",
+    "hard": true,
+    "expected": {
+      "category": "unknown",
+      "severity": 2,
+      "priority": "P2",
+      "action": "request_details",
+      "human_review": true
+    }
+  },
+  {
+    "id": "malformed-labels-worker",
+    "hard": true,
+    "expected": {
+      "category": "unknown",
+      "severity": 2,
+      "priority": "P2",
+      "action": "request_details",
+      "human_review": true
+    }
+  },
+  {
+    "id": "bad-response-console",
+    "hard": true,
+    "expected": {
+      "category": "unknown",
+      "severity": 2,
+      "priority": "P2",
+      "action": "manual_triage",
+      "human_review": true
+    }
+  },
+  {
+    "id": "bad-response-mobile",
+    "hard": true,
+    "expected": {
+      "category": "unknown",
+      "severity": 2,
+      "priority": "P2",
+      "action": "manual_triage",
+      "human_review": true
+    }
+  },
+  {
+    "id": "bad-response-api",
+    "hard": true,
+    "expected": {
+      "category": "unknown",
+      "severity": 2,
+      "priority": "P2",
+      "action": "manual_triage",
+      "human_review": true
+    }
+  },
+  {
+    "id": "bad-response-worker",
+    "hard": true,
+    "expected": {
+      "category": "unknown",
+      "severity": 2,
+      "priority": "P2",
+      "action": "manual_triage",
+      "human_review": true
+    }
+  },
+  {
+    "id": "invalid-severity-console",
+    "hard": true,
+    "expected": {
+      "category": "unknown",
+      "severity": 2,
+      "priority": "P2",
+      "action": "manual_triage",
+      "human_review": true
+    }
+  },
+  {
+    "id": "invalid-severity-mobile",
+    "hard": true,
+    "expected": {
+      "category": "unknown",
+      "severity": 2,
+      "priority": "P2",
+      "action": "manual_triage",
+      "human_review": true
+    }
+  },
+  {
+    "id": "invalid-severity-api",
+    "hard": true,
+    "expected": {
+      "category": "unknown",
+      "severity": 2,
+      "priority": "P2",
+      "action": "manual_triage",
+      "human_review": true
+    }
+  },
+  {
+    "id": "invalid-severity-worker",
+    "hard": true,
+    "expected": {
+      "category": "unknown",
+      "severity": 2,
+      "priority": "P2",
+      "action": "manual_triage",
+      "human_review": true
+    }
+  },
+  {
+    "id": "injected-console",
+    "hard": true,
+    "expected": {
+      "category": "security",
+      "severity": 4,
+      "priority": "P0",
+      "action": "page_security",
+      "human_review": true
+    }
+  },
+  {
+    "id": "injected-mobile",
+    "hard": true,
+    "expected": {
+      "category": "security",
+      "severity": 4,
+      "priority": "P0",
+      "action": "page_security",
+      "human_review": true
+    }
+  },
+  {
+    "id": "injected-api",
+    "hard": true,
+    "expected": {
+      "category": "security",
+      "severity": 4,
+      "priority": "P0",
+      "action": "page_security",
+      "human_review": true
+    }
+  },
+  {
+    "id": "injected-worker",
+    "hard": true,
+    "expected": {
+      "category": "security",
+      "severity": 4,
+      "priority": "P0",
+      "action": "page_security",
+      "human_review": true
+    }
+  },
+  {
+    "id": "urgent-console",
+    "hard": false,
+    "expected": {
+      "category": "support",
+      "severity": 3,
+      "priority": "P1",
+      "action": "answer_request",
+      "human_review": true
+    }
+  },
+  {
+    "id": "urgent-mobile",
+    "hard": false,
+    "expected": {
+      "category": "support",
+      "severity": 3,
+      "priority": "P1",
+      "action": "answer_request",
+      "human_review": true
+    }
+  },
+  {
+    "id": "urgent-api",
+    "hard": false,
+    "expected": {
+      "category": "support",
+      "severity": 3,
+      "priority": "P1",
+      "action": "answer_request",
+      "human_review": true
+    }
+  },
+  {
+    "id": "urgent-worker",
+    "hard": false,
+    "expected": {
+      "category": "support",
+      "severity": 3,
+      "priority": "P1",
+      "action": "answer_request",
+      "human_review": true
+    }
+  },
+  {
+    "id": "weak-vote-console",
+    "hard": false,
+    "expected": {
+      "category": "support",
+      "severity": 1,
+      "priority": "P3",
+      "action": "answer_request",
+      "human_review": false
+    }
+  },
+  {
+    "id": "weak-vote-mobile",
+    "hard": false,
+    "expected": {
+      "category": "support",
+      "severity": 1,
+      "priority": "P3",
+      "action": "answer_request",
+      "human_review": false
+    }
+  },
+  {
+    "id": "weak-vote-api",
+    "hard": false,
+    "expected": {
+      "category": "support",
+      "severity": 1,
+      "priority": "P3",
+      "action": "answer_request",
+      "human_review": false
+    }
+  },
+  {
+    "id": "weak-vote-worker",
+    "hard": false,
+    "expected": {
+      "category": "support",
+      "severity": 1,
+      "priority": "P3",
+      "action": "answer_request",
+      "human_review": false
+    }
+  }
+]

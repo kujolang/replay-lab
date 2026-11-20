@@ -1,0 +1,79 @@
+func decision(category, severity, confidence, action, review, reason) {
+    let priorities := ["P3", "P2", "P1", "P0"]
+    return {"category": category, "severity": severity, "priority": priorities[severity - 1],
+            "confidence": confidence, "action": action, "human_review": review, "explanation": reason}
+}
+
+func valid_prediction(prediction) {
+    if type(prediction) != "dict" {
+        return false
+    }
+    let category := get_default(prediction, "category", "")
+    let severity := get_default(prediction, "severity", null)
+    let confidence := get_default(prediction, "confidence", null)
+    return contains(["bug", "feature", "support", "docs", "security"], category) == true &&
+        type(severity) == "int" && severity >= 1 && severity <= 4 &&
+        type(confidence) == "int" && confidence >= 0 && confidence <= 100
+}
+
+export func triage(issue, prediction, policy) {
+    if type(issue) != "dict" {
+        return decision("unknown", 2, 0, "request_details", true, "Issue must be an object.")
+    }
+    let metadata := get_default(issue, "metadata", {})
+    let labels := get_default(issue, "labels", [])
+    let title := get_default(issue, "title", "")
+    let description := get_default(issue, "description", "")
+    let valid := valid_prediction(prediction)
+    mut confidence := 0
+    if valid {
+        confidence = prediction["confidence"]
+    }
+
+    if policy["escalate_exposure"] && type(metadata) == "dict" &&
+        get_default(metadata, "active_exposure", false) == true {
+        return decision("security", 4, confidence, "page_security", true, "Active exposure was reported.")
+    }
+    if (type(labels) == "array" && contains(labels, "security") == true) ||
+        (valid && prediction["category"] == "security") {
+        return decision("security", 3, confidence, "review_security", true, "A security signal requires review.")
+    }
+    if type(title) != "string" || type(description) != "string" ||
+        len(trim(title)) == 0 || len(trim(description)) == 0 || type(labels) != "array" ||
+        type(metadata) != "dict" {
+        return decision("unknown", 2, 0, "request_details", true, "Report fields are missing or malformed.")
+    }
+    for label in labels {
+        if type(label) != "string" {
+            return decision("unknown", 2, 0, "request_details", true, "Labels must be strings.")
+        }
+    }
+    if !valid {
+        return decision("unknown", 2, 0, "manual_triage", true, "No usable model classification.")
+    }
+
+    let category := prediction["category"]
+    let impacted := get_default(metadata, "impact", "") == "production"
+    let conflict := (category == "feature" || category == "docs") && impacted
+    if conflict && policy["hold_conflicts"] {
+        return decision("unknown", 3, confidence, "manual_triage", true, "Production impact contradicts the classification.")
+    }
+
+    let label_vote := contains(labels, category) == true
+    mut confidence_floor := policy["confidence_min"]
+    if label_vote {
+        confidence_floor = confidence_floor - 5 * policy["label_weight"]
+    }
+    if confidence < confidence_floor {
+        return decision("unknown", 2, confidence, "manual_triage", true, "Model confidence is below the routing threshold.")
+    }
+
+    mut severity := prediction["severity"]
+    if impacted {
+        severity = min(4, severity + policy["impact_weight"])
+    }
+    let actions := {"bug": "investigate_bug", "feature": "queue_feature",
+                    "support": "answer_request", "docs": "update_docs"}
+    return decision(category, severity, confidence, actions[category], severity >= 3,
+                    "Classification meets the routing threshold. Severity includes reported impact.")
+}

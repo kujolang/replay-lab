@@ -1,0 +1,18 @@
+from src.model import classify, model_options
+
+let argv := args()
+if len(argv) < 2 || path_exists(argv[0]) {
+    eprint("usage: record.kujo -- NEW_CASSETTE_DIR FIXTURE_JSON [FIXTURE_JSON ...]")
+    exit(2)
+}
+let options := model_options("record", argv[0])
+mut count := 0
+for path in slice(argv, 1, len(argv)) {
+    for row in parse_json(read_file(path)) {
+        mut result := classify(row["issue"], options)
+        assert_equal(result["error"], null)
+        assert_equal(path_exists(argv[0] + "/" + result["request_hash"] + ".json"), true)
+        count = count + 1
+    }
+}
+print(to_json({"native_records": count}))

@@ -1,0 +1,10 @@
+{
+  "title": "Admin console request describes a live failure",
+  "description": "Reporter asks for a toggle. Existing production jobs have stopped and need investigation. Environment: hosted admin workspace.",
+  "labels": [
+    "feature"
+  ],
+  "metadata": {
+    "impact": "production"
+  }
+}
