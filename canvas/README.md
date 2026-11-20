@@ -36,8 +36,8 @@ npm ci
 npx playwright install ffmpeg
 TEST_NATIVE=1 npm test
 npm run test:browser
-npm run benchmark
-npm run capture
+HEADED=1 npm run benchmark
+HEADED=1 npm run capture
 ```
 
 Browser scripts use installed Google Chrome. To use Playwright Chromium, run `npx playwright install chromium` and set `CHROME_CHANNEL=bundled`. Set `HEADED=1` to measure or capture a visible Chrome window. Set `BENCHMARK_MS` to change the sample length or `ARTIFACT_DIR` to retain measurements separately. The scripts start an isolated local server and close it and Chrome after each run.
