@@ -1,0 +1,247 @@
+{
+  "A-opening": {
+    "time": 0.66,
+    "camera": {
+      "x": 0,
+      "y": 0,
+      "pitch": 189.548958637379
+    },
+    "count": 63,
+    "width": 1280,
+    "height": 720,
+    "manual": false,
+    "playing": false,
+    "waves": 0,
+    "gpu": {
+      "renderer": "ANGLE (AMD, ANGLE Metal Renderer: AMD Radeon Pro 5300M, Unspecified Version)",
+      "maxTexture": 16384,
+      "maxViewport": [
+        16384,
+        16384
+      ],
+      "timer": true
+    },
+    "labels": [
+      [
+        15.1,
+        "REPLAY",
+        "Baseline matched · Same cassette"
+      ],
+      [
+        17.2,
+        "EVALUATE",
+        "3/3 checks passed"
+      ],
+      [
+        19.25,
+        "DISPATCH",
+        "2/2 steps completed"
+      ]
+    ]
+  },
+  "B-expansion": {
+    "time": 4.92,
+    "camera": {
+      "x": 4.967979432776234,
+      "y": 3.626397084931293,
+      "pitch": 48.742920534956944
+    },
+    "count": 414,
+    "width": 1280,
+    "height": 720,
+    "manual": false,
+    "playing": false,
+    "waves": 0,
+    "gpu": {
+      "renderer": "ANGLE (AMD, ANGLE Metal Renderer: AMD Radeon Pro 5300M, Unspecified Version)",
+      "maxTexture": 16384,
+      "maxViewport": [
+        16384,
+        16384
+      ],
+      "timer": true
+    },
+    "labels": [
+      [
+        15.1,
+        "REPLAY",
+        "Baseline matched · Same cassette"
+      ],
+      [
+        17.2,
+        "EVALUATE",
+        "3/3 checks passed"
+      ],
+      [
+        19.25,
+        "DISPATCH",
+        "2/2 steps completed"
+      ]
+    ]
+  },
+  "C-extreme-scale": {
+    "time": 13.68,
+    "camera": {
+      "x": -10.272015160883978,
+      "y": -6.235469768271805,
+      "pitch": 2.2131333406899527
+    },
+    "count": 149240,
+    "width": 1280,
+    "height": 720,
+    "manual": false,
+    "playing": false,
+    "waves": 0,
+    "gpu": {
+      "renderer": "ANGLE (AMD, ANGLE Metal Renderer: AMD Radeon Pro 5300M, Unspecified Version)",
+      "maxTexture": 16384,
+      "maxViewport": [
+        16384,
+        16384
+      ],
+      "timer": true
+    },
+    "labels": [
+      [
+        15.1,
+        "REPLAY",
+        "Baseline matched · Same cassette"
+      ],
+      [
+        17.2,
+        "EVALUATE",
+        "3/3 checks passed"
+      ],
+      [
+        19.25,
+        "DISPATCH",
+        "2/2 steps completed"
+      ]
+    ]
+  },
+  "D-overlapping-waves": {
+    "time": 16.22,
+    "camera": {
+      "x": 1.121722755373,
+      "y": -8.971238502004423,
+      "pitch": 2.2149916166851504
+    },
+    "count": 149695,
+    "width": 1280,
+    "height": 720,
+    "manual": false,
+    "playing": false,
+    "waves": 0,
+    "gpu": {
+      "renderer": "ANGLE (AMD, ANGLE Metal Renderer: AMD Radeon Pro 5300M, Unspecified Version)",
+      "maxTexture": 16384,
+      "maxViewport": [
+        16384,
+        16384
+      ],
+      "timer": true
+    },
+    "labels": [
+      [
+        15.1,
+        "REPLAY",
+        "Baseline matched · Same cassette"
+      ],
+      [
+        17.2,
+        "EVALUATE",
+        "3/3 checks passed"
+      ],
+      [
+        19.25,
+        "DISPATCH",
+        "2/2 steps completed"
+      ]
+    ]
+  },
+  "F-kujo-finale": {
+    "time": 29.65,
+    "camera": {
+      "x": 0,
+      "y": 0,
+      "pitch": 2.522972008386546
+    },
+    "count": 115311,
+    "width": 1280,
+    "height": 720,
+    "manual": false,
+    "playing": false,
+    "waves": 0,
+    "gpu": {
+      "renderer": "ANGLE (AMD, ANGLE Metal Renderer: AMD Radeon Pro 5300M, Unspecified Version)",
+      "maxTexture": 16384,
+      "maxViewport": [
+        16384,
+        16384
+      ],
+      "timer": true
+    },
+    "labels": [
+      [
+        15.1,
+        "REPLAY",
+        "Baseline matched · Same cassette"
+      ],
+      [
+        17.2,
+        "EVALUATE",
+        "3/3 checks passed"
+      ],
+      [
+        19.25,
+        "DISPATCH",
+        "2/2 steps completed"
+      ]
+    ]
+  },
+  "E-reverse-zoom": {
+    "before": {
+      "x": 5.228881224757789,
+      "y": 6.895357319825965,
+      "pitch": 15.464000365980665
+    },
+    "time": 6.68,
+    "camera": {
+      "x": 5.228881224757789,
+      "y": 6.895357319825965,
+      "pitch": 145.25847846679284
+    },
+    "count": 80,
+    "width": 1280,
+    "height": 720,
+    "manual": true,
+    "playing": false,
+    "waves": 0,
+    "gpu": {
+      "renderer": "ANGLE (AMD, ANGLE Metal Renderer: AMD Radeon Pro 5300M, Unspecified Version)",
+      "maxTexture": 16384,
+      "maxViewport": [
+        16384,
+        16384
+      ],
+      "timer": true
+    },
+    "labels": [
+      [
+        15.1,
+        "REPLAY",
+        "Baseline matched · Same cassette"
+      ],
+      [
+        17.2,
+        "EVALUATE",
+        "3/3 checks passed"
+      ],
+      [
+        19.25,
+        "DISPATCH",
+        "2/2 steps completed"
+      ]
+    ]
+  }
+}

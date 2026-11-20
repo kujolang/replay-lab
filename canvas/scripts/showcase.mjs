@@ -104,6 +104,11 @@ async function test() {
   await cdp.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: fingers(59) });
   await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
   assert.ok((await state(mobile.page)).camera.pitch > initial.camera.pitch * 1.9);
+  await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x: 195, y: 501, id: 1 }] });
+  await mobile.page.locator('#tools').waitFor({ state: 'visible' });
+  await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+  await mobile.page.getByRole('button', { name: 'Close', exact: true }).tap();
+  assert.equal(await mobile.page.locator('#tools').isVisible(), false);
   assert.deepEqual(mobile.errors, []);
   await mobile.context.close();
   console.log('Immersive canvas interactions, deterministic frames, provenance, and touch passed.');
@@ -112,7 +117,7 @@ async function test() {
 async function capture() {
   const { context, page, errors } = await setup();
   const frames = [
-    ['A-opening', 1.04], ['B-expansion', 4.92], ['C-extreme-scale', 13.68],
+    ['A-opening', .66], ['B-expansion', 4.92], ['C-extreme-scale', 13.68],
     ['D-overlapping-waves', 16.22], ['F-kujo-finale', 29.65],
   ];
   const record = {};
@@ -121,7 +126,7 @@ async function capture() {
     await page.screenshot({ path: join(artifacts, name + '.png') });
     record[name] = await state(page);
   }
-  await seek(page, 7.6);
+  await seek(page, 6.68);
   const before = await state(page);
   await page.mouse.move(640, 360);
   for (let index = 0; index < 5; index++) await page.mouse.wheel(0, -160);
