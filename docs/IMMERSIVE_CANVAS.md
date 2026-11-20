@@ -5,7 +5,7 @@ The immersive field opens at `/`. The earlier execution workbench is available a
 | Earlier Replay Lab | Immersive rebuild |
 | --- | --- |
 | [Workbench screenshot](../canvas/artifacts/01-execution-field.png) | [Opening field](../canvas/artifacts/immersive/A-opening.png) |
-| [Browser tour](../canvas/artifacts/replay-lab-demo.webm) | [30-second field render](../canvas/artifacts/immersive/kujo-infinite-canvas.mp4) |
+| [Browser tour](../canvas/artifacts/replay-lab-demo.webm) | [30-second field render](../canvas/artifacts/immersive/kujo-infinite-canvas.mp4) · [480p mobile download](../canvas/artifacts/immersive/kujo-infinite-canvas-480p.mp4) |
 | Twelve inspectable cards inside a fixed workbench, plus a separate synthetic renderer | Twelve labeled opening cards, one procedural field with over 100,000 submitted cells, and the authentic Kujo mark formed from the same field |
 | Screen recording of clicks and camera changes | A configurable camera and playback timeline rendered directly from the running application |
 
@@ -31,7 +31,7 @@ Use `ARTIFACT_DIR` to write elsewhere, or `CHROME_CHANNEL=bundled` with `npx pla
 - [A — Opening](../canvas/artifacts/immersive/A-opening.png). Twelve ruled records identify the replayed decisions, policy checks, workflow steps, and saved evidence.
 - [B — Expansion](../canvas/artifacts/immersive/B-expansion.png). The moving camera reveals hundreds of the same cards.
 - [C — Extreme scale](../canvas/artifacts/immersive/C-extreme-scale.png). More than 140,000 submitted cells at roughly two raster pixels of pitch.
-- [D — Overlapping waves](../canvas/artifacts/immersive/D-overlapping-waves.png). Long grayscale crests overlap. The caption explains how replay reproduces the triage decision without another model call.
+- [D — Broad swell at 11 seconds](../canvas/artifacts/immersive/D-wide-swell.png) and [replay phase](../canvas/artifacts/immersive/D-overlapping-waves.png). Broad gray areas fade gradually into white. The caption explains how replay reproduces the triage decision without another model call.
 - [E — Reverse zoom](../canvas/artifacts/immersive/E-reverse-zoom.png). Captured after Playwright wheel events at the same pointer anchor. The receipt includes the camera pitch before and after.
 - [F — Kujo finale](../canvas/artifacts/immersive/F-kujo-finale.png). The [formation frame](../canvas/artifacts/immersive/F-formation.png) shows the field dissipating from the silhouette outward. The cells inside the K keep moving on white paper.
 
@@ -43,7 +43,7 @@ The camera stores a world-space center and a positive pitch. A cell’s signed i
 
 The fragment shader draws the same square-cornered plates at every scale. At close range, a GPU atlas supplies each record’s type, title, status, and result. The ruled horizontal trace illustrates activity. As the camera pulls back, the lettering and hairlines fade smoothly and the plates become grayscale cells. Wheel zoom preserves the world point under the pointer. Pinch preserves that point under the moving midpoint.
 
-The grayscale field combines two traveling swells. One crosses the field at an angle and the other bends along a transverse sine wave to produce long, rolling crests. Taps add local packets of parallel crests with smooth envelopes along and across their direction of travel. Overlapping packets combine in the shader. `choreography.mjs` holds the camera and wave cues.
+A broad swell and faint wake drift across the grayscale field at different angles. Each uses a smooth falloff, with gentle bending and variation across its width. Spaced cues and taps add a single soft wash with a smooth envelope along and across its direction of travel. `choreography.mjs` holds the camera and wave cues.
 
 The official SVG is an ink square with the K cut out. At startup the app inverts that alpha and stores a companion distance-to-ink channel. During formation, cells inside the mark darken and continue moving. Exterior cells fade to pure white in order of distance from the silhouette, with variation per cell. The white boundary grows outward from the K and fills its internal cutouts. The raster resolution cap is 1,920 × 1,080 and the hidden raster control can reduce rendering cost.
 
@@ -66,13 +66,13 @@ Measured in headed Chrome 157.0.8103.80 at 1,280 × 720 on a 16 GB Intel Core i7
 
 | Live profile | Mean fps | Frame P95 | Longest frame | GPU draw mean | Peak cells submitted |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Full 30-second sequence | 59.2 | 17.4 ms | 300.0 ms | 1.39 ms | 157,379 |
-| 75% raster, 12–27 seconds | 59.4 | 17.3 ms | 133.3 ms | 1.68 ms | 157,379 |
+| Full 30-second sequence | 59.1 | 17.4 ms | 116.9 ms | 1.63 ms | 157,379 |
+| 75% raster, 12–27 seconds | 58.9 | 17.4 ms | 116.5 ms | 1.66 ms | 157,379 |
 
-The full run averaged 60.0 fps during activation, expansion, massive scale, and logo formation. Two of 1,775 observed frames exceeded 20 ms, including one 300 ms stall during the brand hold. Reported GPU draw times exclude compositing. The live renderer used 14.7% of one CPU core, Chrome as a whole used 41.7%, and the main-thread draw-call P95 was 0.4 ms. Total Chrome RSS was 473 MiB, which can include shared pages. Shared macOS GPU counters include other processes. Per-tab GPU utilization and VRAM were unavailable. After 12 repeated phase jumps and forced collection, the browser retained 93 DOM nodes and approximately 2.19 MiB of JS heap.
+The full run averaged 60.0 fps during expansion, massive scale, and logo formation. Five of 1,775 observed frames exceeded 20 ms. Reported GPU draw times exclude compositing. The live renderer used 8.7% of one CPU core, Chrome as a whole used 24.1%, and the main-thread draw-call P95 was 0.2 ms. Total Chrome RSS was 470 MiB, which can include shared pages. Shared macOS GPU counters include other processes. Per-tab GPU utilization and VRAM were unavailable. After 12 repeated phase jumps and forced collection, the browser retained 93 DOM nodes and approximately 2.19 MiB of JS heap.
 
 The renderer requires WebGL2 and OffscreenCanvas. Browsers without it can open the retained workbench. The raster scale control trades pixel resolution for rendering headroom. This benchmark covers one physical machine.
 
 ## Video export
 
-The exporter seeks the same live renderer at exact increments of 1/60 second and encodes each rendered frame with Chrome WebCodecs. The script verifies each encoded timestamp before writing the stream. FFmpeg muxes the bitstream, applying a bounded bitrate for large outputs. FFprobe checks decoded frame count, rate and duration. The output cadence is independent of live wall-clock rendering speed.
+The exporter seeks the same live renderer at exact increments of 1/60 second and encodes each rendered frame with Chrome WebCodecs. The script verifies each encoded timestamp before writing the stream. FFmpeg muxes the bitstream, applying a bounded bitrate for large outputs. FFprobe checks decoded frame count, rate and duration. The export also produces a 480p fast-start MP4 for mobile. Output cadence is independent of live wall-clock rendering speed.

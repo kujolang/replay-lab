@@ -119,6 +119,46 @@
       ]
     ]
   },
+  "D-wide-swell": {
+    "time": 11.45,
+    "camera": {
+      "x": -12.69795645717134,
+      "y": -1.1534957236898324,
+      "pitch": 3.5738433993526812
+    },
+    "count": 58015,
+    "width": 1280,
+    "height": 720,
+    "manual": false,
+    "playing": false,
+    "waves": 0,
+    "gpu": {
+      "renderer": "ANGLE (AMD, ANGLE Metal Renderer: AMD Radeon Pro 5300M, Unspecified Version)",
+      "maxTexture": 16384,
+      "maxViewport": [
+        16384,
+        16384
+      ],
+      "timer": true
+    },
+    "labels": [
+      [
+        15.1,
+        "Rerun without another model call",
+        "A saved model response reproduced the original decision."
+      ],
+      [
+        17.2,
+        "Check policy changes before release",
+        "The revised rules escalated the issue and requested human review."
+      ],
+      [
+        19.25,
+        "See what happened at each step",
+        "The workflow records the review plan and the report it produced."
+      ]
+    ]
+  },
   "D-overlapping-waves": {
     "time": 16.22,
     "camera": {

@@ -8,11 +8,19 @@
     "nb_read_frames": "1800"
   },
   "renderedFrames": 1800,
-  "wallSeconds": 165.368880274,
+  "wallSeconds": 295.632296584,
   "browser": "157.0.8103.80",
   "delivery": {
     "codec": "H.264",
     "maxBitrateMbps": 12,
-    "bytes": 39715425
+    "bytes": 39672797
+  },
+  "mobile": {
+    "width": 854,
+    "height": 480,
+    "avg_frame_rate": "60/1",
+    "duration": "30.000000",
+    "nb_read_frames": "1800",
+    "bytes": 6278401
   }
 }
