@@ -2,11 +2,11 @@
   "A-opening": {
     "time": 0.43,
     "camera": {
-      "x": 0,
+      "x": -0.5,
       "y": 0,
-      "pitch": 196.7059284477761
+      "pitch": 193.32258647847436
     },
-    "count": 63,
+    "count": 56,
     "width": 1280,
     "height": 720,
     "manual": false,
@@ -24,29 +24,29 @@
     "labels": [
       [
         15.1,
-        "REPLAY",
-        "Baseline matched · Same cassette"
+        "Rerun without another model call",
+        "A saved model response reproduced the original decision."
       ],
       [
         17.2,
-        "EVALUATE",
-        "3/3 checks passed"
+        "Check policy changes before release",
+        "The revised rules escalated the issue and requested human review."
       ],
       [
         19.25,
-        "DISPATCH",
-        "2/2 steps completed"
+        "See what happened at each step",
+        "The workflow records the review plan and the report it produced."
       ]
     ]
   },
   "B-expansion": {
     "time": 4.92,
     "camera": {
-      "x": 4.967979432776234,
+      "x": 4.672241928160746,
       "y": 3.626397084931293,
-      "pitch": 48.742920534956944
+      "pitch": 47.90454230175568
     },
-    "count": 414,
+    "count": 432,
     "width": 1280,
     "height": 720,
     "manual": false,
@@ -64,18 +64,18 @@
     "labels": [
       [
         15.1,
-        "REPLAY",
-        "Baseline matched · Same cassette"
+        "Rerun without another model call",
+        "A saved model response reproduced the original decision."
       ],
       [
         17.2,
-        "EVALUATE",
-        "3/3 checks passed"
+        "Check policy changes before release",
+        "The revised rules escalated the issue and requested human review."
       ],
       [
         19.25,
-        "DISPATCH",
-        "2/2 steps completed"
+        "See what happened at each step",
+        "The workflow records the review plan and the report it produced."
       ]
     ]
   },
@@ -104,18 +104,18 @@
     "labels": [
       [
         15.1,
-        "REPLAY",
-        "Baseline matched · Same cassette"
+        "Rerun without another model call",
+        "A saved model response reproduced the original decision."
       ],
       [
         17.2,
-        "EVALUATE",
-        "3/3 checks passed"
+        "Check policy changes before release",
+        "The revised rules escalated the issue and requested human review."
       ],
       [
         19.25,
-        "DISPATCH",
-        "2/2 steps completed"
+        "See what happened at each step",
+        "The workflow records the review plan and the report it produced."
       ]
     ]
   },
@@ -144,18 +144,18 @@
     "labels": [
       [
         15.1,
-        "REPLAY",
-        "Baseline matched · Same cassette"
+        "Rerun without another model call",
+        "A saved model response reproduced the original decision."
       ],
       [
         17.2,
-        "EVALUATE",
-        "3/3 checks passed"
+        "Check policy changes before release",
+        "The revised rules escalated the issue and requested human review."
       ],
       [
         19.25,
-        "DISPATCH",
-        "2/2 steps completed"
+        "See what happened at each step",
+        "The workflow records the review plan and the report it produced."
       ]
     ]
   },
@@ -184,32 +184,72 @@
     "labels": [
       [
         15.1,
-        "REPLAY",
-        "Baseline matched · Same cassette"
+        "Rerun without another model call",
+        "A saved model response reproduced the original decision."
       ],
       [
         17.2,
-        "EVALUATE",
-        "3/3 checks passed"
+        "Check policy changes before release",
+        "The revised rules escalated the issue and requested human review."
       ],
       [
         19.25,
-        "DISPATCH",
-        "2/2 steps completed"
+        "See what happened at each step",
+        "The workflow records the review plan and the report it produced."
+      ]
+    ]
+  },
+  "F-formation": {
+    "time": 24.4,
+    "camera": {
+      "x": -0.8146643429769121,
+      "y": 2.282220900132247,
+      "pitch": 2.3939593419564322
+    },
+    "count": 127984,
+    "width": 1280,
+    "height": 720,
+    "manual": false,
+    "playing": false,
+    "waves": 0,
+    "gpu": {
+      "renderer": "ANGLE (AMD, ANGLE Metal Renderer: AMD Radeon Pro 5300M, Unspecified Version)",
+      "maxTexture": 16384,
+      "maxViewport": [
+        16384,
+        16384
+      ],
+      "timer": true
+    },
+    "labels": [
+      [
+        15.1,
+        "Rerun without another model call",
+        "A saved model response reproduced the original decision."
+      ],
+      [
+        17.2,
+        "Check policy changes before release",
+        "The revised rules escalated the issue and requested human review."
+      ],
+      [
+        19.25,
+        "See what happened at each step",
+        "The workflow records the review plan and the report it produced."
       ]
     ]
   },
   "E-reverse-zoom": {
     "before": {
-      "x": 5.228881224757789,
+      "x": 5.134789586343502,
       "y": 6.895357319825965,
-      "pitch": 15.464000365980665
+      "pitch": 15.198019559685797
     },
     "time": 6.68,
     "camera": {
-      "x": 5.228881224757789,
+      "x": 5.134789586343502,
       "y": 6.895357319825965,
-      "pitch": 145.25847846679284
+      "pitch": 142.76003263716396
     },
     "count": 80,
     "width": 1280,
@@ -229,18 +269,18 @@
     "labels": [
       [
         15.1,
-        "REPLAY",
-        "Baseline matched · Same cassette"
+        "Rerun without another model call",
+        "A saved model response reproduced the original decision."
       ],
       [
         17.2,
-        "EVALUATE",
-        "3/3 checks passed"
+        "Check policy changes before release",
+        "The revised rules escalated the issue and requested human review."
       ],
       [
         19.25,
-        "DISPATCH",
-        "2/2 steps completed"
+        "See what happened at each step",
+        "The workflow records the review plan and the report it produced."
       ]
     ]
   }

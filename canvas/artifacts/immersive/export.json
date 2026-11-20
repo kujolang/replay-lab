@@ -8,11 +8,11 @@
     "nb_read_frames": "1800"
   },
   "renderedFrames": 1800,
-  "wallSeconds": 318.00680745,
+  "wallSeconds": 165.368880274,
   "browser": "157.0.8103.80",
   "delivery": {
     "codec": "H.264",
     "maxBitrateMbps": 12,
-    "bytes": 39286782
+    "bytes": 39715425
   }
 }
