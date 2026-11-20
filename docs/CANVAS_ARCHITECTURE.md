@@ -1,5 +1,7 @@
 # Replay Lab canvas architecture
 
+This document describes the retained execution workbench at `/workbench.html`. See [Kujo Infinite Canvas](IMMERSIVE_CANVAS.md) for the default full-screen field.
+
 The [canvas app](../canvas/) is isolated from the CLI, existing release workflows, and the main Kujo site. It uses native HTML controls, the vendored SiteKit light theme and Departure Mono font, a Canvas 2D decoration layer, and a dedicated WebGL2 rendering path.
 
 ## Evidence flow

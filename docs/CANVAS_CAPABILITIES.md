@@ -1,5 +1,7 @@
 # Replay Lab canvas capability map
 
+The capability map describes the workbench and its native operations. See [Kujo Infinite Canvas](IMMERSIVE_CANVAS.md#provenance) for how the immersive view uses that evidence.
+
 The existing [Replay Lab](https://github.com/kujolang/replay-lab) already records native model cassettes, applies new policies to old replies, verifies experiments, and ships a recorded video. Its CLI, cassettes, and published evidence remain the sources of truth. The interactive application lives in the isolated `canvas/` directory of that repository. It has no deployment configuration.
 
 | Capability | Interface inspected | Canvas integration |

@@ -31,7 +31,7 @@ Use `ARTIFACT_DIR` to write elsewhere, or `CHROME_CHANNEL=bundled` with `npx pla
 - [A — Opening](../canvas/artifacts/immersive/A-opening.png). Fifteen cards with switches, vertical levels and three-digit activity.
 - [B — Expansion](../canvas/artifacts/immersive/B-expansion.png). The moving camera reveals hundreds of the same cards.
 - [C — Extreme scale](../canvas/artifacts/immersive/C-extreme-scale.png). More than 140,000 submitted cells at roughly two raster pixels of pitch.
-- [D — Overlapping waves](../canvas/artifacts/immersive/D-overlapping-waves.png). Replay-driven labels surround genuine recorded comparisons.
+- [D — Overlapping waves](../canvas/artifacts/immersive/D-overlapping-waves.png). The replay caption reports the recorded cassette comparison.
 - [E — Reverse zoom](../canvas/artifacts/immersive/E-reverse-zoom.png). Captured after Playwright wheel events at the same pointer anchor. The receipt includes the camera pitch before and after.
 - [F — Kujo finale](../canvas/artifacts/immersive/F-kujo-finale.png). The mark is drawn by the field’s cells.
 

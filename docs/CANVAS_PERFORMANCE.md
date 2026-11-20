@@ -1,5 +1,7 @@
 # Replay Lab canvas benchmark
 
+These measurements cover the earlier workbench and its separate stress renderer. See [Kujo Infinite Canvas](IMMERSIVE_CANVAS.md#live-performance) for the current showcase measurements.
+
 The WebGL2 field averaged **60.0 fps** at **260,669 animated elements** on the measured desktop configuration. The evidence view averaged **49.2 fps**, and the software fallback averaged **29.0 fps** at its upper density. The 60 fps result applies to the measured WebGL2 profiles.
 
 ## Reproduce
