@@ -75,11 +75,11 @@ The renderer requires WebGL2 and OffscreenCanvas. Browsers without it can open t
 
 ## Video export
 
-The exporter seeks the same live renderer at exact increments of 1/60 second and encodes each rendered frame with Chrome WebCodecs. The script verifies each encoded timestamp before writing the stream. FFmpeg muxes the bitstream, applying a bounded bitrate for large outputs. FFprobe checks decoded frame count, rate and duration. The export adds the original stereo suspense score, with a low synth pulse, sparse keys, and a final chord timed to the wordmark. It also produces a 480p fast-start MP4 for mobile. Both exports retain the same AAC score. Output cadence is independent of live wall-clock rendering speed.
+The exporter seeks the same live renderer at exact increments of 1/60 second and encodes each rendered frame with Chrome WebCodecs. The script verifies each encoded timestamp before writing the stream. FFmpeg muxes the bitstream, applying a bounded bitrate for large outputs. FFprobe checks decoded frame count, rate and duration. The export adds an original stereo title cue, with a driving low pulse, staccato cello, a repeating lead motif, and a final sting timed to the wordmark. It also produces a 480p fast-start MP4 for mobile. Both exports retain the same AAC score. Output cadence is independent of live wall-clock rendering speed.
 
-The score is synthesized locally. To regenerate it with Python and NumPy, run these commands from `canvas/`.
+The arrangement references the [official main-title recording](https://www.youtube.com/watch?v=Z1L3CJYFpM8) and [Man in a Suit](https://music.apple.com/us/album/man-in-a-suit/1444211705?i=1444212198). The original note events and audio synthesis can be reproduced on macOS with Python, NumPy, Swift, and FFmpeg. Run these commands from `canvas/`.
 
 ```sh
 python3 audio/compose-score.py /tmp/kujo-showcase-score.wav
-ffmpeg -i /tmp/kujo-showcase-score.wav -af 'loudnorm=I=-17:TP=-1.8:LRA=8' -ar 48000 -c:a aac -b:a 160k -movflags +faststart audio/showcase-score.m4a
+ffmpeg -i /tmp/kujo-showcase-score.wav -af 'loudnorm=I=-15:TP=-1.8:LRA=8' -ar 48000 -c:a aac -b:a 160k -movflags +faststart audio/showcase-score.m4a
 ```
