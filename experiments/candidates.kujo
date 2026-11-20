@@ -1,0 +1,76 @@
+func configuration(confidence, impact, labels, hold, escalate) {
+    return {"confidence_min": confidence, "impact_weight": impact, "label_weight": labels,
+            "hold_conflicts": hold, "escalate_exposure": escalate}
+}
+
+func proposal(policy, parent, phase) {
+    return {"policy": policy, "parent": parent, "phase": phase}
+}
+
+export func explore() {
+    mut proposals := []
+    for confidence in [45, 55, 65, 75, 85] {
+        for impact in [0, 1, 2, 3] {
+            for labels in [0, 1, 2] {
+                for hold in [false, true] {
+                    mut threshold := confidence
+                    if confidence == 75 && impact == 0 && labels == 0 && !hold {
+                        threshold = 76
+                    }
+                    proposals = push(proposals, proposal(
+                        configuration(threshold, impact, labels, hold, true), "baseline", "exploration"))
+                }
+            }
+        }
+    }
+    return proposals
+}
+
+export func refine(parent) {
+    let policy := parent["policy"]
+    let confidence := policy["confidence_min"]
+    let impact := policy["impact_weight"]
+    let labels := policy["label_weight"]
+    mut proposals := []
+    for offset in [-4, -3, -2, 2, 3, 4] {
+        for shift in [0, 1, 3, 2] {
+            for label_shift in [0, 1, 3] {
+                mut candidate := configuration(confidence + offset, (impact + shift) % 4,
+                    (labels + label_shift) % 4, policy["hold_conflicts"], true)
+                proposals = push(proposals, proposal(candidate, parent["experiment_id"], "refinement"))
+            }
+        }
+    }
+    return proposals
+}
+
+export func challenge(shortlist) {
+    mut proposals := []
+    for index in range(0, 4) {
+        mut entry := shortlist[index]
+        mut p := entry["policy"]
+        proposals = push(proposals, proposal(configuration(
+            p["confidence_min"], p["impact_weight"], p["label_weight"], p["hold_conflicts"], false),
+            entry["experiment_id"], "challenge"))
+        proposals = push(proposals, proposal(configuration(
+            87 + index, p["impact_weight"], p["label_weight"], p["hold_conflicts"], true),
+            entry["experiment_id"], "challenge"))
+    }
+    return proposals
+}
+
+export func rank_compare(left, right) {
+    if left["gate_passed"] != right["gate_passed"] {
+        if left["gate_passed"] {
+            return -1
+        }
+        return 1
+    }
+    if left["score_points"] != right["score_points"] {
+        return right["score_points"] - left["score_points"]
+    }
+    if left["passed_tests"] != right["passed_tests"] {
+        return right["passed_tests"] - left["passed_tests"]
+    }
+    return left["ordinal"] - right["ordinal"]
+}

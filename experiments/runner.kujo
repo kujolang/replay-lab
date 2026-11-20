@@ -1,0 +1,148 @@
+from src.policy import baseline_policy, policy_valid
+from experiments.scoring import load_dataset, evaluate, failure_index
+from experiments.candidates import explore, refine, challenge, rank_compare
+
+func hashes(paths) {
+    mut result := {}
+    for path in paths {
+        result[path] := sha256(read_file(path))
+    }
+    return result
+}
+
+func changed_parameters(parent, candidate) {
+    mut changes := {}
+    for key in keys(candidate) {
+        if candidate[key] != parent[key] {
+            mut delta := {"from": parent[key], "to": candidate[key]}
+            changes[key] := delta
+        }
+    }
+    return changes
+}
+
+func measure(dataset, policy, baseline_failures, experiment_id, parent_id, phase, ordinal, source) {
+    mut row := evaluate(dataset, policy, baseline_failures)
+    row["experiment_id"] := experiment_id
+    row["parent_candidate_id"] := parent_id
+    row["phase"] := phase
+    row["ordinal"] := ordinal
+    row["source_sha256"] := source
+    row["configuration_sha256"] := sha256(to_json(policy))
+    row["policy"] := policy
+    return row
+}
+
+func status(row) {
+    eprint(row["experiment_id"] + "  " + row["phase"] + "  " + to_string(row["score_pct"]) +
+        "%  tests " + to_string(row["passed_tests"]) + "/" + to_string(row["scenario_count"]) +
+        "  regressions " + to_string(row["regression_count"]) +
+        "  delta " + to_string(row["delta_score_pct"]) + " pp  " + row["disposition"])
+}
+
+func run_search(dataset, output, sources) {
+    assert_equal(len(dataset["cases"]), 100)
+    assert_true(!path_exists(output))
+    create_dir(output)
+    let source := sha256(to_json(sources))
+    let base := baseline_policy()
+    assert_equal(base, parse_json(read_file("scenarios/baseline-policy.json")))
+    mut baseline := measure(dataset, base, {}, "baseline", null, "baseline", 0, source)
+    baseline["regression_count"] := 0
+    baseline["regressions"] := []
+    baseline["parameters_changed"] := {}
+    baseline["delta_score_pct"] := 0
+    baseline["disposition"] := "control"
+    write_file(output + "/baseline.json", to_json(baseline) + "\n")
+    write_file(output + "/manifest.json", to_json({"source_files": sources, "source_sha256": source,
+        "cassette_sha256": dataset["cassette_hash"], "cassette_index": dataset["cassette_index"],
+        "scenario_sha256": dataset["version"], "heldout_seal": read_file("scenarios/heldout.sha256")}) + "\n")
+    status(baseline)
+    assert_equal(baseline["replay_mismatches"], 0)
+
+    let prior := failure_index(baseline)
+    mut candidates := []
+    mut history := {"baseline": base}
+    mut seen := {}
+    seen[baseline["configuration_sha256"]] := true
+    for phase in ["exploration", "refinement", "challenge"] {
+        mut proposals := []
+        if phase == "exploration" {
+            proposals = explore()
+        } else if phase == "refinement" {
+            proposals = refine(sort_by(candidates, rank_compare)[0])
+        } else {
+            proposals = challenge(sort_by(candidates, rank_compare))
+        }
+        for proposal in proposals {
+            mut ordinal := len(candidates) + 1
+            mut id := "candidate-" + to_string(ordinal)
+            mut policy := proposal["policy"]
+            mut config_hash := sha256(to_json(policy))
+            if !policy_valid(policy) || has_key(seen, config_hash) == 1 {
+                mut invalid := {"experiment_id": id, "proposal": proposal,
+                                "reason": "invalid or duplicate policy", "executed": false}
+                append_file(output + "/invalid.jsonl", to_json(invalid) + "\n")
+                throw "Candidate validation failed. See invalid.jsonl."
+            }
+            mut parent := proposal["parent"]
+            mut row := measure(dataset, policy, prior, id, parent, phase, ordinal, source)
+            row["parameters_changed"] := changed_parameters(history[parent], policy)
+            row["delta_score_pct"] := (row["score_points"] - baseline["score_points"]) / 10.0
+            row["disposition"] := "eligible"
+            if !row["gate_passed"] {
+                row["disposition"] := "rejected: gate failed"
+            } else if row["score_points"] < baseline["score_points"] {
+                row["disposition"] := "eligible: below baseline"
+            }
+            append_file(output + "/experiments.jsonl", to_json(row) + "\n")
+            status(row)
+            history[id] := policy
+            seen[config_hash] := true
+            candidates = push(candidates, row)
+        }
+    }
+    let ranked := sort_by(candidates, rank_compare)
+    let winner := ranked[0]
+    assert_equal(len(candidates), 200)
+    assert_true(winner["gate_passed"])
+    write_file(output + "/winner-policy.json", to_json(winner["policy"]) + "\n")
+    write_file(output + "/selection.json", to_json({"winner": winner,
+        "baseline_delta": changed_parameters(base, winner["policy"]), "executed": len(candidates),
+        "invalid": 0, "heldout_opened": false}) + "\n")
+    eprint("Finished 200 candidate evaluations. Frozen policy: " + winner["experiment_id"])
+}
+
+func main() {
+    let argv := args()
+    if len(argv) < 1 || len(argv) > 2 {
+        eprint("usage: runner.kujo -- NEW_OUTPUT_DIR | EVIDENCE_DIR EXPERIMENT_ID")
+        exit(2)
+    }
+    let dataset := load_dataset("tuning-v1", "scenarios/tuning.json", "scenarios/tuning-oracle.json", "cassettes")
+    let sources := hashes(["src/model.kujo", "src/policy.kujo", "src/triage.kujo",
+        "experiments/scoring.kujo", "experiments/candidates.kujo", "experiments/runner.kujo"])
+    if len(argv) == 1 {
+        run_search(dataset, argv[0], sources)
+        return
+    }
+    let baseline := parse_json(read_file(argv[0] + "/baseline.json"))
+    mut row := baseline
+    if argv[1] != "baseline" {
+        for line in read_lines(argv[0] + "/experiments.jsonl") {
+            mut candidate := parse_json(line)
+            if candidate["experiment_id"] == argv[1] {
+                row = candidate
+            }
+        }
+    }
+    assert_equal(row["experiment_id"], argv[1])
+    assert_equal(row["source_sha256"], sha256(to_json(sources)))
+    let actual := evaluate(dataset, row["policy"], failure_index(baseline))
+    for field in ["decision_sha256", "cassette_sha256", "scenario_version_sha256", "score_points",
+                  "passed_tests", "safety_violations", "replay_mismatches"] {
+        assert_equal(actual[field], row[field])
+    }
+    print(to_json(actual))
+}
+main()

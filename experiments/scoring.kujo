@@ -1,0 +1,113 @@
+from src.model import classify, model_options, messages_for
+from src.triage import triage
+
+export func load_dataset(name, issue_path, oracle_path, cassette_dir) {
+    let inputs := parse_json(read_file(issue_path))
+    let oracle := parse_json(read_file(oracle_path))
+    let options := model_options("strict", cassette_dir)
+    assert_equal(len(inputs), len(oracle))
+    assert_true(len(inputs) > 0)
+    mut cases := []
+    mut cassette_index := {}
+    for index in range(0, len(inputs)) {
+        mut scenario := inputs[index]
+        mut rule := oracle[index]
+        assert_equal(scenario["id"], rule["id"])
+        mut key := ai_request_hash(messages_for(scenario["issue"]), options)
+        assert_equal(has_key(cassette_index, key), 0)
+        mut path := cassette_dir + "/" + key + ".json"
+        if path_exists(path) {
+            cassette_index[key] := sha256(read_file(path))
+        } else {
+            cassette_index[key] := "missing"
+        }
+        mut row := {"id": scenario["id"], "issue": scenario["issue"], "rule": rule}
+        cases = push(cases, row)
+    }
+    let version := sha256(read_file(issue_path) + "\n" + read_file(oracle_path))
+    return {"name": name, "version": version, "cases": cases, "options": options,
+            "cassette_hash": sha256(to_json(cassette_index)), "cassette_index": cassette_index}
+}
+
+export func evaluate(dataset, policy, baseline_failures) {
+    let started := performance_now()
+    let fields := ["category", "severity", "priority", "human_review", "action"]
+    mut correct := {"category": 0, "severity": 0, "priority": 0, "human_review": 0, "action": 0}
+    mut failures := []
+    mut regressions := []
+    mut mismatches := []
+    mut output := []
+    mut safety := 0
+    mut perfect := 0
+    mut false_escalations := 0
+    mut critical := 0
+    mut critical_recalled := 0
+    mut unsafe := 0
+    for row in dataset["cases"] {
+        mut id := row["id"]
+        mut expected := row["rule"]["expected"]
+        mut model := classify(row["issue"], dataset["options"])
+        if !model["replayed"] {
+            mut miss := {"id": id, "request_hash": model["request_hash"], "error": model["error"]}
+            mismatches = push(mismatches, miss)
+        }
+        mut actual := triage(row["issue"], model["prediction"], policy)
+        mut failed_fields := []
+        for field in fields {
+            if actual[field] == expected[field] {
+                correct[field] := correct[field] + 1
+            } else {
+                failed_fields = push(failed_fields, field)
+                if !contains(get_default(baseline_failures, id, []), field) {
+                    mut regression := {"id": id, "field": field}
+                    regressions = push(regressions, regression)
+                }
+            }
+        }
+        mut violated := row["rule"]["hard"] && len(failed_fields) > 0
+        if violated {
+            safety = safety + 1
+        }
+        if expected["action"] == "page_security" {
+            critical = critical + 1
+            if actual["action"] == "page_security" && actual["priority"] == "P0" && actual["human_review"] {
+                critical_recalled = critical_recalled + 1
+            }
+        } else if actual["action"] == "page_security" {
+            false_escalations = false_escalations + 1
+        }
+        if expected["human_review"] && !actual["human_review"] {
+            unsafe = unsafe + 1
+        }
+        if len(failed_fields) == 0 && model["replayed"] {
+            perfect = perfect + 1
+        } else {
+            mut failure := {"id": id, "request_hash": model["request_hash"], "expected": expected,
+                            "actual": actual, "fields": failed_fields, "hard_violation": violated}
+            failures = push(failures, failure)
+        }
+        output = push(output, actual)
+    }
+    let count := len(dataset["cases"])
+    let points := 3 * correct["category"] + 2 * correct["severity"] + correct["priority"] +
+                  3 * correct["human_review"] + correct["action"]
+    return {"scenario_set": dataset["name"], "scenario_version_sha256": dataset["version"],
+            "cassette_sha256": dataset["cassette_hash"], "scenario_count": count,
+            "successful_replays": count - len(mismatches), "replay_mismatches": len(mismatches),
+            "mismatch_details": mismatches, "passed_tests": perfect, "failed_tests": count - perfect,
+            "safety_violations": safety, "correct_fields": correct, "critical_total": critical,
+            "critical_recalled": critical_recalled, "unsafe_routes": unsafe,
+            "false_escalations": false_escalations, "regression_count": len(regressions),
+            "regressions": regressions, "failures": failures,
+            "score_points": points, "max_points": count * 10, "score_pct": points * 10.0 / count,
+            "gate_passed": (safety == 0 && len(mismatches) == 0),
+            "decision_sha256": sha256(to_json(output)), "runtime_ms": performance_now() - started}
+}
+
+export func failure_index(result) {
+    mut index := {}
+    for failure in result["failures"] {
+        index[failure["id"]] := failure["fields"]
+    }
+    return index
+}
