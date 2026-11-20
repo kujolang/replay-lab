@@ -41,7 +41,20 @@ const output = (decision) => [clipLine("action", decision.action), clipLine("pri
 const terminal = (className, label, cmd, content) => `<div class="terminal ${className}"><div class="command">${esc(label)}<span style="float:right">${esc(cmd)}</span></div><pre class="output">${content}</pre></div>`;
 const foot = (source) => `<div class="footer"><span class="source">${esc(source)}</span><span class="source">github.com/kujolang/kujo-replay-lab</span></div>`;
 
-function scene(id, kind, source, body, animation) {
+function bumper(variant, first, second, action = "") {
+  return `<section class="bumper bumper-${variant}" aria-label="Kujo Replay Lab">
+  <div class="bumper-inner">
+    <img class="bumper-mark" src="assets/kujo-k.svg" width="174" height="174" alt="Kujo K logomark" />
+    <div class="bumper-copy">
+      <h2 class="bumper-benefit"><span>${esc(first)}</span><span>${esc(second)}</span></h2>
+      <div class="bumper-rule"></div>
+      <div class="bumper-support"><span class="kicker">Kujo Replay Lab</span>${action ? `<code>${esc(action)}</code>` : ""}</div>
+    </div>
+  </div>
+</section>`;
+}
+
+function scene(id, kind, source, body, animation, overlay = "") {
   const row = handoff.scenes.find(entry => entry.id === id);
   write(`compositions/${id}.html`, `<!doctype html>
 <html lang="en"><head><meta charset="utf-8" /></head><body><template>
@@ -50,7 +63,7 @@ function scene(id, kind, source, body, animation) {
   <div class="header"><span class="kicker">Kujo Replay Lab</span></div>
   <main class="content">${body}</main>
   ${foot(source)}
-</div>
+${overlay ? `  ${overlay}\n` : ""}</div>
 <script>
 (() => {
   const inside = (selector) => document.querySelectorAll(selector);
@@ -58,7 +71,7 @@ function scene(id, kind, source, body, animation) {
   const reveal = (selector, at, duration = 0.44, dy = 16) => timeline.fromTo(inside(selector),
     { opacity: 0, y: dy }, { opacity: 1, y: 0, duration, ease: "power3.out" }, at);
   const fade = (selector, at, duration = 0.30) => timeline.to(inside(selector), { opacity: 0, duration, ease: "power1.inOut" }, at);
-  ${animation}
+  ${overlay ? animation.trim() : animation}
   window.__timelines["${id}"] = timeline;
 })();
 </script>
@@ -72,8 +85,15 @@ scene("baseline", "", "scenarios/example.json  ·  baseline-terminal.json", `
   <p class="scenario opening">${esc(issue.title)} <span class="small"> / filed as ${esc(issue.labels[0])}</span></p>
   ${terminal("baseline-terminal", "Baseline · captured output excerpt", "tools/lab triage scenarios/example.json", `{\n${output(capture.decision)}\n}`)}
 `, `
+  timeline.set(inside(".header, .content, .footer"), { visibility: "hidden" }, 0);
+  timeline.fromTo(inside(".bumper-mark"), { scale: 0.92, opacity: 0.55 },
+      { scale: 1, opacity: 1, duration: 0.46, ease: "power3.out" }, 0);
+  timeline.fromTo(inside(".bumper-rule"), { scaleX: 0 },
+      { scaleX: 1, duration: 0.50, ease: "power2.out" }, 0.12);
+  timeline.set(inside(".bumper-intro"), { visibility: "hidden" }, 2.5);
+  timeline.set(inside(".header, .content, .footer"), { visibility: "visible" }, 2.5);
   reveal(".baseline-terminal", 3.5, 0.58);
-`);
+`, bumper("intro", "Test AI changes", "with repeatable inputs."));
 
 scene("record", "paper", "cassette v1  ·  recorded HTTP response excerpt", `
   <h2 class="heading">Capture the interaction.</h2>
@@ -200,8 +220,8 @@ scene("validated", "paper", "final.json  ·  captured terminal excerpts  ·  rep
       ${terminal("after", "Winner · captured excerpt", "", `{\n${output(winner.decision)}\n}`)}
     </div>
     <div class="digest"><p class="kicker">Shared request hash</p><code>${esc(winner.request_hash)}</code></div>
+    <p class="reproduction">${reproduced.matching_candidate_records} candidate records reproduced</p>
   </div>
-  <div class="cta"><code>tools/lab test</code><span class="repo">${reproduced.matching_candidate_records} candidate records reproduced</span></div>
 `, `
   timeline.fromTo(inside(".bar-base .bar span"), { scaleX: 0 },
       { scaleX: 1, duration: 1.15, ease: "power3.out" }, 2.5);
@@ -209,8 +229,13 @@ scene("validated", "paper", "final.json  ·  captured terminal excerpts  ·  rep
       { scaleX: 1, duration: 1.15, ease: "power3.out" }, 4.6);
   fade(".result-page", 8.0, 0.3);
   reveal(".cmp", 8.3, 0.45, 10);
-  reveal(".cta", 17.0, 0.45, 8);
-`);
+  timeline.set(inside(".header, .content, .footer"), { visibility: "hidden" }, 18.0);
+  timeline.set(inside(".bumper-outro"), { visibility: "visible" }, 18.0);
+  timeline.fromTo(inside(".bumper-mark"), { scale: 0.92, opacity: 0.55 },
+      { scale: 1, opacity: 1, duration: 0.46, ease: "power3.out" }, 18.0);
+  timeline.fromTo(inside(".bumper-rule"), { scaleX: 0 },
+      { scaleX: 1, duration: 0.50, ease: "power2.out" }, 18.12);
+`, bumper("outro", "Catch regressions", "before you ship.", "tools/lab test"));
 
 const duration = handoff.scenes.reduce((total, row) => total + row.duration_seconds, 0);
 if (duration !== 92) throw new Error("Unexpected composition length");

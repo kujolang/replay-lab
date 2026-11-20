@@ -4,8 +4,7 @@ The composition uses HyperFrames CLI 0.9.71, Chrome hardware browser capture
 when available and fixed 1920 × 1080, 30 fps, 92-second output. The preview runs
 locally. The six sub-compositions follow the handoff's 12, 13, 13, 17, 15 and
 22-second scene durations. The last scene switches from held-out scores to the
-paired terminal excerpts and leaves four and a half seconds for the test
-command. Headline and JSON excerpts are editable text. The native test error
+paired terminal excerpts, then holds the closing test command for four seconds. Headline and JSON excerpts are editable text. The native test error
 uses the literal strict replay marker and network wording from the log.
 
 `hyperframes/tools/build-scenes.mjs` pulls the published evidence from the
@@ -33,3 +32,7 @@ uses the HyperFrames voiceover-carve script at strength 0.8 with six speech
 sources. Source audio and receipts are managed by the Asset Scout and Media
 Generator. The project-local timing and carve files are sufficient to regenerate
 the editable index and reproduce its media placement without those receipts.
+
+## Brand revision
+
+The logomark is copied byte-for-byte from `kujo-command/img/kujo-logomark-black.svg`. It matches the files in the Hermes and OpenCode videos. Departure Mono and its license come from `kujo-command/fonts`. The first 2.5 seconds lead with repeatable inputs. The final four seconds lead with catching regressions and show `tools/lab test`. The comparison screen stacks the terminal panels, request hash, and reproduced-record count in normal grid flow with 38 px gaps. The regression screen also has clearance above and below its rule.

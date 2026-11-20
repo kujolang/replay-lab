@@ -35,10 +35,20 @@
 }</pre></div>
     </div>
     <div class="digest"><p class="kicker">Shared request hash</p><code>800b44749f9307b18c443ef73846e7b6775b2ce5f035518bbf7418a4b0effab9</code></div>
+    <p class="reproduction">200 candidate records reproduced</p>
   </div>
-  <div class="cta"><code>tools/lab test</code><span class="repo">200 candidate records reproduced</span></div>
 </main>
   <div class="footer"><span class="source">final.json  ·  captured terminal excerpts  ·  reproduction.json</span><span class="source">github.com/kujolang/kujo-replay-lab</span></div>
+  <section class="bumper bumper-outro" aria-label="Kujo Replay Lab">
+  <div class="bumper-inner">
+    <img class="bumper-mark" src="assets/kujo-k.svg" width="174" height="174" alt="Kujo K logomark" />
+    <div class="bumper-copy">
+      <h2 class="bumper-benefit"><span>Catch regressions</span><span>before you ship.</span></h2>
+      <div class="bumper-rule"></div>
+      <div class="bumper-support"><span class="kicker">Kujo Replay Lab</span><code>tools/lab test</code></div>
+    </div>
+  </div>
+</section>
 </div>
 <script>
 (() => {
@@ -47,15 +57,18 @@
   const reveal = (selector, at, duration = 0.44, dy = 16) => timeline.fromTo(inside(selector),
     { opacity: 0, y: dy }, { opacity: 1, y: 0, duration, ease: "power3.out" }, at);
   const fade = (selector, at, duration = 0.30) => timeline.to(inside(selector), { opacity: 0, duration, ease: "power1.inOut" }, at);
-  
   timeline.fromTo(inside(".bar-base .bar span"), { scaleX: 0 },
       { scaleX: 1, duration: 1.15, ease: "power3.out" }, 2.5);
   timeline.fromTo(inside(".bar-winner .bar span"), { scaleX: 0 },
       { scaleX: 1, duration: 1.15, ease: "power3.out" }, 4.6);
   fade(".result-page", 8.0, 0.3);
   reveal(".cmp", 8.3, 0.45, 10);
-  reveal(".cta", 17.0, 0.45, 8);
-
+  timeline.set(inside(".header, .content, .footer"), { visibility: "hidden" }, 18.0);
+  timeline.set(inside(".bumper-outro"), { visibility: "visible" }, 18.0);
+  timeline.fromTo(inside(".bumper-mark"), { scale: 0.92, opacity: 0.55 },
+      { scale: 1, opacity: 1, duration: 0.46, ease: "power3.out" }, 18.0);
+  timeline.fromTo(inside(".bumper-rule"), { scaleX: 0 },
+      { scaleX: 1, duration: 0.50, ease: "power2.out" }, 18.12);
   window.__timelines["validated"] = timeline;
 })();
 </script>

@@ -2,7 +2,9 @@
 
 Open this directory with HyperFrames 0.9.71. The six scene files under
 `compositions/` contain editable HTML and scene-local GSAP timelines. `index.html`
-places the scenes and audio. The composition uses a 1920 × 1080 canvas at 30 fps
+places the scenes and audio. Headings and proof numbers use Departure Mono, and
+the opening and closing benefit cards use the same Kujo K SVG as the Hermes and
+Command Code projects. The composition uses a 1920 × 1080 canvas at 30 fps
 and a 92-second duration.
 
 ```sh

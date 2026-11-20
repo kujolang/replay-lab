@@ -1,3 +1,5 @@
 .hyperframes/
 node_modules/
 renders/
+
+.waveform-cache/
