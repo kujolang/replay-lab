@@ -117,7 +117,7 @@ async function test() {
 async function capture() {
   const { context, page, errors } = await setup();
   const frames = [
-    ['A-opening', .66], ['B-expansion', 4.92], ['C-extreme-scale', 13.68],
+    ['A-opening', .43], ['B-expansion', 4.92], ['C-extreme-scale', 13.68],
     ['D-overlapping-waves', 16.22], ['F-kujo-finale', 29.65],
   ];
   const record = {};
