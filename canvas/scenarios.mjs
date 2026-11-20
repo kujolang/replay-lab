@@ -152,7 +152,11 @@ export async function execute(progress = () => {}) {
     const runPath = await findDispatchRun(dir);
     if (!runPath) throw new Error('Dispatch produced no run evidence.');
     const [state, trace, report, definition, receipt] = await Promise.all([
-      ...['state', 'trace', 'report'].map((name) => readJson(join(runPath, name + '.json'))),
+      ...['state', 'trace'].map((name) => readJson(join(runPath, name + '.json'))),
+      readJson(join(runPath, 'report.json')).catch((error) => {
+        if (operation.failure && error.code === 'ENOENT') return null;
+        throw error;
+      }),
       readJson(join(dispatchRoot, 'examples/workflows/routed-review.json')),
       local('results/runledger-receipt.json'),
     ]);
@@ -165,13 +169,17 @@ export async function execute(progress = () => {}) {
     ];
     for (const step of definition.steps) {
       const events = trace.events.filter((event) => event.step_id === step.id);
-      const result = state.step_results?.[step.id];
+      const result = state.steps.find((entry) => entry.id === step.id);
+      const started = events.find((event) => event.type === 'step_started');
       const terminal = events.findLast((event) => /^step_(completed|failed|skipped)$/.test(event.type));
+      const duration = started?.timestamp_unix_nano && terminal?.timestamp_unix_nano
+        ? Number(BigInt(terminal.timestamp_unix_nano) - BigInt(started.timestamp_unix_nano)) / 1e6
+        : undefined;
       cards.push({
-        id: 'step-' + step.id, type: 'Step', title: step.name, state: result?.status || terminal?.type.slice(5) || (events.length ? 'Started' : 'Pending'),
-        metric: step.type, note: step.agent_id || step.output_key,
+        id: 'step-' + step.id, type: 'Step', title: step.name, state: result?.status || 'Pending',
+        metric: step.type, note: step.agent_id || step.output_key, duration,
         reference: state.run_id + '/trace.json', url,
-        evidence: { run_id: state.run_id, step, events, result, output: state.data[step.output_key] },
+        evidence: { run_id: state.run_id, step, events, result, input: result?.input, output: result?.output },
       });
     }
     cards.push({ id: 'receipt', type: 'RunLedger', title: 'Study receipt', state: receipt.status, nativeId: receipt.id,

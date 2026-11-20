@@ -57,6 +57,7 @@ let lastTime = 0;
 let sceneTime = 0;
 let rendered = 0;
 let lastCount = -1;
+let drewRipples = false;
 let lastReadout = 0;
 let active = null;
 let activeEvent;
@@ -178,7 +179,7 @@ function inspect(id, { reveal = false, focus = false } = {}) {
     inspector.append(trace);
   }
   if (evidence.provenance) inspector.append(node('p', 'inspector-note', evidence.provenance));
-  if (evidence.output && !events) inspector.append(evidenceJSON('Output', evidence.output));
+  if (evidence.output) inspector.append(evidenceJSON('Output', evidence.output));
   if (evidence.input || evidence.inputs) inspector.append(evidenceJSON('Input', evidence.input || evidence.inputs));
   inspector.append(evidenceJSON('Full evidence', evidence));
   const link = node('a', 'ref-link', card.reference);
@@ -266,10 +267,10 @@ function resize() {
       camera = { x: width / 2, y: 18 - cardPosition(0, columns).y * z, z };
     }
   } else camera = { ...camera, x: camera.x + (width - oldWidth) / 2, y: camera.y + (height - oldHeight) / 2 };
-  const ratio = Math.min(devicePixelRatio, 2);
+  // Text keeps native browser resolution. Raster layers use one pixel per CSS pixel.
   for (const element of [decoration.canvas, renderer?.canvas].filter(Boolean)) {
-    element.width = Math.round(width * ratio);
-    element.height = Math.round(height * ratio);
+    element.width = width;
+    element.height = height;
     element.style.width = width + 'px';
     element.style.height = height + 'px';
   }
@@ -299,7 +300,10 @@ function animate(now) {
     world.inert = detail < .55;
   }
   while (ripples.length && sceneTime - ripples[0].start > .85) ripples.shift();
-  decorate(decoration, camera, width, height, sceneTime, cards, ripples, isSynthetic);
+  if (!isSynthetic || dirty || ripples.length || drewRipples) {
+    decorate(decoration, camera, width, height, sceneTime, cards, ripples, isSynthetic);
+  }
+  drewRipples = ripples.length > 0;
   dirty = false;
   rendered++;
   if (delta && delta < 1000) {
