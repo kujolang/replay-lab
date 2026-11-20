@@ -1,22 +1,30 @@
-# Kujo Replay Lab
+# Replay Lab
 
-Kujo Replay Lab takes an issue report, replays an AI classification, and decides where the report should go. The experiment runner exercises 200 policy configurations against the same 100 recorded interactions. A separate evaluation checks the frozen winner on 24 held-out issues.
+[![Version](https://img.shields.io/badge/version-1.0.0-black)](https://github.com/kujolang/replay-lab)
+[![License](https://img.shields.io/badge/license-MIT-lightgrey)](LICENSE)
+[![Built with Kujo](https://img.shields.io/badge/built%20with-Kujo-white.svg)](https://github.com/kujolang/kujo)
 
-**Result.** Candidate 36 improved the weighted score from **70.8% to 100%** on tuning and from **59.2% to 100%** on the held-out set. Four candidates failed a hard safety gate. The 200 candidates replayed 20,000 interactions with zero misses. The original HTTP responses came from a scripted local fixture provider. The project measures routing on these fixtures.
+Run the same AI replies through different code and see what changes. Replay Lab uses Kujo cassettes to test 200 issue-triage policies against 100 recorded classifier replies. Strict replay reads the matching cassette by request hash and makes no model calls.
 
-## Quickstart
+Candidate 36 raised the weighted score from **70.8% to 100%** on tuning and from **59.2% to 100%** on 24 held-out issues. The safety gate rejected four candidates. All 20,000 candidate replays matched. The replies came from a scripted local classifier, so these scores measure policy decisions on the fixture suite. [Full results](docs/RESULTS.md)
 
-Install the [Kujo v1.9.0 runtime](https://github.com/kujolang/kujo/releases/tag/v1.9.0) and verify `kujo --version`. Set `KUJO_BIN` to the absolute path to that binary if your PATH points elsewhere. Run from the repository root.
+[Watch the 92-second explainer](video/production-workspace/output/kujo-replay-lab.mp4) · [Editable HyperFrames project](video/production-workspace/README.md)
+
+## Run the example
+
+Install [Kujo v1.9.0](https://github.com/kujolang/kujo/releases/tag/v1.9.0) and check `kujo --version`. If your PATH points to another version, set `KUJO_BIN` to the absolute path to the v1.9.0 binary.
 
 ```sh
+git clone https://github.com/kujolang/replay-lab.git
+cd replay-lab
 tools/lab triage scenarios/example.json
 tools/lab triage scenarios/example.json results/winner-policy.json
 tools/lab test
 ```
 
-The example reports a production failure filed as a feature. The baseline queues it as P3. The winner routes it to a human at P1. Both commands use the same cassette. The output includes the request hash, explanation, confidence and review decision.
+A production failure was filed as a feature. The baseline queues it at P3. The winning policy sends it to a human at P1. Both decisions use the same cassette. To inspect the recorded reply, open the file named by the CLI’s `request_hash` in [cassettes/](cassettes/).
 
-## Reproduce the evidence
+## Reproduce the results
 
 ```sh
 mkdir -p .scratch
@@ -29,19 +37,12 @@ tools/lab verify results .scratch/reproduced
 tools/lab report results .scratch/visual-data
 ```
 
-Choose a new run directory if `.scratch/reproduced` already exists. The evidence verifier compares all 200 records, baseline and holdout results, omitting measured latency. Candidate 193 reproduces the deliberate failure to page security on active exposure. [Results](docs/RESULTS.md) links to the recorded terminal output and leaderboard.
+Use a fresh directory for each run. Candidate 193 shows what happens when the policy fails to page security on an active exposure. The verifier compares all 200 candidate records and the baseline and held-out results, excluding measured latency. [Reproduction guide](docs/REPRODUCIBILITY.md)
 
-To inspect a cassette, use the `request_hash` printed by triage as its filename under [cassettes/](cassettes/). Each file contains the normalized request, captured HTTP status and headers, and response body. With a new issue or changed model settings, the CLI emits its safe fallback decision and exits with status 1 when the native lookup misses. To add inputs, capture them through an intentional recording session and version the fixture set.
+## Use replay in your own app
 
-## Adapt the experiment
+1. Record a set of model replies. Keep the prompt and model options fixed while you change the code that acts on those replies.
+2. Write tuning cases and a separate set of held-out cases. Decide which failures must disqualify a candidate.
+3. Rank the policies that pass the safety gate, then test the winner on the held-out cases.
 
-1. Freeze the prompt, model options, and recorded interactions. Keep policy inputs out of the request so candidate changes can reuse the same cassettes.
-2. Author tuning cases and a separate held-out oracle. Define mandatory escalation and review behavior before scoring.
-3. Put the rules you want to test in a small deterministic policy function. Pass configurations to it from the runner.
-4. Inspect rejection evidence, freeze the best eligible configuration, and verify it once on the held-out split.
-
-The Kujo runtime owns recording, request hashing, and replay. Native Kujo tests verify the model boundary and policy. The optional Kujo Eval suite checks published artifacts, while RunLedger records the execution receipt. See the [capability audit](docs/CAPABILITY_AUDIT.md), [architecture](docs/ARCHITECTURE.md), [experiment design](docs/EXPERIMENT_DESIGN.md), [recording and reproduction](docs/REPRODUCIBILITY.md), and [video handoff](video/VIDEO_HANDOFF.md).
-
-The [92-second HyperFrames explainer project](video/production-workspace/README.md) includes editable scenes and the recorded Siren narration.
-
-MIT licensed. [License](LICENSE)
+Kujo records and replays the responses and hashes each request. If a request changes, strict replay reports a miss. The lab returns a safe fallback and exits with status 1. Kujo Eval checks the published artifacts, and RunLedger records the run. [Architecture](docs/ARCHITECTURE.md) · [Experiment design](docs/EXPERIMENT_DESIGN.md) · [Capability audit](docs/CAPABILITY_AUDIT.md) · [Video handoff](video/VIDEO_HANDOFF.md)
