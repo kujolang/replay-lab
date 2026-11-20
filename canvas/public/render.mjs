@@ -76,6 +76,11 @@ function programFor(gl) {
   return program;
 }
 
+const opacity = (time, x, y) => .38 + .29 * Math.sin(time * 1.7 + x * .17 + y * .23) ** 2;
+const alphaWords = new Uint32Array(256);
+const alphaBytes = new Uint8Array(alphaWords.buffer);
+for (let alpha = 0; alpha < alphaWords.length; alpha++) alphaBytes.set([23, 23, 23, alpha], alpha * 4);
+
 export function syntheticRenderer(canvas, forceFallback = false) {
   const gl = forceFallback ? null : canvas.getContext('webgl2', {
     antialias: false, alpha: true, depth: false, stencil: false, powerPreference: 'high-performance',
@@ -106,6 +111,7 @@ export function syntheticRenderer(canvas, forceFallback = false) {
   const pending = [];
   const gpuMs = [];
   let sample = 0;
+  let raster;
   return {
     canvas, capabilities, gpuMs,
     draw(camera, width, height, time, measure) {
@@ -144,6 +150,30 @@ export function syntheticRenderer(canvas, forceFallback = false) {
           gl.endQuery(ext.TIME_ELAPSED_EXT);
           pending.push(query);
         }
+      } else if (size <= 24) {
+        // Batch the dense path into one upload instead of issuing thousands of 2D draw calls.
+        if (!raster || raster.width !== canvas.width || raster.height !== canvas.height) {
+          raster = ctx.createImageData(canvas.width, canvas.height);
+        }
+        const pixels = new Uint32Array(raster.data.buffer);
+        pixels.fill(0);
+        const glyphWidth = Math.max(1, Math.round(size * ratio));
+        const glyphHeight = Math.max(1, Math.round(glyphWidth * .6));
+        for (let row = 0; row < grid.rows; row++) {
+          const top = Math.round((y + row * strideY) * ratio - glyphHeight / 2);
+          for (let col = 0; col < grid.columns; col++) {
+            const left = Math.round((x + col * strideX) * ratio - glyphWidth / 2);
+            const word = Math.round(255 * opacity(time, grid.x + col, grid.y + row));
+            const color = alphaWords[word];
+            const x0 = Math.max(0, left);
+            const x1 = Math.min(left + glyphWidth, raster.width);
+            if (x0 >= x1) continue;
+            for (let py = Math.max(0, top); py < Math.min(top + glyphHeight, raster.height); py++) {
+              pixels.fill(color, py * raster.width + x0, py * raster.width + x1);
+            }
+          }
+        }
+        ctx.putImageData(raster, 0, 0);
       } else {
         ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
         ctx.clearRect(0, 0, width, height);
@@ -153,7 +183,7 @@ export function syntheticRenderer(canvas, forceFallback = false) {
           for (let col = 0; col < grid.columns; col++) {
             const i = grid.x + col;
             const j = grid.y + row;
-            ctx.globalAlpha = .38 + .29 * Math.sin(time * 1.7 + i * .17 + j * .23) ** 2;
+            ctx.globalAlpha = opacity(time, i, j);
             ctx.fillRect(x + col * strideX - drawnSize / 2, y + row * strideY - drawnSize * .3, drawnSize, drawnSize * .6);
           }
         }
