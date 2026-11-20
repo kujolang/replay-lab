@@ -1,0 +1,33 @@
+test "an eligible but lower-ranked policy cannot replace the frozen winner" {
+    from experiments.provenance import load_evidence, read_manifest, read_candidates, frozen_selection, validate_selection
+    let manifest := read_manifest("results")
+    let baseline := load_evidence("results", "baseline")
+    let candidates := read_candidates("results")
+    mut selection := frozen_selection("results", manifest, baseline, candidates)
+    let alternate := candidates[0]
+    assert_true(alternate["gate_passed"])
+    assert_true(alternate["score_points"] < selection["winner"]["score_points"])
+    selection["winner"] := alternate
+    mut refused := false
+    try {
+        validate_selection(selection, alternate["policy"], manifest, baseline, candidates)
+    } except error {
+        refused = true
+    }
+    assert_true(refused)
+}
+
+test "published scores must agree with the per-field counts" {
+    from experiments.provenance import load_evidence, read_manifest, verify_row
+    let manifest := read_manifest("results")
+    mut baseline := load_evidence("results", "baseline")
+    verify_row(baseline, manifest)
+    baseline["score_points"] := baseline["score_points"] + 1
+    mut refused := false
+    try {
+        verify_row(baseline, manifest)
+    } except error {
+        refused = true
+    }
+    assert_true(refused)
+}

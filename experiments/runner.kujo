@@ -2,24 +2,7 @@ from src.policy import baseline_policy, policy_valid
 from experiments.scoring import load_dataset, evaluate, failure_index
 from experiments.candidates import explore, refine, challenge, rank_compare
 
-func hashes(paths) {
-    mut result := {}
-    for path in paths {
-        result[path] := sha256(read_file(path))
-    }
-    return result
-}
-
-func changed_parameters(parent, candidate) {
-    mut changes := {}
-    for key in keys(candidate) {
-        if candidate[key] != parent[key] {
-            mut delta := {"from": parent[key], "to": candidate[key]}
-            changes[key] := delta
-        }
-    }
-    return changes
-}
+from experiments.provenance import source_files, changed_parameters, read_manifest, load_evidence, verify_row, read_candidates
 
 func measure(dataset, policy, baseline_failures, experiment_id, parent_id, phase, ordinal, source) {
     mut row := evaluate(dataset, policy, baseline_failures)
@@ -43,7 +26,7 @@ func status(row) {
 func run_search(dataset, output, sources) {
     assert_equal(len(dataset["cases"]), 100)
     assert_true(!path_exists(output))
-    create_dir(output)
+    assert_true(create_dir(output))
     let source := sha256(to_json(sources))
     let base := baseline_policy()
     assert_equal(base, parse_json(read_file("scenarios/baseline-policy.json")))
@@ -53,10 +36,11 @@ func run_search(dataset, output, sources) {
     baseline["parameters_changed"] := {}
     baseline["delta_score_pct"] := 0
     baseline["disposition"] := "control"
-    write_file(output + "/baseline.json", to_json(baseline) + "\n")
-    write_file(output + "/manifest.json", to_json({"source_files": sources, "source_sha256": source,
+    # The no-overwrite baseline publication reserves this output for one writer.
+    assert_true(write_file_atomic(output + "/baseline.json", to_json(baseline) + "\n"))
+    assert_true(write_file_atomic(output + "/manifest.json", to_json({"source_files": sources, "source_sha256": source,
         "cassette_sha256": dataset["cassette_hash"], "cassette_index": dataset["cassette_index"],
-        "scenario_sha256": dataset["version"], "heldout_seal": read_file("scenarios/heldout.sha256")}) + "\n")
+        "scenario_sha256": dataset["version"], "heldout_seal": read_file("scenarios/heldout.sha256")}) + "\n"))
     status(baseline)
     assert_equal(baseline["replay_mismatches"], 0)
 
@@ -82,8 +66,9 @@ func run_search(dataset, output, sources) {
             if !policy_valid(policy) || has_key(seen, config_hash) == 1 {
                 mut invalid := {"experiment_id": id, "proposal": proposal,
                                 "reason": "invalid or duplicate policy", "executed": false}
-                append_file(output + "/invalid.jsonl", to_json(invalid) + "\n")
-                throw "Candidate validation failed. See invalid.jsonl."
+                assert_true(append_file(output + "/invalid.jsonl", to_json(invalid) + "\n"))
+                eprint("Candidate validation failed. See invalid.jsonl.")
+                exit(1)
             }
             mut parent := proposal["parent"]
             mut row := measure(dataset, policy, prior, id, parent, phase, ordinal, source)
@@ -95,7 +80,7 @@ func run_search(dataset, output, sources) {
             } else if row["score_points"] < baseline["score_points"] {
                 row["disposition"] := "eligible: below baseline"
             }
-            append_file(output + "/experiments.jsonl", to_json(row) + "\n")
+            assert_true(append_file(output + "/experiments.jsonl", to_json(row) + "\n"))
             status(row)
             history[id] := policy
             seen[config_hash] := true
@@ -106,38 +91,43 @@ func run_search(dataset, output, sources) {
     let winner := ranked[0]
     assert_equal(len(candidates), 200)
     assert_true(winner["gate_passed"])
-    write_file(output + "/winner-policy.json", to_json(winner["policy"]) + "\n")
-    write_file(output + "/selection.json", to_json({"winner": winner,
+    assert_true(write_file_atomic(output + "/winner-policy.json", to_json(winner["policy"]) + "\n"))
+    assert_true(write_file_atomic(output + "/selection.json", to_json({"winner": winner,
         "baseline_delta": changed_parameters(base, winner["policy"]), "executed": len(candidates),
-        "invalid": 0, "heldout_opened": false}) + "\n")
+        "invalid": 0, "heldout_opened": false}) + "\n"))
     eprint("Finished 200 candidate evaluations. Frozen policy: " + winner["experiment_id"])
 }
 
 func main() {
     let argv := args()
-    if len(argv) < 1 || len(argv) > 2 {
-        eprint("usage: runner.kujo -- NEW_OUTPUT_DIR | EVIDENCE_DIR EXPERIMENT_ID")
+    if len(argv) < 1 || len(argv) > 3 || (len(argv) == 3 && argv[2] != "--behavior") {
+        eprint("usage: runner.kujo -- NEW_OUTPUT_DIR | EVIDENCE_DIR EXPERIMENT_ID [--behavior]")
         exit(2)
     }
     let dataset := load_dataset("tuning-v1", "scenarios/tuning.json", "scenarios/tuning-oracle.json", "cassettes")
-    let sources := hashes(["src/model.kujo", "src/policy.kujo", "src/triage.kujo",
-        "experiments/scoring.kujo", "experiments/candidates.kujo", "experiments/runner.kujo"])
+    let sources := source_files()
     if len(argv) == 1 {
         run_search(dataset, argv[0], sources)
         return
     }
-    let baseline := parse_json(read_file(argv[0] + "/baseline.json"))
+    let manifest := read_manifest(argv[0])
+    if len(argv) == 2 && manifest["source_files"] != sources {
+        eprint("Source differs from the evidence. Check out the recorded revision or pass --behavior.")
+        exit(1)
+    }
+    let baseline := load_evidence(argv[0], "baseline")
+    verify_row(baseline, manifest)
     mut row := baseline
     if argv[1] != "baseline" {
-        for line in read_lines(argv[0] + "/experiments.jsonl") {
-            mut candidate := parse_json(line)
+        for candidate in read_candidates(argv[0]) {
             if candidate["experiment_id"] == argv[1] {
                 row = candidate
+                break
             }
         }
     }
     assert_equal(row["experiment_id"], argv[1])
-    assert_equal(row["source_sha256"], sha256(to_json(sources)))
+    verify_row(row, manifest)
     let actual := evaluate(dataset, row["policy"], failure_index(baseline))
     for field in ["decision_sha256", "cassette_sha256", "scenario_version_sha256", "score_points",
                   "passed_tests", "safety_violations", "replay_mismatches"] {

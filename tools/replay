@@ -32,7 +32,13 @@ incomplete=$directory/.replay-lab-incomplete
 
 has_cassettes() {
     for cassette in "$directory"/*.json; do
-        [ ! -f "$cassette" ] || return 0
+        [ -f "$cassette" ] || continue
+        key=${cassette##*/}
+        key=${key%.json}
+        case "$key" in
+            *[!0-9a-f]*) continue ;;
+        esac
+        [ "${#key}" -ne 64 ] || return 0
     done
     return 1
 }

@@ -20,6 +20,10 @@ export func model_options(mode, directory) {
 export func classify(issue, options) {
     let messages := messages_for(issue)
     let key := ai_request_hash(messages, options)
+    return classify_request(messages, options, key)
+}
+
+export func classify_request(messages, options, key) {
     match ai_chat(messages, options) {
         case Ok(response): {
             mut prediction := null

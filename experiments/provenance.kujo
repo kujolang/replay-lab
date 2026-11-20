@@ -1,0 +1,116 @@
+from experiments.candidates import rank_compare
+from src.policy import policy_valid
+from experiments.scoring import weighted_points
+
+export func source_files() {
+    mut files := {}
+    for path in ["src/model.kujo", "src/policy.kujo", "src/triage.kujo",
+                 "experiments/scoring.kujo", "experiments/candidates.kujo",
+                 "experiments/provenance.kujo", "experiments/runner.kujo", "experiments/final.kujo"] {
+        files[path] := sha256(read_file(path))
+    }
+    return files
+}
+
+export func load_evidence(directory, name) {
+    return parse_json(read_file(directory + "/" + name + ".json"))
+}
+
+export func read_manifest(directory) {
+    let manifest := load_evidence(directory, "manifest")
+    assert_equal(manifest["source_sha256"], sha256(to_json(manifest["source_files"])))
+    assert_equal(manifest["cassette_sha256"], sha256(to_json(manifest["cassette_index"])))
+    assert_equal(len(keys(manifest["cassette_index"])), 100)
+    return manifest
+}
+
+export func verify_row(row, manifest) {
+    assert_equal(row["source_sha256"], manifest["source_sha256"])
+    assert_equal(row["cassette_sha256"], manifest["cassette_sha256"])
+    assert_equal(row["scenario_version_sha256"], manifest["scenario_sha256"])
+    assert_true(policy_valid(row["policy"]))
+    assert_equal(row["configuration_sha256"], sha256(to_json(row["policy"])))
+    assert_equal(row["scenario_count"], 100)
+    assert_equal(row["successful_replays"] + row["replay_mismatches"], row["scenario_count"])
+    assert_equal(row["passed_tests"] + row["failed_tests"], row["scenario_count"])
+    assert_equal(row["gate_passed"], row["safety_violations"] == 0 && row["replay_mismatches"] == 0)
+    assert_equal(row["max_points"], row["scenario_count"] * 10)
+    assert_equal(row["score_points"], weighted_points(row["correct_fields"]))
+    assert_equal(row["score_pct"], row["score_points"] * 10.0 / row["scenario_count"])
+}
+
+export func changed_parameters(parent, candidate) {
+    mut changes := {}
+    for key in keys(candidate) {
+        if candidate[key] != parent[key] {
+            mut delta := {"from": parent[key], "to": candidate[key]}
+            changes[key] := delta
+        }
+    }
+    return changes
+}
+
+export func read_candidates(directory) {
+    let lines := read_lines(directory + "/experiments.jsonl")
+    assert_equal(len(lines), 200)
+    return map(lines, func(line) { return parse_json(line) })
+}
+
+export func frozen_selection(directory, manifest, baseline, candidates) {
+    let selection := load_evidence(directory, "selection")
+    validate_selection(selection, load_evidence(directory, "winner-policy"), manifest, baseline, candidates)
+    return selection
+}
+
+export func validate_selection(selection, winner_policy, manifest, baseline, candidates) {
+    verify_row(baseline, manifest)
+    assert_equal(baseline["experiment_id"], "baseline")
+    assert_equal(baseline["ordinal"], 0)
+    assert_equal(baseline["replay_mismatches"], 0)
+    assert_equal(len(candidates), 200)
+    mut prior := {"baseline": baseline["policy"]}
+    mut configs := {}
+    configs[baseline["configuration_sha256"]] := true
+    mut best := null
+    for index in range(0, len(candidates)) {
+        mut candidate := candidates[index]
+        verify_row(candidate, manifest)
+        mut ordinal := index + 1
+        assert_equal(candidate["ordinal"], ordinal)
+        assert_equal(candidate["experiment_id"], "candidate-" + to_string(ordinal))
+        assert_equal(has_key(configs, candidate["configuration_sha256"]), 0)
+        configs[candidate["configuration_sha256"]] := true
+        assert_true(has_key(prior, candidate["parent_candidate_id"]) == 1)
+        assert_equal(candidate["parameters_changed"], changed_parameters(
+            prior[candidate["parent_candidate_id"]], candidate["policy"]))
+        prior[candidate["experiment_id"]] := candidate["policy"]
+        if best == null || rank_compare(candidate, best) < 0 {
+            best = candidate
+        }
+    }
+    assert_true(best["gate_passed"])
+    assert_equal(selection["executed"], len(candidates))
+    assert_equal(selection["invalid"], 0)
+    assert_false(selection["heldout_opened"])
+    assert_equal(selection["winner"], best)
+    assert_equal(selection["baseline_delta"], changed_parameters(baseline["policy"], best["policy"]))
+    assert_equal(winner_policy, best["policy"])
+}
+
+export func verify_final(final, selection) {
+    let winner := selection["winner"]
+    assert_equal(final["winner_id"], winner["experiment_id"])
+    assert_equal(final["winner_config_sha256"], winner["configuration_sha256"])
+    assert_equal(final["source_sha256"], winner["source_sha256"])
+    assert_true(final["heldout_seal_verified"])
+    assert_equal(final["delta_score_pct"], final["winner"]["score_pct"] - final["baseline"]["score_pct"])
+    assert_equal(final["deployable_in_lab"], final["winner"]["gate_passed"])
+    for key in ["baseline", "winner"] {
+        mut measured := final[key]
+        assert_equal(measured["scenario_set"], "heldout-v1")
+        assert_equal(measured["scenario_count"], 24)
+        assert_equal(measured["successful_replays"] + measured["replay_mismatches"], 24)
+    }
+    assert_equal(final["baseline"]["cassette_sha256"], final["winner"]["cassette_sha256"])
+    assert_equal(final["baseline"]["scenario_version_sha256"], final["winner"]["scenario_version_sha256"])
+}

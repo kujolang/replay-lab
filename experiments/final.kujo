@@ -1,5 +1,6 @@
-from src.policy import baseline_policy, policy_valid
+from src.policy import baseline_policy
 from experiments.scoring import load_dataset, evaluate, failure_index
+from experiments.provenance import load_evidence, read_manifest, read_candidates, frozen_selection, source_files
 
 let argv := args()
 if len(argv) != 1 || path_exists(argv[0] + "/final.json") {
@@ -7,26 +8,20 @@ if len(argv) != 1 || path_exists(argv[0] + "/final.json") {
     exit(2)
 }
 let output := argv[0]
-let selection := parse_json(read_file(output + "/selection.json"))
-let control := parse_json(read_file(output + "/baseline.json"))
-let manifest := parse_json(read_file(output + "/manifest.json"))
-let winner := selection["winner"]
-let policy := parse_json(read_file(output + "/winner-policy.json"))
-assert_equal(selection["executed"], 200)
-assert_false(selection["heldout_opened"])
-assert_true(winner["gate_passed"])
-assert_true(policy_valid(policy))
-assert_equal(winner["policy"], policy)
-assert_equal(winner["configuration_sha256"], sha256(to_json(policy)))
-assert_equal(winner["source_sha256"], manifest["source_sha256"])
-assert_equal(control["source_sha256"], manifest["source_sha256"])
+let manifest := read_manifest(output)
+assert_equal(manifest["source_files"], source_files())
+let control := load_evidence(output, "baseline")
 assert_equal(baseline_policy(), control["policy"])
-for path in keys(manifest["source_files"]) {
-    assert_equal(sha256(read_file(path)), manifest["source_files"][path])
-}
+let selection := frozen_selection(output, manifest, control, read_candidates(output))
+let winner := selection["winner"]
+let policy := winner["policy"]
+let tuning := load_dataset("tuning-v1", "scenarios/tuning.json", "scenarios/tuning-oracle.json", "cassettes")
+assert_equal(manifest["scenario_sha256"], tuning["version"])
+assert_equal(manifest["cassette_index"], tuning["cassette_index"])
 
 let files := ["scenarios/heldout.json", "scenarios/heldout-oracle.json", "scenarios/heldout-fixtures.json"]
 let seal := read_lines("scenarios/heldout.sha256")
+assert_equal(len(seal), len(files))
 assert_equal(manifest["heldout_seal"], read_file("scenarios/heldout.sha256"))
 for index in range(0, len(files)) {
     assert_equal(sha256(read_file(files[index])), seal[index])
@@ -44,8 +39,11 @@ let summary := {"winner_id": winner["experiment_id"], "winner_config_sha256": wi
     "source_sha256": winner["source_sha256"], "baseline": baseline, "winner": optimized,
     "delta_score_pct": optimized["score_pct"] - baseline["score_pct"], "heldout_seal_verified": true,
     "deployable_in_lab": optimized["gate_passed"]}
-write_file(output + "/final.json", to_json(summary) + "\n")
+if baseline["replay_mismatches"] != 0 || !optimized["gate_passed"] {
+    assert_true(write_file_atomic(output + "/final-rejected.json", to_json(summary) + "\n", true))
+    eprint("Held-out gate failed. See final-rejected.json.")
+    exit(1)
+}
+assert_true(write_file_atomic(output + "/final.json", to_json(summary) + "\n"))
 print("Held-out gate: " + to_string(optimized["gate_passed"]) + "  " +
     to_string(baseline["score_pct"]) + "% → " + to_string(optimized["score_pct"]) + "%")
-assert_equal(baseline["replay_mismatches"], 0)
-assert_true(optimized["gate_passed"])

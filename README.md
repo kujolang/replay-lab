@@ -48,16 +48,16 @@ A production failure was filed as a feature. The baseline queues it at P3. The w
 
 ```sh
 mkdir -p .scratch
-tools/lab search results baseline
-tools/lab search results candidate-36
-tools/lab search results candidate-193
+tools/lab search results baseline --behavior
+tools/lab search results candidate-36 --behavior
+tools/lab search results candidate-193 --behavior
 tools/lab search .scratch/reproduced
 tools/lab final .scratch/reproduced
-tools/lab verify results .scratch/reproduced
+tools/lab verify results .scratch/reproduced --behavior
 tools/lab report results .scratch/visual-data
 ```
 
-Use a fresh directory for each run. Candidate 193 shows what happens when the policy fails to page security on an active exposure. The verifier compares all 200 candidate records and the baseline and held-out results, excluding measured latency. [Reproduction guide](docs/REPRODUCIBILITY.md)
+Use a fresh directory for each run. The published records use the original source revision. `--behavior` checks them against current code. Candidate 193 shows what happens when the policy fails to page security on an active exposure. The verifier compares all 200 candidate records and the baseline and held-out results, excluding measured latency and source fingerprints. For exact provenance, check out the original revision. [Reproduction guide](docs/REPRODUCIBILITY.md)
 
 ## Use replay in your own app
 

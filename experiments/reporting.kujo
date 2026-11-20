@@ -1,7 +1,8 @@
 from experiments.candidates import rank_compare
+from experiments.provenance import load_evidence, read_manifest, read_candidates, frozen_selection, verify_final
 
 func save(path, data) {
-    write_file(path, to_json(data) + "\n")
+    assert_true(write_file_atomic(path, to_json(data) + "\n", true))
 }
 
 let argv := args()
@@ -11,12 +12,16 @@ if len(argv) != 2 {
 }
 let evidence := argv[0]
 let out := argv[1]
-if !path_exists(out) {
-    create_dir(out)
-}
-let baseline := parse_json(read_file(evidence + "/baseline.json"))
-let final := parse_json(read_file(evidence + "/final.json"))
-let selection := parse_json(read_file(evidence + "/selection.json"))
+let manifest := read_manifest(evidence)
+let baseline := load_evidence(evidence, "baseline")
+let candidates := read_candidates(evidence)
+let selection := frozen_selection(evidence, manifest, baseline, candidates)
+let final := load_evidence(evidence, "final")
+verify_final(final, selection)
+let baseline_policy_text := read_file("scenarios/baseline-policy.json")
+assert_equal(parse_json(baseline_policy_text), baseline["policy"])
+let triage_source := read_file("src/triage.kujo")
+assert_equal(sha256(triage_source), manifest["source_files"]["src/triage.kujo"])
 let winner := selection["winner"]
 mut rows := []
 mut milestones := []
@@ -29,8 +34,7 @@ mut outcomes := {}
 mut timings := []
 mut regression_events := []
 mut distributions := {}
-for line in read_lines(evidence + "/experiments.jsonl") {
-    mut row := parse_json(line)
+for row in candidates {
     mut item := {"id": row["experiment_id"], "ordinal": row["ordinal"], "phase": row["phase"],
         "parent": row["parent_candidate_id"], "score_pct": row["score_pct"],
         "score_points": row["score_points"], "gate_passed": row["gate_passed"],
@@ -78,6 +82,9 @@ let metrics := {"candidate_count": len(rows), "invalid_proposals": selection["in
         "candidate_median": (ordered_timings[99] + ordered_timings[100]) / 2.0,
         "heldout_baseline": final["baseline"]["runtime_ms"], "heldout_winner": final["winner"]["runtime_ms"]},
     "replay": replay, "policy_changes": selection["baseline_delta"]}
+if !path_exists(out) {
+    assert_true(create_dir(out))
+}
 save(out + "/summary.json", metrics)
 save(out + "/leaderboard.json", sort_by(rows, rank_compare))
 save(out + "/milestones.json", milestones)
@@ -85,7 +92,7 @@ save(out + "/test-distribution.json", distributions)
 save(out + "/regression-events.json", regression_events)
 save(out + "/caught-regressions.json", rejections)
 save(out + "/cassette-reuse.json", replay)
-write_file(out + "/score-progression.csv", scores)
-write_file(out + "/baseline-policy.json", read_file("scenarios/baseline-policy.json"))
-write_file(out + "/winner-policy.json", read_file(evidence + "/winner-policy.json"))
-write_file(out + "/triage-policy.kujo.txt", read_file("src/triage.kujo"))
+assert_true(write_file_atomic(out + "/score-progression.csv", scores, true))
+assert_true(write_file_atomic(out + "/baseline-policy.json", baseline_policy_text, true))
+assert_true(write_file_atomic(out + "/winner-policy.json", to_json(winner["policy"]) + "\n", true))
+assert_true(write_file_atomic(out + "/triage-policy.kujo.txt", triage_source, true))

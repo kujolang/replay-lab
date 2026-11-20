@@ -6,7 +6,7 @@ For your own project, see the [custom replay guide](CUSTOM_REPLAY.md). The comma
 
 ## Offline fixture recording
 
-The shipped cassettes were recorded by the runtime against the Kujo fixture server. Only use this procedure to verify recording or create an intentional new fixture version. The recorder refuses existing destination directories.
+The shipped cassettes were recorded by the runtime against the Kujo fixture server. Only use this procedure to verify recording or create an intentional new fixture version. The recorder refuses existing destination directories. A failed recording leaves an incomplete marker so the generic launcher refuses to replay it.
 
 Terminal 1:
 
@@ -28,7 +28,9 @@ Stop the fixture server with Ctrl+C. The local endpoint is part of request ident
 
 ## Portable verification
 
-`tools/lab search results candidate-36` verifies the published candidate against the current source, scenario oracle and cassette hashes. Use the full rerun in the README to reproduce every candidate. To check compatibility through the tree-walking interpreter, substitute its path for the VM final invocation. Run this before a final report exists in the fresh run directory.
+`tools/lab search results candidate-36 --behavior` compares the published decision digest and score with the current code on the original scenario and cassette hashes. Run `tools/lab verify results .scratch/reproduced --behavior` to compare all 200 records and held-out decisions. The verifier checks each run's source fingerprints for internal consistency and omits them only from the cross-revision comparison. It also omits measured latency. Holdout finalization still requires the exact source and tuning data of the new sweep. If holdout replay or its gate fails, the command exits nonzero and writes `final-rejected.json`. A passing run publishes `final.json`.
+
+To reproduce the published evidence with exact source matching, check out the original sweep at `5b4c8ede0c985ed12339993dc74aef01908fafdf` and use the commands there. In the current checkout, omit `--behavior` when comparing runs from the same source revision. Use the full rerun in the README to reproduce every candidate. To check compatibility through the tree-walking interpreter, substitute its path for the VM final invocation. Run this before a final report exists in the fresh run directory.
 
 ```sh
 "${KUJO_BIN:-kujo}" run --interpreter --untrusted --allow-ai --allow-fs-read \

@@ -1,60 +1,57 @@
-func load(path) {
-    return parse_json(read_file(path))
+from experiments.provenance import load_evidence, read_manifest, read_candidates, frozen_selection, verify_final
+
+func stable(row, behavior) {
+    let untimed := remove(row, "runtime_ms")[0]
+    if behavior {
+        return remove(untimed, "source_sha256")[0]
+    }
+    return untimed
 }
 
-func stable(row) {
-    return remove(row, "runtime_ms")[0]
+func stable_manifest(manifest, behavior) {
+    if behavior {
+        return remove(remove(manifest, "source_sha256")[0], "source_files")[0]
+    }
+    return manifest
 }
 
-func verify_run(reference, fresh) {
-    let expected := load(reference + "/baseline.json")
-    assert_equal(stable(expected), stable(load(fresh + "/baseline.json")))
-    let manifest := load(reference + "/manifest.json")
-    assert_equal(manifest, load(fresh + "/manifest.json"))
-    assert_equal(len(keys(manifest["cassette_index"])), 100)
+func final_decisions(result, selection, behavior) {
+    verify_final(result, selection)
+    mut compared := result
+    compared["baseline"] := stable(result["baseline"], behavior)
+    compared["winner"] := stable(result["winner"], behavior)
+    if behavior {
+        return remove(compared, "source_sha256")[0]
+    }
+    return compared
+}
 
-    let published := read_lines(reference + "/experiments.jsonl")
-    let reproduced := read_lines(fresh + "/experiments.jsonl")
-    assert_equal(len(published), 200)
-    assert_equal(len(reproduced), 200)
+func verify_run(reference, fresh, behavior) {
+    let expected := load_evidence(reference, "baseline")
+    let actual := load_evidence(fresh, "baseline")
+    let manifest := read_manifest(reference)
+    let fresh_manifest := read_manifest(fresh)
+    if !behavior && manifest["source_sha256"] != fresh_manifest["source_sha256"] {
+        eprint("Evidence comes from different source revisions. Use --behavior for a cross-revision comparison.")
+        exit(1)
+    }
+    assert_equal(stable_manifest(manifest, behavior), stable_manifest(fresh_manifest, behavior))
+    assert_equal(stable(expected, behavior), stable(actual, behavior))
 
+    let published := read_candidates(reference)
+    let reproduced := read_candidates(fresh)
+    let selection := frozen_selection(reference, manifest, expected, published)
+    let fresh_selection := frozen_selection(fresh, fresh_manifest, actual, reproduced)
     mut phase_counts := {"exploration": 0, "refinement": 0, "challenge": 0}
-    mut policies := {}
-    mut prior := {"baseline": expected["policy"]}
-    mut best := null
     mut rejected := 0
-    for index in range(0, 200) {
-        mut candidate := parse_json(published[index])
-        assert_equal(stable(candidate), stable(parse_json(reproduced[index])))
-        assert_equal(candidate["ordinal"], index + 1)
-        assert_equal(candidate["source_sha256"], manifest["source_sha256"])
-        assert_equal(candidate["configuration_sha256"], sha256(to_json(candidate["policy"])))
-        assert_equal(has_key(policies, candidate["configuration_sha256"]), 0)
-        policies[candidate["configuration_sha256"]] := true
+    for index in range(0, len(published)) {
+        mut candidate := published[index]
+        assert_equal(stable(candidate, behavior), stable(reproduced[index], behavior))
         phase_counts[candidate["phase"]] := phase_counts[candidate["phase"]] + 1
-        assert_equal(candidate["cassette_sha256"], manifest["cassette_sha256"])
         assert_equal(candidate["successful_replays"], 100)
-        assert_equal(candidate["replay_mismatches"], 0)
-        assert_equal(candidate["passed_tests"] + candidate["failed_tests"], 100)
         assert_equal(len(candidate["failures"]), candidate["failed_tests"])
         assert_equal(len(candidate["regressions"]), candidate["regression_count"])
-        mut previous := prior[candidate["parent_candidate_id"]]
-        for key in keys(previous) {
-            if previous[key] != candidate["policy"][key] {
-                assert_equal(candidate["parameters_changed"][key]["from"], previous[key])
-                assert_equal(candidate["parameters_changed"][key]["to"], candidate["policy"][key])
-            } else {
-                assert_equal(has_key(candidate["parameters_changed"], key), 0)
-            }
-        }
-        prior[candidate["experiment_id"]] := candidate["policy"]
-        if candidate["gate_passed"] {
-            assert_equal(candidate["safety_violations"], 0)
-            if best == null || candidate["score_points"] > best["score_points"] ||
-                (candidate["score_points"] == best["score_points"] && candidate["passed_tests"] > best["passed_tests"]) {
-                best = candidate
-            }
-        } else {
+        if !candidate["gate_passed"] {
             assert_equal(candidate["phase"], "challenge")
             assert_equal(candidate["critical_recalled"], 0)
             assert_equal(candidate["safety_violations"], 12)
@@ -63,27 +60,21 @@ func verify_run(reference, fresh) {
     }
     assert_equal(phase_counts, {"exploration": 120, "refinement": 72, "challenge": 8})
     assert_equal(rejected, 4)
-    assert_equal(load(reference + "/selection.json")["winner"], best)
-    assert_equal(load(reference + "/winner-policy.json"), best["policy"])
 
-    let final := load(reference + "/final.json")
-    let rerun := load(fresh + "/final.json")
-    assert_equal(final["winner_id"], best["experiment_id"])
-    assert_equal(final["winner_id"], rerun["winner_id"])
-    assert_true(final["heldout_seal_verified"])
-    assert_true(rerun["heldout_seal_verified"])
+    let final := load_evidence(reference, "final")
+    let rerun := load_evidence(fresh, "final")
+    assert_equal(final_decisions(final, selection, behavior), final_decisions(rerun, fresh_selection, behavior))
+    assert_true(final["deployable_in_lab"])
     for key in ["baseline", "winner"] {
-        assert_equal(stable(final[key]), stable(rerun[key]))
         assert_equal(final[key]["successful_replays"], 24)
-        assert_equal(final[key]["replay_mismatches"], 0)
     }
-    print(to_json({"matching_candidate_records": 200, "matching_baseline_and_heldout": true,
-        "verified_rejections": rejected, "verified_winner": best["experiment_id"]}))
+    print(to_json({"matching_candidate_records": len(published), "matching_baseline_and_heldout": true,
+        "verified_rejections": rejected, "verified_winner": selection["winner"]["experiment_id"]}))
 }
 
 let argv := args()
-if len(argv) != 2 {
-    eprint("usage: verify.kujo -- ORIGINAL_EVIDENCE REPRODUCED_EVIDENCE")
+if len(argv) < 2 || len(argv) > 3 || (len(argv) == 3 && argv[2] != "--behavior") {
+    eprint("usage: verify.kujo -- ORIGINAL_EVIDENCE REPRODUCED_EVIDENCE [--behavior]")
     exit(2)
 }
-verify_run(argv[0], argv[1])
+verify_run(argv[0], argv[1], len(argv) == 3)
