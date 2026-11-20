@@ -1,0 +1,254 @@
+[
+  {
+    "id": "lockout-billing",
+    "issue": {
+      "title": "Billing portal locks accounts after role changes",
+      "description": "Multiple production tenants report that verified accounts were locked after a permissions update. Environment: managed billing workspace.",
+      "labels": [
+        "bug"
+      ],
+      "metadata": {
+        "impact": "production"
+      }
+    }
+  },
+  {
+    "id": "lockout-reports",
+    "issue": {
+      "title": "Reporting service locks accounts after role changes",
+      "description": "Multiple production tenants report that verified accounts were locked after a permissions update. Environment: shared reporting service on the stable release.",
+      "labels": [
+        "bug"
+      ],
+      "metadata": {
+        "impact": "production"
+      }
+    }
+  },
+  {
+    "id": "refund-billing",
+    "issue": {
+      "title": "Billing portal refund processing halts in production",
+      "description": "Transactions queue without settling following a deploy. Multiple regions are affected. Environment: managed billing workspace.",
+      "labels": [],
+      "metadata": {
+        "impact": "production"
+      }
+    }
+  },
+  {
+    "id": "refund-reports",
+    "issue": {
+      "title": "Reporting service refund processing halts in production",
+      "description": "Transactions queue without settling following a deploy. Multiple regions are affected. Environment: shared reporting service on the stable release.",
+      "labels": [],
+      "metadata": {
+        "impact": "production"
+      }
+    }
+  },
+  {
+    "id": "markdown-billing",
+    "issue": {
+      "title": "Billing portal would benefit from Markdown tables",
+      "description": "Customers want to paste tables into otherwise working notes. Environment: managed billing workspace.",
+      "labels": [
+        "feature"
+      ],
+      "metadata": {}
+    }
+  },
+  {
+    "id": "markdown-reports",
+    "issue": {
+      "title": "Reporting service would benefit from Markdown tables",
+      "description": "Customers want to paste tables into otherwise working notes. Environment: shared reporting service on the stable release.",
+      "labels": [
+        "feature"
+      ],
+      "metadata": {}
+    }
+  },
+  {
+    "id": "api-example-billing",
+    "issue": {
+      "title": "Billing portal shows an obsolete HTTP status",
+      "description": "The guide promises 200 for a successful create; the running API returns 201. Environment: managed billing workspace.",
+      "labels": [
+        "docs"
+      ],
+      "metadata": {}
+    }
+  },
+  {
+    "id": "api-example-reports",
+    "issue": {
+      "title": "Reporting service shows an obsolete HTTP status",
+      "description": "The guide promises 200 for a successful create; the running API returns 201. Environment: shared reporting service on the stable release.",
+      "labels": [
+        "docs"
+      ],
+      "metadata": {}
+    }
+  },
+  {
+    "id": "quota-billing",
+    "issue": {
+      "title": "Billing portal asks how overages are counted",
+      "description": "A customer wants clarification on their current quota usage. Environment: managed billing workspace.",
+      "labels": [],
+      "metadata": {}
+    }
+  },
+  {
+    "id": "quota-reports",
+    "issue": {
+      "title": "Reporting service asks how overages are counted",
+      "description": "A customer wants clarification on their current quota usage. Environment: shared reporting service on the stable release.",
+      "labels": [],
+      "metadata": {}
+    }
+  },
+  {
+    "id": "ambiguous-sync-billing",
+    "issue": {
+      "title": "Billing portal behaved unexpectedly once",
+      "description": "The reporter is unsure if the observed pending state was intentional. Environment: managed billing workspace.",
+      "labels": [],
+      "metadata": {}
+    }
+  },
+  {
+    "id": "ambiguous-sync-reports",
+    "issue": {
+      "title": "Reporting service behaved unexpectedly once",
+      "description": "The reporter is unsure if the observed pending state was intentional. Environment: shared reporting service on the stable release.",
+      "labels": [],
+      "metadata": {}
+    }
+  },
+  {
+    "id": "privacy-billing",
+    "issue": {
+      "title": "Billing portal exposes a private preview",
+      "description": "A reporter confirmed that a private preview could be viewed from another workspace. Environment: managed billing workspace.",
+      "labels": [],
+      "metadata": {
+        "active_exposure": true
+      }
+    }
+  },
+  {
+    "id": "privacy-reports",
+    "issue": {
+      "title": "Reporting service exposes a private preview",
+      "description": "A reporter confirmed that a private preview could be viewed from another workspace. Environment: shared reporting service on the stable release.",
+      "labels": [],
+      "metadata": {
+        "active_exposure": true
+      }
+    }
+  },
+  {
+    "id": "permission-billing",
+    "issue": {
+      "title": "Billing portal needs a permission investigation",
+      "description": "A reporter thinks an internal role received elevated access. Exposure remains unconfirmed. Environment: managed billing workspace.",
+      "labels": [],
+      "metadata": {}
+    }
+  },
+  {
+    "id": "permission-reports",
+    "issue": {
+      "title": "Reporting service needs a permission investigation",
+      "description": "A reporter thinks an internal role received elevated access. Exposure remains unconfirmed. Environment: shared reporting service on the stable release.",
+      "labels": [],
+      "metadata": {}
+    }
+  },
+  {
+    "id": "conflict-billing",
+    "issue": {
+      "title": "Billing portal enhancement ticket records live checkout failure",
+      "description": "Production checkout fails on restart, but the reporter opened an enhancement ticket. Environment: managed billing workspace.",
+      "labels": [
+        "feature"
+      ],
+      "metadata": {
+        "impact": "production"
+      }
+    }
+  },
+  {
+    "id": "conflict-reports",
+    "issue": {
+      "title": "Reporting service enhancement ticket records live checkout failure",
+      "description": "Production checkout fails on restart, but the reporter opened an enhancement ticket. Environment: shared reporting service on the stable release.",
+      "labels": [
+        "feature"
+      ],
+      "metadata": {
+        "impact": "production"
+      }
+    }
+  },
+  {
+    "id": "blank-billing",
+    "issue": {
+      "title": "Billing portal has no usable body",
+      "description": "  ",
+      "labels": [],
+      "metadata": {}
+    }
+  },
+  {
+    "id": "blank-reports",
+    "issue": {
+      "title": "Reporting service has no usable body",
+      "description": "  ",
+      "labels": [],
+      "metadata": {}
+    }
+  },
+  {
+    "id": "malformed-prediction-billing",
+    "issue": {
+      "title": "Billing portal has an incomplete classifier response",
+      "description": "Export jobs fail intermittently after switching formats. Environment: managed billing workspace.",
+      "labels": [],
+      "metadata": {}
+    }
+  },
+  {
+    "id": "malformed-prediction-reports",
+    "issue": {
+      "title": "Reporting service has an incomplete classifier response",
+      "description": "Export jobs fail intermittently after switching formats. Environment: shared reporting service on the stable release.",
+      "labels": [],
+      "metadata": {}
+    }
+  },
+  {
+    "id": "bad-label-member-billing",
+    "issue": {
+      "title": "Billing portal contains a nonstring label",
+      "description": "A ticket was imported from an outdated tracker integration. Environment: managed billing workspace.",
+      "labels": [
+        17
+      ],
+      "metadata": {}
+    }
+  },
+  {
+    "id": "bad-label-member-reports",
+    "issue": {
+      "title": "Reporting service contains a nonstring label",
+      "description": "A ticket was imported from an outdated tracker integration. Environment: shared reporting service on the stable release.",
+      "labels": [
+        17
+      ],
+      "metadata": {}
+    }
+  }
+]

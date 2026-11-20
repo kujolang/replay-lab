@@ -1,0 +1,26 @@
+{
+  "name": "kujo-replay-lab-published-evidence",
+  "description": "Independent release checks against completed Replay Lab artifacts.",
+  "tests": [
+    {
+      "name": "selection records 200 candidate evaluations",
+      "check": "json_value_equals",
+      "params": {"path": "results/selection.json", "json_path": "executed", "expected": 200}
+    },
+    {
+      "name": "winner was frozen before holdout",
+      "check": "json_value_equals",
+      "params": {"path": "results/selection.json", "json_path": "heldout_opened", "expected": false}
+    },
+    {
+      "name": "winner passes the held-out hard gate",
+      "check": "json_value_equals",
+      "params": {"path": "results/final.json", "json_path": "winner.gate_passed", "expected": true}
+    },
+    {
+      "name": "holdout seal verified",
+      "check": "json_value_equals",
+      "params": {"path": "results/final.json", "json_path": "heldout_seal_verified", "expected": true}
+    }
+  ]
+}

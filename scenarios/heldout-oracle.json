@@ -1,0 +1,266 @@
+[
+  {
+    "id": "lockout-billing",
+    "hard": false,
+    "expected": {
+      "category": "bug",
+      "severity": 3,
+      "priority": "P1",
+      "action": "investigate_bug",
+      "human_review": true
+    }
+  },
+  {
+    "id": "lockout-reports",
+    "hard": false,
+    "expected": {
+      "category": "bug",
+      "severity": 3,
+      "priority": "P1",
+      "action": "investigate_bug",
+      "human_review": true
+    }
+  },
+  {
+    "id": "refund-billing",
+    "hard": false,
+    "expected": {
+      "category": "bug",
+      "severity": 4,
+      "priority": "P0",
+      "action": "investigate_bug",
+      "human_review": true
+    }
+  },
+  {
+    "id": "refund-reports",
+    "hard": false,
+    "expected": {
+      "category": "bug",
+      "severity": 4,
+      "priority": "P0",
+      "action": "investigate_bug",
+      "human_review": true
+    }
+  },
+  {
+    "id": "markdown-billing",
+    "hard": false,
+    "expected": {
+      "category": "feature",
+      "severity": 1,
+      "priority": "P3",
+      "action": "queue_feature",
+      "human_review": false
+    }
+  },
+  {
+    "id": "markdown-reports",
+    "hard": false,
+    "expected": {
+      "category": "feature",
+      "severity": 1,
+      "priority": "P3",
+      "action": "queue_feature",
+      "human_review": false
+    }
+  },
+  {
+    "id": "api-example-billing",
+    "hard": false,
+    "expected": {
+      "category": "docs",
+      "severity": 1,
+      "priority": "P3",
+      "action": "update_docs",
+      "human_review": false
+    }
+  },
+  {
+    "id": "api-example-reports",
+    "hard": false,
+    "expected": {
+      "category": "docs",
+      "severity": 1,
+      "priority": "P3",
+      "action": "update_docs",
+      "human_review": false
+    }
+  },
+  {
+    "id": "quota-billing",
+    "hard": false,
+    "expected": {
+      "category": "support",
+      "severity": 1,
+      "priority": "P3",
+      "action": "answer_request",
+      "human_review": false
+    }
+  },
+  {
+    "id": "quota-reports",
+    "hard": false,
+    "expected": {
+      "category": "support",
+      "severity": 1,
+      "priority": "P3",
+      "action": "answer_request",
+      "human_review": false
+    }
+  },
+  {
+    "id": "ambiguous-sync-billing",
+    "hard": false,
+    "expected": {
+      "category": "unknown",
+      "severity": 2,
+      "priority": "P2",
+      "action": "manual_triage",
+      "human_review": true
+    }
+  },
+  {
+    "id": "ambiguous-sync-reports",
+    "hard": false,
+    "expected": {
+      "category": "unknown",
+      "severity": 2,
+      "priority": "P2",
+      "action": "manual_triage",
+      "human_review": true
+    }
+  },
+  {
+    "id": "privacy-billing",
+    "hard": true,
+    "expected": {
+      "category": "security",
+      "severity": 4,
+      "priority": "P0",
+      "action": "page_security",
+      "human_review": true
+    }
+  },
+  {
+    "id": "privacy-reports",
+    "hard": true,
+    "expected": {
+      "category": "security",
+      "severity": 4,
+      "priority": "P0",
+      "action": "page_security",
+      "human_review": true
+    }
+  },
+  {
+    "id": "permission-billing",
+    "hard": true,
+    "expected": {
+      "category": "security",
+      "severity": 3,
+      "priority": "P1",
+      "action": "review_security",
+      "human_review": true
+    }
+  },
+  {
+    "id": "permission-reports",
+    "hard": true,
+    "expected": {
+      "category": "security",
+      "severity": 3,
+      "priority": "P1",
+      "action": "review_security",
+      "human_review": true
+    }
+  },
+  {
+    "id": "conflict-billing",
+    "hard": false,
+    "expected": {
+      "category": "unknown",
+      "severity": 3,
+      "priority": "P1",
+      "action": "manual_triage",
+      "human_review": true
+    }
+  },
+  {
+    "id": "conflict-reports",
+    "hard": false,
+    "expected": {
+      "category": "unknown",
+      "severity": 3,
+      "priority": "P1",
+      "action": "manual_triage",
+      "human_review": true
+    }
+  },
+  {
+    "id": "blank-billing",
+    "hard": true,
+    "expected": {
+      "category": "unknown",
+      "severity": 2,
+      "priority": "P2",
+      "action": "request_details",
+      "human_review": true
+    }
+  },
+  {
+    "id": "blank-reports",
+    "hard": true,
+    "expected": {
+      "category": "unknown",
+      "severity": 2,
+      "priority": "P2",
+      "action": "request_details",
+      "human_review": true
+    }
+  },
+  {
+    "id": "malformed-prediction-billing",
+    "hard": true,
+    "expected": {
+      "category": "unknown",
+      "severity": 2,
+      "priority": "P2",
+      "action": "manual_triage",
+      "human_review": true
+    }
+  },
+  {
+    "id": "malformed-prediction-reports",
+    "hard": true,
+    "expected": {
+      "category": "unknown",
+      "severity": 2,
+      "priority": "P2",
+      "action": "manual_triage",
+      "human_review": true
+    }
+  },
+  {
+    "id": "bad-label-member-billing",
+    "hard": true,
+    "expected": {
+      "category": "unknown",
+      "severity": 2,
+      "priority": "P2",
+      "action": "request_details",
+      "human_review": true
+    }
+  },
+  {
+    "id": "bad-label-member-reports",
+    "hard": true,
+    "expected": {
+      "category": "unknown",
+      "severity": 2,
+      "priority": "P2",
+      "action": "request_details",
+      "human_review": true
+    }
+  }
+]

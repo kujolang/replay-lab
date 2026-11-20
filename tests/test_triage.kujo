@@ -1,0 +1,30 @@
+test "baseline configuration and missing input are explicit" {
+    from src.policy import baseline_policy, policy_valid
+    from src.triage import triage
+    assert_true(policy_valid(baseline_policy()))
+    let result := triage(null, null, baseline_policy())
+    assert_equal(result["action"], "request_details")
+    assert_true(result["human_review"])
+}
+
+test "unusable model output falls back to manual review" {
+    from src.policy import baseline_policy, policy_valid
+    from src.triage import triage
+    let issue := {"title": "Export failed", "description": "Retry also failed.", "labels": []}
+    let malformed := {"category": "bug", "severity": 2, "confidence": 101}
+    let result := triage(issue, malformed, baseline_policy())
+    assert_equal(result["action"], "manual_triage")
+    assert_equal(result["confidence"], 0)
+}
+
+test "a label adjusts the cutoff and an exact threshold passes" {
+    from src.policy import baseline_policy, policy_valid
+    from src.triage import triage
+    let policy := {"confidence_min": 60, "impact_weight": 1, "label_weight": 2,
+                   "hold_conflicts": true, "escalate_exposure": true}
+    let issue := {"title": "Stale status", "description": "Refresh restores it.", "labels": ["bug"]}
+    let prediction := {"category": "bug", "severity": 2, "confidence": 50}
+    assert_equal(triage(issue, prediction, policy)["category"], "bug")
+    let weaker := {"category": "bug", "severity": 2, "confidence": 49}
+    assert_equal(triage(issue, weaker, policy)["category"], "unknown")
+}

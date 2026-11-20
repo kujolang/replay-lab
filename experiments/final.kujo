@@ -1,0 +1,51 @@
+from src.policy import baseline_policy, policy_valid
+from experiments.scoring import load_dataset, evaluate, failure_index
+
+let argv := args()
+if len(argv) != 1 || path_exists(argv[0] + "/final.json") {
+    eprint("usage: final.kujo -- EVIDENCE_DIR_WITH_FROZEN_SELECTION_AND_NO_FINAL_REPORT")
+    exit(2)
+}
+let output := argv[0]
+let selection := parse_json(read_file(output + "/selection.json"))
+let control := parse_json(read_file(output + "/baseline.json"))
+let manifest := parse_json(read_file(output + "/manifest.json"))
+let winner := selection["winner"]
+let policy := parse_json(read_file(output + "/winner-policy.json"))
+assert_equal(selection["executed"], 200)
+assert_false(selection["heldout_opened"])
+assert_true(winner["gate_passed"])
+assert_true(policy_valid(policy))
+assert_equal(winner["policy"], policy)
+assert_equal(winner["configuration_sha256"], sha256(to_json(policy)))
+assert_equal(winner["source_sha256"], manifest["source_sha256"])
+assert_equal(control["source_sha256"], manifest["source_sha256"])
+assert_equal(baseline_policy(), control["policy"])
+for path in keys(manifest["source_files"]) {
+    assert_equal(sha256(read_file(path)), manifest["source_files"][path])
+}
+
+let files := ["scenarios/heldout.json", "scenarios/heldout-oracle.json", "scenarios/heldout-fixtures.json"]
+let seal := read_lines("scenarios/heldout.sha256")
+assert_equal(manifest["heldout_seal"], read_file("scenarios/heldout.sha256"))
+for index in range(0, len(files)) {
+    assert_equal(sha256(read_file(files[index])), seal[index])
+}
+let dataset := load_dataset("heldout-v1", files[0], files[1], "cassettes/heldout")
+assert_equal(len(dataset["cases"]), 24)
+for key in keys(dataset["cassette_index"]) {
+    assert_equal(has_key(manifest["cassette_index"], key), 0)
+}
+mut baseline := evaluate(dataset, control["policy"], {})
+baseline["regression_count"] := 0
+baseline["regressions"] := []
+let optimized := evaluate(dataset, policy, failure_index(baseline))
+let summary := {"winner_id": winner["experiment_id"], "winner_config_sha256": winner["configuration_sha256"],
+    "source_sha256": winner["source_sha256"], "baseline": baseline, "winner": optimized,
+    "delta_score_pct": optimized["score_pct"] - baseline["score_pct"], "heldout_seal_verified": true,
+    "deployable_in_lab": optimized["gate_passed"]}
+write_file(output + "/final.json", to_json(summary) + "\n")
+print("Held-out gate: " + to_string(optimized["gate_passed"]) + "  " +
+    to_string(baseline["score_pct"]) + "% → " + to_string(optimized["score_pct"]) + "%")
+assert_equal(baseline["replay_mismatches"], 0)
+assert_true(optimized["gate_passed"])

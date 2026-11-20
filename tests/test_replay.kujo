@@ -1,0 +1,35 @@
+test "native replay matches the request identity and recorded reply" {
+    from src.model import classify, model_options, messages_for
+    let issue := parse_json(read_file("scenarios/example.json"))
+    let options := model_options("strict", "cassettes")
+    let result := classify(issue, options)
+    let key := "800b44749f9307b18c443ef73846e7b6775b2ce5f035518bbf7418a4b0effab9"
+    let cassette := parse_json(read_file("cassettes/" + key + ".json"))
+    assert_equal(result["request_hash"], key)
+    assert_equal(cassette["request_meta"]["hash"], key)
+    assert_true(result["replayed"])
+    assert_equal(result["prediction"], {"category": "feature", "severity": 1, "confidence": 91})
+}
+
+test "a prompt change cannot consume the original cassette" {
+    from src.model import classify, model_options, messages_for
+    let options := model_options("strict", "cassettes")
+    let result := classify({"title": "Intentionally different replay request"}, options)
+    assert_false(result["replayed"])
+    assert_true(contains(result["error"]["message"], "kind:\"replay_miss\"") == 1)
+    assert_true(contains(result["error"]["message"], "strict replay does not use the network") == 1)
+    assert_equal(result["prediction"], null)
+    print("Expected native error: " + to_json(result["error"]))
+}
+
+test "a temperature change produces a distinct identity and native replay miss" {
+    from src.model import classify, model_options, messages_for
+    let issue := parse_json(read_file("scenarios/example.json"))
+    mut options := model_options("strict", "cassettes")
+    let original := ai_request_hash(messages_for(issue), options)
+    options["body"] := {"temperature": 1, "max_tokens": 100}
+    let result := classify(issue, options)
+    assert_true(result["request_hash"] != original)
+    assert_true(contains(result["error"]["message"], "kind:\"replay_miss\"") == 1)
+    assert_true(contains(result["error"]["message"], "strict replay does not use the network") == 1)
+}

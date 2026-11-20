@@ -1,0 +1,15 @@
+test "independent hard gate catches the exposure regression" {
+    from experiments.scoring import load_dataset, evaluate, failure_index
+    from src.policy import baseline_policy
+    let dataset := load_dataset("tuning-v1", "scenarios/tuning.json", "scenarios/tuning-oracle.json", "cassettes")
+    let baseline := evaluate(dataset, baseline_policy(), {})
+    mut unsafe_policy := baseline_policy()
+    unsafe_policy["escalate_exposure"] := false
+    let regressed := evaluate(dataset, unsafe_policy, failure_index(baseline))
+    assert_true(baseline["gate_passed"])
+    assert_false(regressed["gate_passed"])
+    assert_equal(regressed["critical_recalled"], 0)
+    assert_equal(regressed["replay_mismatches"], 0)
+    assert_true(regressed["regression_count"] > 0)
+    print("Expected rejection: " + to_string(regressed["safety_violations"]) + " hard invariant failures.")
+}

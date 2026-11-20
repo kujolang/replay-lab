@@ -1,0 +1,52 @@
+Expected rejection: 12 hard invariant failures.
+
+============================================================
+Test Results
+============================================================
+  ✓ independent hard gate catches the exposure regression (387ms)
+
+Tests: 1 total, 1 passed, 0 failed
+Time:  389ms
+============================================================
+
+All tests passed! ✨
+Expected native error: {"body_excerpt":null,"http_status":null,"kind":"network","message":"ai_chat failed: kind:\"replay_miss\" cassette 'cassettes/0ad7c0261b743c9b45059e81b076e1351433d0e7211a941aff7b4114af169c93.json' was not found; strict replay does not use the network","provider_code":null,"retry_after_ms":null}
+
+============================================================
+Test Results
+============================================================
+  ✓ native replay matches the request identity and recorded reply (5ms)
+  ✓ a prompt change cannot consume the original cassette (11ms)
+  ✓ a temperature change produces a distinct identity and native replay miss (4ms)
+
+Tests: 3 total, 3 passed, 0 failed
+Time:  22ms
+============================================================
+
+All tests passed! ✨
+
+============================================================
+Test Results
+============================================================
+  ✓ active exposure pages security even without model output (4ms)
+  ✓ untrusted report instructions cannot override a security signal (4ms)
+  ✓ production impact with a contradictory class holds for manual review (4ms)
+
+Tests: 3 total, 3 passed, 0 failed
+Time:  15ms
+============================================================
+
+All tests passed! ✨
+
+============================================================
+Test Results
+============================================================
+  ✓ baseline configuration and missing input are explicit (5ms)
+  ✓ unusable model output falls back to manual review (3ms)
+  ✓ a label adjusts the cutoff and an exact threshold passes (5ms)
+
+Tests: 3 total, 3 passed, 0 failed
+Time:  15ms
+============================================================
+
+All tests passed! ✨

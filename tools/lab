@@ -1,0 +1,31 @@
+#!/bin/sh
+set -eu
+cd "$(dirname "$0")/.."
+runtime=${KUJO_BIN:-kujo}
+
+case "${1:-}" in
+    triage)
+        shift
+        exec "$runtime" run --untrusted --allow-ai --allow-fs-read src/main.kujo -- "$@"
+        ;;
+    test)
+        for file in tests/*.kujo; do
+            "$runtime" test-run --untrusted --allow-ai --allow-fs-read --allow-clock -v "$file"
+        done
+        ;;
+    search|final|report|verify)
+        subcommand=$1
+        shift
+        case "$subcommand" in
+            search) entry=experiments/runner.kujo ;;
+            final) entry=experiments/final.kujo ;;
+            report) entry=experiments/reporting.kujo ;;
+            verify) entry=tools/verify.kujo ;;
+        esac
+        exec "$runtime" run --untrusted --allow-ai --allow-fs-read --allow-fs-write --allow-clock "$entry" -- "$@"
+        ;;
+    *)
+        echo "usage: tools/lab triage|test|search|final|report|verify ..." >&2
+        exit 2
+        ;;
+esac
