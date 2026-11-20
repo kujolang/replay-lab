@@ -8,6 +8,10 @@ Record model replies once and rerun your own Kujo apps and tests offline. Use th
 
 Candidate 36 raised the weighted score from **70.8% to 100%** on tuning and from **59.2% to 100%** on 24 held-out issues. The safety gate rejected four candidates. All 20,000 candidate replays matched. The replies came from a scripted local classifier, so these scores measure policy decisions on the fixture suite. [Full results](docs/RESULTS.md)
 
+## Interactive canvas
+
+Run the [local Replay Lab canvas](canvas/README.md) to execute a Dispatch fixture, replay a recorded Kujo response, run Eval checks, and inspect their evidence. The canvas also includes a separately labeled synthetic rendering benchmark.
+
 ## Demo
 
 https://github.com/user-attachments/assets/b7d15d90-6d6b-4ad8-83c6-4a3b3dbeb520
