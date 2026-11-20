@@ -1,0 +1,202 @@
+[
+  {
+    "source_path": "LICENSE",
+    "path": "assets/source/LICENSE",
+    "sha256": "726a9309567c3d81d68f8856eccce43d02b44b97bce9833e9e36d1e116508050",
+    "bytes": 1085,
+    "shot_ids": []
+  },
+  {
+    "source_path": "cassettes/800b44749f9307b18c443ef73846e7b6775b2ce5f035518bbf7418a4b0effab9.json",
+    "path": "assets/source/cassettes/800b44749f9307b18c443ef73846e7b6775b2ce5f035518bbf7418a4b0effab9.json",
+    "sha256": "3a5f30f55acd858c7bea760dbfebe70a3eb4032f189b417a6b93ad156f9a16a3",
+    "bytes": 1601,
+    "shot_ids": [
+      "record"
+    ]
+  },
+  {
+    "source_path": "results/final.json",
+    "path": "assets/source/results/final.json",
+    "sha256": "e2b3216cf2172f200c365076b1747da01d16416e2bad070f646c0cf67d3a9930",
+    "bytes": 7850,
+    "shot_ids": [
+      "validated"
+    ]
+  },
+  {
+    "source_path": "results/optimization.log",
+    "path": "assets/source/results/optimization.log",
+    "sha256": "429f31907beeba6731ac93cfb9c37ecb850942969c84b691855e593c9526e079",
+    "bytes": 17509,
+    "shot_ids": [
+      "sweep"
+    ]
+  },
+  {
+    "source_path": "results/reproduction.json",
+    "path": "assets/source/results/reproduction.json",
+    "sha256": "0a116375078b9619b5ccad1ced376282b27f16bc4328c33b2689661e24bd37f2",
+    "bytes": 129,
+    "shot_ids": [
+      "validated"
+    ]
+  },
+  {
+    "source_path": "results/tests.log",
+    "path": "assets/source/results/tests.log",
+    "sha256": "ba60d365a6db33afbfe78a82418785280913f330b504d33c7558597143d88345",
+    "bytes": 2155,
+    "shot_ids": [
+      "regression",
+      "replay"
+    ]
+  },
+  {
+    "source_path": "scenarios/example.json",
+    "path": "assets/source/scenarios/example.json",
+    "sha256": "8205a4367e71dae20a60edc07f4e36a76374cc776ae99c15731ca05adb9979cc",
+    "bytes": 292,
+    "shot_ids": [
+      "baseline"
+    ]
+  },
+  {
+    "source_path": "video/VIDEO_HANDOFF.md",
+    "path": "assets/source/video/VIDEO_HANDOFF.md",
+    "sha256": "55f2920c84cbc38ad7c0f19767a145a0ac42e30f041442c8afd00607d428a309",
+    "bytes": 2703,
+    "shot_ids": []
+  },
+  {
+    "source_path": "video/assets/replay-flow.svg",
+    "path": "assets/source/video/assets/replay-flow.svg",
+    "sha256": "a31b0705ea144dcce4a468bef09531455bf7ce54ede931080d9a2ecbcdc397cc",
+    "bytes": 1617,
+    "shot_ids": [
+      "record",
+      "replay"
+    ]
+  },
+  {
+    "source_path": "video/narration.md",
+    "path": "assets/source/video/narration.md",
+    "sha256": "a514e6db3da03c4ff8687b41f4abbe9693983b785b2ddad92aefc619ab39dfab",
+    "bytes": 1498,
+    "shot_ids": []
+  },
+  {
+    "source_path": "video/scenes.json",
+    "path": "assets/source/video/scenes.json",
+    "sha256": "917b1dfe84d99232475d85578446e3f85bde3ad3323dae878236c4566a54d5e4",
+    "bytes": 1539,
+    "shot_ids": []
+  },
+  {
+    "source_path": "video/storyboard.md",
+    "path": "assets/source/video/storyboard.md",
+    "sha256": "3c30fabfcbe9807c92761b7f62fe6928b13c39a4adf5d396bc3ff8b7da56a063",
+    "bytes": 1595,
+    "shot_ids": []
+  },
+  {
+    "source_path": "video/visual-data/baseline-policy.json",
+    "path": "assets/source/video/visual-data/baseline-policy.json",
+    "sha256": "ba5f322603906ff381762aa3b3106b604ee963f347d8a21bb877a17f6efcdaf7",
+    "bytes": 126,
+    "shot_ids": [
+      "validated"
+    ]
+  },
+  {
+    "source_path": "video/visual-data/baseline-terminal.json",
+    "path": "assets/source/video/visual-data/baseline-terminal.json",
+    "sha256": "15353893f0d51f97a775c6696e1c6b3413a02dd2d24429e5e324bc5d76b42f3b",
+    "bytes": 326,
+    "shot_ids": [
+      "baseline",
+      "validated"
+    ]
+  },
+  {
+    "source_path": "video/visual-data/cassette-flow.json",
+    "path": "assets/source/video/visual-data/cassette-flow.json",
+    "sha256": "d51636e41770f322caf11ae47657e31b7809bdd4ca50b3c22c4ac41afce55039",
+    "bytes": 542,
+    "shot_ids": [
+      "replay"
+    ]
+  },
+  {
+    "source_path": "video/visual-data/cassette-reuse.json",
+    "path": "assets/source/video/visual-data/cassette-reuse.json",
+    "sha256": "a9122789583db64db12140796324c4e62b4ae2459282df775c2f9ae9158a6ea1",
+    "bytes": 279,
+    "shot_ids": [
+      "sweep"
+    ]
+  },
+  {
+    "source_path": "video/visual-data/caught-regressions.json",
+    "path": "assets/source/video/visual-data/caught-regressions.json",
+    "sha256": "599816eeb8025f306f96472bd8b4859586f00d2a81859e6b32c430bd02c4cf28",
+    "bytes": 38376,
+    "shot_ids": [
+      "regression"
+    ]
+  },
+  {
+    "source_path": "video/visual-data/milestones.json",
+    "path": "assets/source/video/visual-data/milestones.json",
+    "sha256": "5532629052888e5e351b8383327a454ce51e7a4abb185d9c814d27d2fc7e1303",
+    "bytes": 1058,
+    "shot_ids": [
+      "sweep"
+    ]
+  },
+  {
+    "source_path": "video/visual-data/score-progression.csv",
+    "path": "assets/source/video/visual-data/score-progression.csv",
+    "sha256": "29b011f9c215d9ac2a2c0ec1deb41898d83e562bb39878deaf89c1319dc99899",
+    "bytes": 13272,
+    "shot_ids": [
+      "sweep"
+    ]
+  },
+  {
+    "source_path": "video/visual-data/summary.json",
+    "path": "assets/source/video/visual-data/summary.json",
+    "sha256": "289cc2250782c731a4fed24344d454a25b8141ad543bfdf508d0647539f53e50",
+    "bytes": 913,
+    "shot_ids": [
+      "validated"
+    ]
+  },
+  {
+    "source_path": "video/visual-data/triage-policy.kujo.txt",
+    "path": "assets/source/video/visual-data/triage-policy.kujo.txt",
+    "sha256": "24a7aace5a4a8e4fab527aa433405180ef9c62578ebaeb70f817ce4a24ed40c9",
+    "bytes": 3699,
+    "shot_ids": [
+      "replay"
+    ]
+  },
+  {
+    "source_path": "video/visual-data/winner-policy.json",
+    "path": "assets/source/video/visual-data/winner-policy.json",
+    "sha256": "0e4bd400814d8700aa3d30105d29b97e1db9aa4eff324799a9fbb8d0891ae22d",
+    "bytes": 104,
+    "shot_ids": [
+      "validated"
+    ]
+  },
+  {
+    "source_path": "video/visual-data/winner-terminal.json",
+    "path": "assets/source/video/visual-data/winner-terminal.json",
+    "sha256": "5ec11d913a4d9ceb2443d3144947f2f37d15b8d8f8182e6ab8431e3f6054b740",
+    "bytes": 294,
+    "shot_ids": [
+      "validated"
+    ]
+  }
+]

@@ -1,0 +1,40 @@
+{
+  "narration": [
+    {
+      "id": "baseline",
+      "path": "assets/audio/narration-baseline.wav",
+      "start": 0.55,
+      "duration": 11.062417
+    },
+    {
+      "id": "record",
+      "path": "assets/audio/narration-record.wav",
+      "start": 12.55,
+      "duration": 12.061667
+    },
+    {
+      "id": "replay",
+      "path": "assets/audio/narration-replay.wav",
+      "start": 25.55,
+      "duration": 12.057375
+    },
+    {
+      "id": "sweep",
+      "path": "assets/audio/narration-sweep.wav",
+      "start": 38.55,
+      "duration": 16.056625
+    },
+    {
+      "id": "regression",
+      "path": "assets/audio/narration-regression.wav",
+      "start": 55.55,
+      "duration": 13.84
+    },
+    {
+      "id": "validated",
+      "path": "assets/audio/narration-validated.wav",
+      "start": 70.55,
+      "duration": 20.16575
+    }
+  ]
+}

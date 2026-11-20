@@ -1,0 +1,24 @@
+# Local production state, provider authorizations, and render/review scratch.
+.videoops-media/
+/assets/requests/
+/assets/source/
+/assets/media-doctor.json
+/assets/audio/
+/media/
+/production/qa/
+/production/hyperframes/.hyperframes/
+/production/hyperframes/node_modules/
+/output/*.mp4
+/production/hyperframes/AGENTS.md
+/production/hyperframes/CLAUDE.md
+/review/evidence/
+/assets/asset-manifest.json
+/assets/scout-handoff.json
+/intake/
+/planning/handoff.json
+/output/.*.hf-transaction-*/
+/assets/handoff.json
+/planning/STORYLINES.md
+/planning/asset-requirements.json
+/planning/creative-brief.md
+/planning/planning-validation.json

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8" /></head><body><template>
+<style>#root { position: absolute; inset: 0; width: 100%; height: 100%; }</style>
+<div id="root" class="scene  replay" data-composition-id="replay" data-width="1920" data-height="1080" data-duration="13">
+  <div class="header"><span class="kicker">Kujo Replay Lab</span></div>
+  <main class="content">
+  <h2 class="heading">Replay the same response.</h2>
+  <p class="sub">Keep the model request fixed. Change the triage policy.</p>
+  <div class="flow">
+    <div class="flow-node flow-request"><span class="kicker">Input</span><h3>Issue request</h3><p>Same prompt and model options</p></div>
+    <span class="flow-arrow flow-request">→</span>
+    <div class="flow-node flow-cassette"><span class="kicker">Strict replay</span><h3>Native cassette</h3><p>Lookup by request hash</p></div>
+    <span class="flow-arrow flow-cassette">→</span>
+    <div class="flow-node flow-policy"><span class="kicker">Candidate</span><h3>Triage policy</h3><p>Change decision rules here</p></div>
+    <span class="flow-arrow flow-policy">→</span>
+    <div class="flow-node flow-eval"><span class="kicker">Evaluation</span><h3>Fixed oracle</h3><p>Score the resulting decisions</p></div>
+  </div>
+  <div class="terminal miss"><div class="command">Expected native error · changed request<span style="float:right"></span></div><pre class="output">kind:&quot;replay_miss&quot;
+strict replay does not use the network</pre></div>
+</main>
+  <div class="footer"><span class="source">results/tests.log  ·  actual strict-miss output excerpt</span><span class="source">github.com/kujolang/kujo-replay-lab</span></div>
+</div>
+<script>
+(() => {
+  const inside = (selector) => document.querySelectorAll(selector);
+  const timeline = gsap.timeline({ paused: true });
+  const reveal = (selector, at, duration = 0.44, dy = 16) => timeline.fromTo(inside(selector),
+    { opacity: 0, y: dy }, { opacity: 1, y: 0, duration, ease: "power3.out" }, at);
+  const fade = (selector, at, duration = 0.30) => timeline.to(inside(selector), { opacity: 0, duration, ease: "power1.inOut" }, at);
+  
+  reveal(".flow-request", 0.15, 0.4, 10);
+  reveal(".flow-cassette", 1.2, 0.4, 10);
+  reveal(".miss", 4.5, 0.45, 12);
+  reveal(".flow-policy", 7.2, 0.42, 10);
+  reveal(".flow-eval", 9.3, 0.42, 10);
+
+  window.__timelines["replay"] = timeline;
+})();
+</script>
+</template></body></html>

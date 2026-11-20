@@ -1,0 +1,51 @@
+{
+  "schema": "kujo.replay-lab.narration-provenance/v1",
+  "provider": "elevenlabs",
+  "voice_name": "Siren",
+  "model": "eleven_v4",
+  "narration_segments": [
+    {
+      "scene": "baseline",
+      "state": "SUCCESS",
+      "credits": 77.0,
+      "usage_source": "provider_header",
+      "output_format": "mp3_44100_128"
+    },
+    {
+      "scene": "record",
+      "state": "SUCCESS",
+      "credits": 85.0,
+      "usage_source": "provider_header",
+      "output_format": "mp3_44100_128"
+    },
+    {
+      "scene": "regression",
+      "state": "SUCCESS",
+      "credits": 91.0,
+      "usage_source": "provider_header",
+      "output_format": "mp3_44100_128"
+    },
+    {
+      "scene": "replay",
+      "state": "SUCCESS",
+      "credits": 92.0,
+      "usage_source": "provider_header",
+      "output_format": "mp3_44100_128"
+    },
+    {
+      "scene": "sweep",
+      "state": "SUCCESS",
+      "credits": 113.0,
+      "usage_source": "provider_header",
+      "output_format": "mp3_44100_128"
+    },
+    {
+      "scene": "validated",
+      "state": "SUCCESS",
+      "credits": 142.0,
+      "usage_source": "provider_header",
+      "output_format": "mp3_44100_128"
+    }
+  ],
+  "provider_reported_credits": 600
+}

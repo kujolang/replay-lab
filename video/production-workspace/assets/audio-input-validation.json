@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "speech_files": 6,
+  "original_stereo_stems": 2,
+  "manifest_schema_validated": true,
+  "hashes_verified": true,
+  "speech_contained_in_scene": true,
+  "renderer_gain_hint": "Use unity for voice and stems as a starting point.",
+  "perceptual_review": "pending independent exact-candidate review"
+}

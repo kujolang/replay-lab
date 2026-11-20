@@ -1,0 +1,38 @@
+{
+  "method": "whisper.cpp, ggml-tiny.en-q5_1, local CPU transcription of normalized provider originals",
+  "status": "PASS",
+  "scope": "Supplemental ASR check for speech completeness and claims. Independent candidate review remains separate.",
+  "notes": "All numbers and terminal routing terms transcribe consistently. Koojo and cues are speech-recognition homophones for Kujo and queues, respectively.",
+  "scenes": [
+    {
+      "scene": "baseline",
+      "source": "media/replay-lab-siren-baseline/normalized.wav",
+      "asr_text": "Production jobs have stopped. The report asks for a toggle, so our baseline triage cues a feature at P3 without asking for review. We can reproduce that decision every time."
+    },
+    {
+      "scene": "record",
+      "source": "media/replay-lab-siren-record/normalized.wav",
+      "asr_text": "Koojo recorded the HTTP exchange with a scripted local classifier. For this issue, the response was feature severity one, confidence 91. Koojo keys the cassette by the normalized request."
+    },
+    {
+      "scene": "replay",
+      "source": "media/replay-lab-siren-replay/normalized.wav",
+      "asr_text": "Strict replay loads that response without opening a socket. Change the prompt or temperature and it returns a replay miss. Keep the request fixed and we can change the policy while keeping the same model input."
+    },
+    {
+      "scene": "sweep",
+      "source": "media/replay-lab-siren-sweep/normalized.wav",
+      "asr_text": "We ran 200 candidate configurations across 100 scenarios. Every run replayed the interactions and scored the actual decisions. Candidate 36 reached 100% on the Tuning Suite. All 20,000 candidate replays matched."
+    },
+    {
+      "scene": "regression",
+      "source": "media/replay-lab-siren-regression/normalized.wav",
+      "asr_text": "One change broke a mandatory rule. Candidate 193 disabled the active exposure escalation and missed all 12 critical cases. Its score was 90.4%. The hard gate rejected it."
+    },
+    {
+      "scene": "validated",
+      "source": "media/replay-lab-siren-validated/normalized.wav",
+      "asr_text": "We froze the winner before evaluating 24 held out issues. The baseline passed 12. The winner passed all 24. On the opening issue, the same recorded response now leads to P1 and Human Review. The source, cassettes, and all 200 scored runs are in the repository. Run the tests locally with Koojo."
+    }
+  ]
+}

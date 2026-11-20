@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8" /></head><body><template>
+<style>#root { position: absolute; inset: 0; width: 100%; height: 100%; }</style>
+<div id="root" class="scene paper record" data-composition-id="record" data-width="1920" data-height="1080" data-duration="13">
+  <div class="header"><span class="kicker">Kujo Replay Lab</span></div>
+  <main class="content">
+  <h2 class="heading">Capture the interaction.</h2>
+  <p class="sub">Scripted loopback classifier</p>
+  <div class="digest">
+    <p class="kicker">Normalized request · SHA-256</p>
+    <code>800b44749f9307b18c443ef73846e7b6775b2ce5f035518bbf7418a4b0effab9</code>
+  </div>
+  <div class="reply">
+    <aside class="reply-copy">Kujo recorded the HTTP response once. The cassette preserves what the classifier returned.</aside>
+    <div class="terminal reply-terminal"><div class="command">Classifier response<span style="float:right"></span></div><pre class="output">{
+  "category": <span class="output-value">&quot;feature&quot;</span>,
+  "severity": <span class="output-value">1</span>,
+  "confidence": <span class="output-value">91</span>
+}</pre></div>
+  </div>
+</main>
+  <div class="footer"><span class="source">cassette v1  ·  recorded HTTP response excerpt</span><span class="source">github.com/kujolang/kujo-replay-lab</span></div>
+</div>
+<script>
+(() => {
+  const inside = (selector) => document.querySelectorAll(selector);
+  const timeline = gsap.timeline({ paused: true });
+  const reveal = (selector, at, duration = 0.44, dy = 16) => timeline.fromTo(inside(selector),
+    { opacity: 0, y: dy }, { opacity: 1, y: 0, duration, ease: "power3.out" }, at);
+  const fade = (selector, at, duration = 0.30) => timeline.to(inside(selector), { opacity: 0, duration, ease: "power1.inOut" }, at);
+  
+  reveal(".digest", 0.6, 0.5);
+  reveal(".reply", 3.15, 0.52);
+
+  window.__timelines["record"] = timeline;
+})();
+</script>
+</template></body></html>

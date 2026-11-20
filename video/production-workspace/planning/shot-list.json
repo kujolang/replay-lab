@@ -1,0 +1,127 @@
+{
+  "shots": [
+    {
+      "id": "baseline",
+      "start": 0,
+      "end": 12,
+      "duration": 12,
+      "purpose": "Establish the wrong action on a concrete issue.",
+      "visual": "Open on the fixture issue and cut to exact baseline CLI fields by 5s. Show P3, queue_feature, and human_review false.",
+      "onscreen_text": "Production jobs have stopped · P3",
+      "voiceover": "Production jobs have stopped. The report asks for a toggle, so our baseline triage queues a feature at P3 without asking for review. We can reproduce that decision every time.",
+      "audio": "voice-baseline, bed with optional matched action cues",
+      "motion": "Reveal each terminal field once; hold the decision.",
+      "transition_in": "display on frame 0",
+      "transition_out": "hard cut",
+      "priority": "required",
+      "asset_requirement_ids": [
+        "evidence-baseline",
+        "voice-baseline",
+        "audio-bed"
+      ]
+    },
+    {
+      "id": "record",
+      "start": 12,
+      "end": 25,
+      "duration": 13,
+      "purpose": "Ground replay in a recorded HTTP interaction.",
+      "visual": "Match the digest from the CLI to the committed cassette. Display feature, severity 1 and confidence 91 from the provider response.",
+      "onscreen_text": "Scripted loopback fixture · Native v1 cassette",
+      "voiceover": "Kujo recorded the HTTP exchange with a scripted local classifier. For this issue, the response was feature, severity one, confidence ninety-one. Kujo keys the cassette by the normalized request.",
+      "audio": "voice-record, bed with optional matched action cues",
+      "motion": "Split the actual SHA-256 at 32 characters when needed; unveil the reply like a receipt.",
+      "transition_in": "hard cut",
+      "transition_out": "hard cut",
+      "priority": "required",
+      "asset_requirement_ids": [
+        "evidence-record",
+        "voice-record",
+        "audio-bed",
+        "action-cues"
+      ]
+    },
+    {
+      "id": "replay",
+      "start": 25,
+      "end": 38,
+      "duration": 13,
+      "purpose": "Separate fixed model evidence from mutable policy.",
+      "visual": "Extend the supplied flow from issue to cassette to classifier response to routing. Show a strict replay miss excerpt near the end.",
+      "onscreen_text": "Strict replay · Request fixed · Policy varies",
+      "voiceover": "Strict replay loads that response without opening a socket. Change the prompt or temperature and it returns a replay miss. Keep the request fixed and we can change the policy while keeping the same model input.",
+      "audio": "voice-replay, bed with optional matched action cues",
+      "motion": "Reveal nodes in dependency order; then switch focus to the miss excerpt.",
+      "transition_in": "hard cut",
+      "transition_out": "hard cut",
+      "priority": "required",
+      "asset_requirement_ids": [
+        "evidence-replay",
+        "voice-replay",
+        "audio-bed"
+      ]
+    },
+    {
+      "id": "sweep",
+      "start": 38,
+      "end": 55,
+      "duration": 17,
+      "purpose": "Show the real search and winner.",
+      "visual": "Plot all 200 scores using the CSV. Trace the best eligible line through the actual milestones. Rejected points use crosses.",
+      "onscreen_text": "100 scenarios · 200 candidates · 20,000 native replay hits",
+      "voiceover": "We ran two hundred candidate configurations across a hundred scenarios. Every run replayed the interactions and scored the actual decisions. Candidate thirty-six reached one hundred percent on the tuning suite. All twenty thousand candidate replays matched.",
+      "audio": "voice-sweep, bed with optional matched action cues",
+      "motion": "Grow the ordinal trace, call out candidate 36 at the first eligible 100%, then land phase counts 120/72/8.",
+      "transition_in": "hard cut",
+      "transition_out": "hard cut",
+      "priority": "required",
+      "asset_requirement_ids": [
+        "evidence-sweep",
+        "voice-sweep",
+        "audio-bed",
+        "action-cues"
+      ]
+    },
+    {
+      "id": "regression",
+      "start": 55,
+      "end": 70,
+      "duration": 15,
+      "purpose": "Show why a high score cannot override the gate.",
+      "visual": "Isolate candidate 193 and exposure-console. Compare expected P0 and page security against observed P2 and investigate bug.",
+      "onscreen_text": "Candidate 193 · 90.4% · Rejected · 12 hard failures",
+      "voiceover": "One change broke a mandatory rule. Candidate one ninety-three disabled the active-exposure escalation and missed all twelve critical cases. Its score was ninety point four percent. The hard gate rejected it.",
+      "audio": "voice-regression, bed with optional matched action cues",
+      "motion": "Reveal the failed gate after the score, then hold the exact routing comparison.",
+      "transition_in": "hard cut",
+      "transition_out": "hard cut",
+      "priority": "required",
+      "asset_requirement_ids": [
+        "evidence-regression",
+        "voice-regression",
+        "audio-bed",
+        "action-cues"
+      ]
+    },
+    {
+      "id": "validated",
+      "start": 70,
+      "end": 92,
+      "duration": 22,
+      "purpose": "Prove the frozen result and return to the opening issue.",
+      "visual": "Compare 59.2% and 100% weighted held-out scores plus 12/24 and 24/24 fully correct. Around 81s show the winner's matching request digest and P1 fields. Around 87s land the repository and test command.",
+      "onscreen_text": "24 held-out issues · Same request, P1 · tools/lab test",
+      "voiceover": "We froze the winner before evaluating twenty-four held-out issues. The baseline passed twelve. The winner passed all twenty-four. On the opening issue, the same recorded response now leads to P1 and human review. The source, cassettes, and all two hundred scored runs are in the repository. Run the tests locally with Kujo.",
+      "audio": "voice-validated, bed with optional matched action cues",
+      "motion": "Use one proof transition before a hard callback to the opening terminal.",
+      "transition_in": "hard cut",
+      "transition_out": "hold through frame 2759",
+      "priority": "required",
+      "asset_requirement_ids": [
+        "evidence-validated",
+        "voice-validated",
+        "audio-bed"
+      ]
+    }
+  ]
+}

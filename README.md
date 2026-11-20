@@ -42,4 +42,6 @@ To inspect a cassette, use the `request_hash` printed by triage as its filename 
 
 The Kujo runtime owns recording, request hashing, and replay. Native Kujo tests verify the model boundary and policy. The optional Kujo Eval suite checks published artifacts, while RunLedger records the execution receipt. See the [capability audit](docs/CAPABILITY_AUDIT.md), [architecture](docs/ARCHITECTURE.md), [experiment design](docs/EXPERIMENT_DESIGN.md), [recording and reproduction](docs/REPRODUCIBILITY.md), and [video handoff](video/VIDEO_HANDOFF.md).
 
+The [92-second HyperFrames explainer project](video/production-workspace/README.md) includes editable scenes and the recorded Siren narration.
+
 MIT licensed. [License](LICENSE)

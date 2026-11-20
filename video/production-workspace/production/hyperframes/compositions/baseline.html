@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8" /></head><body><template>
+<style>#root { position: absolute; inset: 0; width: 100%; height: 100%; }</style>
+<div id="root" class="scene  baseline" data-composition-id="baseline" data-width="1920" data-height="1080" data-duration="12">
+  <div class="header"><span class="kicker">Kujo Replay Lab</span></div>
+  <main class="content">
+  <p class="kicker heading opening">Issue report</p>
+  <h1 class="quote opening">Existing production jobs have stopped.</h1>
+  <p class="scenario opening">Admin console request describes a live failure <span class="small"> / filed as feature</span></p>
+  <div class="terminal baseline-terminal"><div class="command">Baseline · captured output excerpt<span style="float:right">tools/lab triage scenarios/example.json</span></div><pre class="output">{
+  "action": <span class="output-value">&quot;queue_feature&quot;</span>,
+  "priority": <span class="output-value">&quot;P3&quot;</span>,
+  "human_review": <span class="output-value">false</span>
+}</pre></div>
+</main>
+  <div class="footer"><span class="source">scenarios/example.json  ·  baseline-terminal.json</span><span class="source">github.com/kujolang/kujo-replay-lab</span></div>
+</div>
+<script>
+(() => {
+  const inside = (selector) => document.querySelectorAll(selector);
+  const timeline = gsap.timeline({ paused: true });
+  const reveal = (selector, at, duration = 0.44, dy = 16) => timeline.fromTo(inside(selector),
+    { opacity: 0, y: dy }, { opacity: 1, y: 0, duration, ease: "power3.out" }, at);
+  const fade = (selector, at, duration = 0.30) => timeline.to(inside(selector), { opacity: 0, duration, ease: "power1.inOut" }, at);
+  
+  reveal(".baseline-terminal", 3.5, 0.58);
+
+  window.__timelines["baseline"] = timeline;
+})();
+</script>
+</template></body></html>
