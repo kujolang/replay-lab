@@ -1,0 +1,20 @@
+let prefix := "Classify this invoice inquiry as duplicate, disputed, or general. Return only the label.\n"
+let replies := {
+    "I received the same invoice twice.": "duplicate",
+    "Where can I download my invoice?": "general"
+}
+mut server := http_listen("127.0.0.1", 18744)
+server = server.route("GET", "/ready", func(request) { return json_response(200, {"ready": true}) })
+server = server.route("POST", "/v1/chat/completions", func(request) {
+    let payload := parse_json(request["body"])
+    let prompt := payload["messages"][0]["content"]
+    for inquiry in keys(replies) {
+        if prompt == prefix + inquiry && payload["model"] == "invoice-fixture" {
+            return json_response(200, {"choices": [
+                {"message": {"role": "assistant", "content": replies[inquiry]}, "finish_reason": "stop"}
+            ]})
+        }
+    }
+    return json_response(400, {"error": "unexpected request"})
+})
+server.listen()

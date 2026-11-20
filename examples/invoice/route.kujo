@@ -1,0 +1,27 @@
+# A project owns its prompt, policy, and assertions. Kujo owns the cassettes.
+export func invoice_decision(inquiry) {
+    mut endpoint := env("INVOICE_MODEL_ENDPOINT")
+    if endpoint == "" {
+        endpoint = "http://127.0.0.1:18744/v1/chat/completions"
+    }
+    mut model := env("INVOICE_MODEL")
+    if model == "" {
+        model = "invoice-fixture"
+    }
+    let prompt := "Classify this invoice inquiry as duplicate, disputed, or general. Return only the label.\n" + inquiry
+    mut options := {"endpoint": endpoint, "model": model, "body": {"temperature": 0}}
+    let api_key := env("INVOICE_API_KEY")
+    if api_key != "" {
+        options["api_key"] := secret(api_key)
+    }
+    match ai_chat(prompt, options) {
+        case Ok(response): {
+            let label := trim(response["message"])
+            let requires_review := label != "general"
+            return {"label": label, "requires_review": requires_review, "error": null}
+        }
+        case Err(error): {
+            return {"error": error}
+        }
+    }
+}

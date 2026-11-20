@@ -1,0 +1,35 @@
+{
+  "_cassette_version": 1,
+  "request_meta": {
+    "hash": "ef19cb6f03e0ce012ae85df668fcd8fd5f35fa9f358a706be055472dcabfa630",
+    "surface": "ai_chat",
+    "endpoint": "http://127.0.0.1:18744/v1/chat/completions",
+    "model": "invoice-fixture",
+    "normalized": {
+      "_hash_version": 1,
+      "body": {
+        "messages": [
+          {
+            "content": "Classify this invoice inquiry as duplicate, disputed, or general. Return only the label.\nI received the same invoice twice.",
+            "role": "user"
+          }
+        ],
+        "model": "invoice-fixture",
+        "temperature": 0
+      },
+      "endpoint": "http://127.0.0.1:18744/v1/chat/completions",
+      "headers": [],
+      "model": "invoice-fixture"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "content-length": "91",
+      "content-type": "application/json",
+      "server": "tiny-http (Rust)",
+      "date": "[redacted]"
+    },
+    "body": "{\"choices\":[{\"finish_reason\":\"stop\",\"message\":{\"content\":\"duplicate\",\"role\":\"assistant\"}}]}"
+  }
+}

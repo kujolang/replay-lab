@@ -2,6 +2,8 @@
 
 Use the published Kujo v1.9.0 binary. The [README quickstart](../README.md) runs without an HTTP server, API token, or model account. The launcher disables general network client and server capabilities through the runtime's untrusted mode. All AI requests explicitly set native strict cassette mode. An unknown request returns the native miss and a safe fallback, with CLI exit 1.
 
+For your own project, see the [custom replay guide](CUSTOM_REPLAY.md). The commands below reproduce the issue-triage study.
+
 ## Offline fixture recording
 
 The shipped cassettes were recorded by the runtime against the Kujo fixture server. Only use this procedure to verify recording or create an intentional new fixture version. The recorder refuses existing destination directories.

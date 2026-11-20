@@ -1,0 +1,15 @@
+test "duplicate invoices go to manual review" {
+    from route import invoice_decision
+    let result := invoice_decision("I received the same invoice twice.")
+    assert_equal(result["error"], null)
+    assert_equal(result["label"], "duplicate")
+    assert_true(result["requires_review"])
+}
+
+test "general inquiries do not go to manual review" {
+    from route import invoice_decision
+    let result := invoice_decision("Where can I download my invoice?")
+    assert_equal(result["error"], null)
+    assert_equal(result["label"], "general")
+    assert_false(result["requires_review"])
+}
