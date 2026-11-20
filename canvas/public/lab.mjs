@@ -100,9 +100,13 @@ function renderCards() {
     if (card.duration != null) foot.append(node('span', '', card.duration + ' ms'));
     button.append(head, node('span', 'card-title', card.title), node('strong', 'card-metric', card.metric), foot);
     button.addEventListener('click', (event) => {
-      if (!disarmClick || event.detail === 0) inspect(card.id, { reveal: event.detail === 0 });
+      if (disarmClick && event.detail !== 0) return;
+      const narrow = stage.clientWidth < 500;
+      inspect(card.id, { reveal: event.detail === 0, focus: narrow && event.detail === 0 });
+      if (narrow) inspector.closest('.inspector').scrollIntoView({ block: 'start' });
     });
     button.addEventListener('focus', () => {
+      if (!button.matches(':focus-visible')) return;
       const placed = cards.find((entry) => entry.id === card.id);
       if (placed) revealCard(placed);
     });
