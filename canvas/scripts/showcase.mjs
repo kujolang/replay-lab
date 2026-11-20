@@ -143,7 +143,7 @@ async function capture() {
   const { context, page, errors } = await setup();
   const frames = [
     ['A-opening', .43], ['B-expansion', 4.92], ['C-extreme-scale', 13.68],
-    ['D-overlapping-waves', 16.22], ['F-kujo-finale', 29.65],
+    ['D-wide-swell', 11.45], ['D-overlapping-waves', 16.22], ['F-kujo-finale', 29.65],
     ['F-formation', 24.4],
   ];
   const record = {};
@@ -316,15 +316,27 @@ async function exportVideo() {
     ? ['-c:v','libx264','-preset','medium','-crf','18','-maxrate','12M','-bufsize','12M','-pix_fmt','yuv420p'] : ['-c:v','copy'];
   await cli('ffmpeg', ['-y','-v','error','-fflags','+genpts','-r',String(fps),'-f','h264','-i',paths.stream,
     ...videoCodec,'-movflags','+faststart',paths.mp4]);
-  const { stdout } = await cli('ffprobe', ['-v','error','-count_frames','-select_streams','v:0','-show_entries',
-    'stream=nb_read_frames,avg_frame_rate,width,height,duration','-of','json',paths.mp4]);
-  const video = JSON.parse(stdout).streams[0];
-  assert.equal(Number(video.nb_read_frames), count);
-  assert.equal(video.avg_frame_rate, '60/1');
-  assert.ok(Math.abs(Number(video.duration) - scene.duration) < .02);
+  const verify = async (path, width, height) => {
+    const { stdout } = await cli('ffprobe', ['-v','error','-count_frames','-select_streams','v:0','-show_entries',
+      'stream=nb_read_frames,avg_frame_rate,width,height,duration','-of','json',path]);
+    const video = JSON.parse(stdout).streams[0];
+    assert.equal(Number(video.nb_read_frames), count);
+    assert.equal(video.avg_frame_rate, '60/1');
+    assert.equal(video.width, width);
+    assert.equal(video.height, height);
+    assert.ok(Math.abs(Number(video.duration) - scene.duration) < .02);
+    return video;
+  };
+  const video = await verify(paths.mp4, size.width, size.height);
+  const mobilePath = join(artifacts, 'kujo-infinite-canvas-480p.mp4');
+  await cli('ffmpeg', ['-y','-v','error','-i',paths.mp4,'-vf','scale=854:480:flags=lanczos,setsar=1',
+    '-c:v','libx264','-preset','fast','-crf','23','-maxrate','2M','-bufsize','2M','-pix_fmt','yuv420p',
+    '-movflags','+faststart',mobilePath]);
+  const mobile = await verify(mobilePath, 854, 480);
   await writeFile(join(artifacts, 'export.json'), JSON.stringify({ codec, video, renderedFrames: encoded,
     wallSeconds: (performance.now() - start) / 1000, browser: browser.version(),
-    delivery: { codec: 'H.264', maxBitrateMbps: cappedBitrate ? 12 : null, bytes: (await stat(paths.mp4)).size } }, null, 2) + '\n');
+    delivery: { codec: 'H.264', maxBitrateMbps: cappedBitrate ? 12 : null, bytes: (await stat(paths.mp4)).size },
+    mobile: { ...mobile, bytes: (await stat(mobilePath)).size } }, null, 2) + '\n');
   await rm(paths.stream);
   assert.deepEqual(errors, []);
   await context.close();

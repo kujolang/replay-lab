@@ -33,11 +33,12 @@ test('a cell projects to the same anchor through zoom and reverse', () => {
   near(reversed.y, start.y);
 });
 
-test('concurrent replay waves have fixed world origins and positive velocities', () => {
+test('showcase swells stay sparse and have fixed world origins', () => {
   const first = waveField(15.9, w, h);
-  assert.equal(first.length, 2);
+  assert.equal(first.length, 1);
   assert.deepEqual(first, waveField(16.1, w, h));
   assert.ok(first.every((wave) => wave.velocity > 0));
+  for (let t = 8; t <= 23; t += .05) assert.ok(waveField(t, w, h).length <= 1);
   assert.equal(waveField(23, w, h).length, 0);
 });
 

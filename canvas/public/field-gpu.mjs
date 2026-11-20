@@ -50,11 +50,14 @@ void main() {
   float spring = (1.0 - exp(-phase * 7.3) * cos(phase * 11.0));
   spring = mix(spring, 1.0, smoothstep(.69, 1.0, phase));
   float level = clamp(mix(before, after, spring), 0.0, 1.0);
-  // Long crests run across the field. A transverse swell bends each crest without a circular front.
+  // A broad swell and its wake drift across the lattice at different speeds.
   vec2 lattice = world * vec2(ASPECT, 1.0);
-  float swell = sin(lattice.y * .116 + 2.1 * sin(lattice.x * .026 + uTime * .38) - uTime * 2.0);
-  float crossSwell = sin(lattice.y * .071 - lattice.x * .035 + uTime * 1.15);
-  float current = mix(swell, crossSwell, .31);
+  float bend = 52.0 * sin(lattice.x * .0058 + uTime * .19)
+    + 21.0 * sin(lattice.x * .0102 - uTime * .16);
+  float crest = (lattice.y + lattice.x * .14 + bend - 105.0 * sin(uTime * .23 - 2.3)) / 104.0;
+  float wake = (lattice.y - lattice.x * .23 - bend * .70 + 125.0 + 69.0 * sin(uTime * .16)) / 124.0;
+  float breadth = .74 + .26 * sin(lattice.x * .005 - uTime * .13);
+  float wash = exp(-crest * crest) * breadth * .77 + exp(-wake * wake) * .20;
   for (int i = 0; i < 6; i++) {
     if (i >= uWaveCount) break;
     vec4 wave = uWaves[i];
@@ -63,13 +66,13 @@ void main() {
     float elapsed = uTime - wave.z;
     float along = dot(d, axis) / wave.w;
     float across = dot(d, vec2(-axis.y, axis.x)) / wave.w;
-    float bend = .30 * sin(across * 2.2 + elapsed * .7) + .11 * sin(across * 4.3 - elapsed);
-    float flow = along - elapsed + bend;
-    float envelope = exp(-abs(flow + .38) * 1.3) * exp(-abs(across) * .28);
-    float life = smoothstep(0.0, .26, elapsed) * (1.0 - smoothstep(.64, 1.0, elapsed / uWaveShape[i].z));
-    current += sin(flow * 5.1) * envelope * life * .95;
+    float flow = along - elapsed + .42 * sin(across * .92 + elapsed * .43);
+    float spread = flow / 1.15;
+    float envelope = exp(-spread * spread - across * across * .10);
+    float life = smoothstep(0.0, .40, elapsed) * (1.0 - smoothstep(.62, 1.0, elapsed / uWaveShape[i].z));
+    wash += envelope * life * .24;
   }
-  float tide = smoothstep(-1.0, 1.0, current);
+  float tide = clamp(1.0 - wash, .03, 1.0);
   vDrive = vec4(atlasSlot, level, tide, status);
 
   vec2 lp = (world - uLogo.xy) * vec2(ASPECT * 1536.0 / 1527.0, 1.0) / uLogo.z;
@@ -118,7 +121,7 @@ void main() {
   float amplitude = vDrive.y;
   float stipple = mod(floor(gl_FragCoord.x) + floor(gl_FragCoord.y), 2.0);
   float grain = (stipple - .5) * .07;
-  float tone = mix(.985, .16 + .57 * tide + .07 * amplitude + grain, density);
+  float tone = mix(.985, .13 + .79 * tide + .045 * amplitude + grain, density);
   float edge = body - inner;
   float paper = mix(1.0, .97 - .035 * (1.0 - tide), density);
 

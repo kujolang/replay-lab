@@ -63,11 +63,10 @@ export function zoomAt(camera, px, py, pitch, width, height) {
 }
 
 const waveCue = [
-  [7.15, -.23, .14, 2.1, .37], [8.7, .30, -.26, 2.1, 1.45], [9.45, -.2, -.31, 2.25, 2.85],
-  [10.6, .25, .21, 2.05, .15], [11.65, -.31, .1, 2.5, 1.85], [12.8, .23, -.25, 2.4, 2.55],
-  [scene.replay, -.39, .23, 2.9, 1.15], [scene.replay + .5, .24, -.31, 2.35, 2.85],
-  [scene.evaluation, .39, .12, 2.6, 1.9], [scene.evaluation + .45, -.14, -.35, 2.5, .10],
-  [scene.workflow, -.23, -.36, 2.7, 2.84], [scene.workflow + .5, .30, .28, 2.8, .52],
+  [8.1, -.28, -.25, 3.5, .92],
+  [11.6, .29, -.24, 3.5, 2.03],
+  [scene.replay, -.39, .23, 3.9, 1.15],
+  [scene.workflow, -.23, -.36, 3.45, 2.12],
 ];
 
 export function waveField(time, width, height) {
