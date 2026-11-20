@@ -24,7 +24,7 @@ HEADED=1 npm run showcase:benchmark
 npm run showcase:export
 ```
 
-Use `ARTIFACT_DIR` to write elsewhere, or `CHROME_CHANNEL=bundled` with `npx playwright install chromium`. The bundled browser’s available codecs and GPU may differ from Chrome. The server and browser are opened and closed by the scripts. No third-party assets or inference services are needed at runtime.
+Use `ARTIFACT_DIR` to write elsewhere, or `CHROME_CHANNEL=bundled` with `npx playwright install chromium`. The bundled browser’s available codecs and GPU may differ from Chrome. The exporter defaults to headed Chrome for hardware encoding. Use `HEADED=0` on a headless host with compatible WebCodecs support. The server and browser are opened and closed by the scripts. No third-party assets or inference services are needed at runtime.
 
 ### Visual acceptance frames
 
@@ -75,4 +75,4 @@ The renderer requires WebGL2. Browsers without it can open the retained workbenc
 
 ## Video export
 
-The exporter seeks the same live renderer at exact increments of 1/60 second and encodes each rendered frame with Chrome WebCodecs. FFmpeg muxes the bitstream and FFprobe verifies the decoded frame count, rate and duration. The output cadence is independent of live wall-clock rendering speed.
+The exporter seeks the same live renderer at exact increments of 1/60 second and encodes each rendered frame with Chrome WebCodecs. The script verifies each encoded timestamp before writing the stream. FFmpeg muxes the bitstream and FFprobe checks decoded frame count, rate and duration. The output cadence is independent of live wall-clock rendering speed.

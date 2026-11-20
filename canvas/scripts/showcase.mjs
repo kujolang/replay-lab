@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { execFile } from 'node:child_process';
 import { once } from 'node:events';
-import { mkdir, open, rm, writeFile } from 'node:fs/promises';
+import { mkdir, open, rm, stat, writeFile } from 'node:fs/promises';
 import { arch, cpus, platform, release, totalmem } from 'node:os';
 import { join, resolve } from 'node:path';
 import { promisify } from 'node:util';
@@ -12,7 +12,7 @@ import { scene, worldAt } from '../public/choreography.mjs';
 const mode = process.argv[2];
 const artifacts = resolve(process.env.ARTIFACT_DIR || './artifacts/immersive');
 const size = { width: 1280, height: 720 };
-const headed = process.env.HEADED === '1';
+const headed = process.env.HEADED === '1' || (mode === 'export' && process.env.HEADED !== '0');
 const cli = promisify(execFile);
 const sleep = (ms) => new Promise((ok) => setTimeout(ok, ms));
 const server = await createLabServer();
@@ -229,23 +229,27 @@ async function benchmark() {
 async function exportVideo() {
   const { context, page, errors } = await setup();
   const fps = 60;
-  const count = scene.duration * fps;
+  const count = Math.round(scene.duration * fps);
   const paths = { stream: join(artifacts, '.showcase.h264'), mp4: join(artifacts, 'kujo-infinite-canvas.mp4') };
   const codec = await page.evaluate(async ({ size, fps }) => {
-    const config = { codec: 'avc1.640033', ...size, framerate: fps, bitrate: 9_500_000,
-      avc: { format: 'annexb' }, latencyMode: 'realtime' };
+    const config = { codec: 'avc1.640033', ...size, framerate: fps, bitrate: 14_000_000,
+      avc: { format: 'annexb' }, latencyMode: 'quality', hardwareAcceleration: 'prefer-hardware' };
     if (!(await VideoEncoder.isConfigSupported(config)).supported) throw new Error('WebCodecs H.264 encoding is unavailable in this browser.');
     const stream = [];
     let failure;
     const encoder = new VideoEncoder({
-      output(chunk) { const bytes = new Uint8Array(chunk.byteLength); chunk.copyTo(bytes); stream.push(bytes); },
+      output(chunk) {
+        const bytes = new Uint8Array(chunk.byteLength);
+        chunk.copyTo(bytes);
+        stream.push({ bytes, timestamp: chunk.timestamp });
+      },
       error(error) { failure = error; },
     });
     encoder.configure(config);
     window.encodeSequence = async (start, end) => {
       for (let index = start; index < end; index++) {
         if (failure) throw failure;
-        if (encoder.encodeQueueSize >= 6) await encoder.flush();
+        if (encoder.encodeQueueSize >= 12) await new Promise((resolve) => encoder.addEventListener('dequeue', resolve, { once: true }));
         const canvas = kujoShowcase.compose(index / fps);
         const timestamp = Math.round(index * 1e6 / fps);
         const frame = new VideoFrame(canvas, { timestamp, duration: Math.round((index + 1) * 1e6 / fps) - timestamp });
@@ -253,12 +257,13 @@ async function exportVideo() {
         frame.close();
       }
       await encoder.flush();
-      const count = stream.length;
-      const bytes = new Uint8Array(stream.reduce((sum, chunk) => sum + chunk.length, 0));
+      if (failure) throw failure;
+      const timestamps = stream.map(({ timestamp }) => timestamp);
+      const bytes = new Uint8Array(stream.reduce((sum, chunk) => sum + chunk.bytes.length, 0));
       let offset = 0;
-      for (const chunk of stream) { bytes.set(chunk, offset); offset += chunk.length; }
+      for (const chunk of stream) { bytes.set(chunk.bytes, offset); offset += chunk.bytes.length; }
       stream.length = 0;
-      return { base64: bytes.toBase64(), count };
+      return { base64: bytes.toBase64(), timestamps };
     };
     window.closeEncoder = () => encoder.close();
     return config.codec;
@@ -268,16 +273,22 @@ async function exportVideo() {
   let encoded = 0;
   try {
     for (let i = 0; i < count; i += 60) {
-      const chunk = await page.evaluate(({ start, end }) => window.encodeSequence(start, end), { start: i, end: Math.min(i + 60, count) });
-      encoded += chunk.count;
+      const end = Math.min(i + 60, count);
+      const chunk = await page.evaluate(({ start, end }) => window.encodeSequence(start, end), { start: i, end });
+      assert.deepEqual(chunk.timestamps,
+        Array.from({ length: end - i }, (_, index) => Math.round((i + index) * 1e6 / fps)),
+        `Encoder omitted or reordered frames in batch starting at ${i}`);
+      encoded += chunk.timestamps.length;
       await stream.writeFile(Buffer.from(chunk.base64, 'base64'));
       if ((i + 60) % 300 === 0) console.log(`Encoded ${encoded}/${count} frames`);
     }
   } finally { await stream.close(); }
   await page.evaluate(() => window.closeEncoder());
   assert.equal(encoded, count);
+  const videoCodec = (await stat(paths.stream)).size > 45 * 2 ** 20
+    ? ['-c:v','libx264','-preset','fast','-crf','18','-pix_fmt','yuv420p'] : ['-c:v','copy'];
   await cli('ffmpeg', ['-y','-v','error','-fflags','+genpts','-r',String(fps),'-f','h264','-i',paths.stream,
-    '-c:v','copy','-movflags','+faststart',paths.mp4]);
+    ...videoCodec,'-movflags','+faststart',paths.mp4]);
   const { stdout } = await cli('ffprobe', ['-v','error','-count_frames','-select_streams','v:0','-show_entries',
     'stream=nb_read_frames,avg_frame_rate,width,height,duration','-of','json',paths.mp4]);
   const video = JSON.parse(stdout).streams[0];
@@ -293,7 +304,7 @@ async function exportVideo() {
 
 try {
   if (mode !== 'test') await mkdir(artifacts, { recursive: true });
-  browser = await chromium.launch({ channel, headless: !headed, args: ['--enable-gpu'] });
+  browser = await chromium.launch({ channel, headless: !headed, args: mode === 'export' ? ['--enable-gpu','--disable-frame-rate-limit'] : ['--enable-gpu'] });
   if (mode === 'test') await test();
   else if (mode === 'capture') await capture();
   else if (mode === 'benchmark') await benchmark();
