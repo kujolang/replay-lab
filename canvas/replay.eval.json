@@ -1,0 +1,21 @@
+{
+  "name": "replay-lab-policy-checks",
+  "description": "Check fresh Kujo decisions after strict replay of a scripted classifier response.",
+  "tests": [
+    {
+      "name": "Baseline queues P3",
+      "check": "json_value_equals",
+      "params": { "path": "baseline.json", "json_path": "decision.priority", "expected": "P3" }
+    },
+    {
+      "name": "Winner escalates to P1",
+      "check": "json_value_equals",
+      "params": { "path": "winner.json", "json_path": "decision.priority", "expected": "P1" }
+    },
+    {
+      "name": "Winner requests review",
+      "check": "json_value_equals",
+      "params": { "path": "winner.json", "json_path": "decision.human_review", "expected": true }
+    }
+  ]
+}

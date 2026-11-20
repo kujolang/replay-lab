@@ -2,3 +2,6 @@
 .runledger/
 eval_results/
 .DS_Store
+canvas/node_modules/
+canvas/artifacts/.recording/
+video/production-workspace/production/hyperframes/.thumbnails/

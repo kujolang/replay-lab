@@ -1,0 +1,16 @@
+{
+  "name": "kujo-replay-canvas",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "start": "node server.mjs",
+    "prepare:scenarios": "node scripts/prepare.mjs",
+    "test": "node --test test/*.test.mjs",
+    "test:browser": "node scripts/browser.mjs test",
+    "benchmark": "node scripts/browser.mjs benchmark",
+    "capture": "node scripts/browser.mjs capture"
+  },
+  "devDependencies": { "playwright": "1.57.0" }
+}
