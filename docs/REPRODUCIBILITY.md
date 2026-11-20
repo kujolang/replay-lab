@@ -1,6 +1,6 @@
 # Reproducibility
 
-Use the published Kujo v1.9.0 binary. The [README quickstart](../README.md) runs without an HTTP server, API token, or model account. The launcher disables general network client and server capabilities through the runtime's untrusted mode. All AI requests explicitly set native strict cassette mode. An unknown request returns the native miss and a safe fallback, with CLI exit 1.
+Install [Kujo](https://github.com/kujolang/kujo/releases/latest). The [README quickstart](../README.md) runs without an HTTP server, API token, or model account. The launcher disables general network client and server capabilities through the runtime's untrusted mode. All AI requests explicitly set native strict cassette mode. An unknown request returns the native miss and a safe fallback, with CLI exit 1.
 
 For your own project, see the [custom replay guide](CUSTOM_REPLAY.md). The commands below reproduce the issue-triage study.
 
@@ -30,7 +30,7 @@ Stop the fixture server with Ctrl+C. The local endpoint is part of request ident
 
 `tools/lab search results candidate-36 --behavior` compares the published decision digest and score with the current code on the original scenario and cassette hashes. Run `tools/lab verify results .scratch/reproduced --behavior` to compare all 200 records and held-out decisions. The verifier checks each run's source fingerprints for internal consistency and omits them only from the cross-revision comparison. It also omits measured latency. Holdout finalization still requires the exact source and tuning data of the new sweep. If holdout replay or its gate fails, the command exits nonzero and writes `final-rejected.json`. A passing run publishes `final.json`.
 
-To reproduce the published evidence with exact source matching, check out the original sweep at `5b4c8ede0c985ed12339993dc74aef01908fafdf` and use the commands there. In the current checkout, omit `--behavior` when comparing runs from the same source revision. Use the full rerun in the README to reproduce every candidate. To check compatibility through the tree-walking interpreter, substitute its path for the VM final invocation. Run this before a final report exists in the fresh run directory.
+To reproduce the environment of the published sweep, check out `5b4c8ede0c985ed12339993dc74aef01908fafdf` and run its commands with the [original Kujo release](https://github.com/kujolang/kujo/releases/tag/v1.9.0). CI checks both the original runtime and the latest stable release. In the current checkout, omit `--behavior` when comparing runs from the same source revision. Use the full rerun in the README to reproduce every candidate. To check compatibility through the tree-walking interpreter, substitute its path for the VM final invocation. Run this before a final report exists in the fresh run directory.
 
 ```sh
 "${KUJO_BIN:-kujo}" run --interpreter --untrusted --allow-ai --allow-fs-read \

@@ -15,7 +15,7 @@ Both tests should pass. The example tests invoice routing and has no dependency 
 
 ## Use it in another project
 
-Install [Kujo v1.9.0](https://github.com/kujolang/kujo/releases/tag/v1.9.0). Set `REPLAY_LAB` to the absolute path to this checkout. From your own project root, run the tests once against the provider and then replay them.
+Install [Kujo](https://github.com/kujolang/kujo/releases/latest). Set `REPLAY_LAB` to the absolute path to this checkout. From your own project root, run the tests once against the provider and then replay them.
 
 ```sh
 export REPLAY_LAB=/absolute/path/to/replay-lab
@@ -79,4 +79,4 @@ Stop the provider and replay the new cassettes.
 - Strict replay returns a miss when the request hash has no match, without calling a provider. The runner limits general network, subprocess and filesystem-write capabilities. Per-call AI options can override the environment, so set them to inherit or explicitly select strict replay. For workloads with their own integrations, use host network controls when you need to enforce isolation.
 - Successful recording requires the workload to pass and at least one cassette to be written. A failed recording stays marked incomplete. Replay refuses that directory. Keep it for inspection or use a new path to retry.
 - Native cassettes contain requests and replies. Review them before sharing, even though Kujo redacts configured credentials and sensitive headers. The launcher keeps your directory structure and uses the runtime's native file format.
-- If your tests need capabilities beyond reading files and environment variables and using native AI, use Kujo directly with the cassette environment variables and the flags your project requires. [Native cassette behavior](https://github.com/kujolang/kujo/blob/v1.9.0/docs/AI_RUNTIME.md)
+- If your tests need capabilities beyond reading files and environment variables and using native AI, use Kujo directly with the cassette environment variables and the flags your project requires. [Native cassette behavior](https://github.com/kujolang/kujo/blob/main/docs/AI_RUNTIME.md)

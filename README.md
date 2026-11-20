@@ -16,7 +16,7 @@ https://github.com/user-attachments/assets/b7d15d90-6d6b-4ad8-83c6-4a3b3dbeb520
 
 ## Run your own tests
 
-Use `tools/replay` from your own project root with Kujo v1.9.0. Run a script or a Kujo test file. Keep the app, assertions, and cassettes in your project.
+Install [Kujo](https://github.com/kujolang/kujo/releases/latest) and run `tools/replay` from your own project root. Keep the app, assertions, and cassettes in your project.
 
 ```sh
 /path/to/replay-lab/tools/replay replay tests/cassettes/suite-v1 test-run tests/model_test.kujo
@@ -32,7 +32,7 @@ Use `record` to capture replies for a new suite. To try a workload beyond triage
 
 ## Run the example
 
-Install [Kujo v1.9.0](https://github.com/kujolang/kujo/releases/tag/v1.9.0) and check `kujo --version`. If your PATH points to another version, set `KUJO_BIN` to the absolute path to the v1.9.0 binary.
+Install [Kujo](https://github.com/kujolang/kujo/releases/latest) and check `kujo --version`. To use a different installation, set `KUJO_BIN` to its executable path.
 
 ```sh
 git clone https://github.com/kujolang/replay-lab.git
