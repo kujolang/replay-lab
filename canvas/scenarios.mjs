@@ -165,7 +165,7 @@ export async function execute(progress = () => {}) {
       { id: 'workflow', type: 'Dispatch', title: definition.name, state: state.status, nativeId: state.run_id,
         metric: state.budget_usage.steps + ' steps', note: state.budget_usage.total_tokens + ' fixture tokens',
         duration: state.budget_usage.elapsed_ms, reference: state.run_id + '/state.json', url,
-        evidence: { input: { topic }, state, trace, report, provenance: 'Live Dispatch execution with offline model fixtures. Token and cost fields come from budget_usage and are fixture accounting.', processExitCode: operation.failure ?? 0 } },
+        evidence: { input: { topic }, state, trace, report, provenance: 'Live Dispatch execution with offline model fixtures. Token and cost fields come from budget_usage and are fixture accounting. Absolute tool paths are shown relative to the Dispatch checkout.', processExitCode: operation.failure ?? 0 } },
     ];
     for (const step of definition.steps) {
       const events = trace.events.filter((event) => event.step_id === step.id);
@@ -186,7 +186,9 @@ export async function execute(progress = () => {}) {
       metric: receipt.provider, note: receipt.model,
       reference: 'results/runledger-receipt.json', url: triageUrl + 'results/runledger-receipt.json',
       evidence: { receipt, provenance: 'Published receipt from the earlier 200-candidate study. Separate from Dispatch and browser operations.' } });
-    return cards;
+    return JSON.parse(JSON.stringify(cards, (_key, value) => typeof value === 'string'
+      ? value.replaceAll(dispatchRoot + '/', '<dispatch>/')
+      : value));
   });
 }
 

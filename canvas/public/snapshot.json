@@ -1,5 +1,5 @@
 {
-  "preparedAt": "2026-11-20T18:53:14.355Z",
+  "preparedAt": "2026-11-20T18:56:10.235Z",
   "scenarios": {
     "replay": [
       {
@@ -9,7 +9,7 @@
         "state": "Replayed",
         "metric": "P3",
         "note": "queue_feature",
-        "duration": 50,
+        "duration": 45,
         "reference": "src/main.kujo",
         "url": "https://github.com/kujolang/replay-lab/blob/757e25f/src/main.kujo",
         "evidence": {
@@ -46,7 +46,7 @@
         "state": "Replayed",
         "metric": "P1",
         "note": "manual_triage",
-        "duration": 43,
+        "duration": 45,
         "reference": "results/winner-policy.json",
         "url": "https://github.com/kujolang/replay-lab/blob/757e25f/results/winner-policy.json",
         "evidence": {
@@ -231,7 +231,7 @@
         "state": "Passed",
         "metric": "3/3 pass",
         "note": "Replay output checks",
-        "duration": 9,
+        "duration": 8,
         "reference": "canvas/replay.eval.json",
         "url": "https://github.com/kujolang/eval/blob/c1b263a/main.kujo",
         "evidence": {
@@ -304,7 +304,7 @@
               "cache_metric_hits": 0,
               "cache_metric_misses": 3,
               "cache_metric_unique_files": 0,
-              "duration_ms": 9,
+              "duration_ms": 8,
               "failed": 0,
               "parallel_fallback_reason": "",
               "parallel_mode": "serial",
@@ -449,11 +449,11 @@
         "type": "Dispatch",
         "title": "Routed Review",
         "state": "completed",
-        "nativeId": "run-1795200792995-9121",
+        "nativeId": "run-1795200968941-9962",
         "metric": "2 steps",
         "note": "191 fixture tokens",
-        "duration": 969,
-        "reference": "run-1795200792995-9121/state.json",
+        "duration": 904,
+        "reference": "run-1795200968941-9962/state.json",
         "url": "https://github.com/kujolang/dispatch/blob/18b5c73/examples/workflows/routed-review.json",
         "evidence": {
           "input": {
@@ -472,32 +472,32 @@
               "schema": "dispatch.assurance-negotiation/v1alpha1"
             },
             "budget_usage": {
-              "elapsed_ms": 969,
+              "elapsed_ms": 904,
               "estimated_cost_usd": 0,
               "input_tokens": 76,
               "output_tokens": 115,
               "steps": 2,
               "total_tokens": 191
             },
-            "completed_at": "2026-11-20 18:53:14",
+            "completed_at": "2026-11-20 18:56:09",
             "control_boundaries": [],
             "control_decisions": [],
             "control_journal": {
               "last_sha256": "",
-              "path": "outputs/run-1795200792995-9121/control-events.jsonl",
+              "path": "outputs/run-1795200968941-9962/control-events.jsonl",
               "schema": "kujo.control-journal/v1",
               "sequence": 0
             },
-            "created_at": "2026-11-20 18:53:12",
+            "created_at": "2026-11-20 18:56:08",
             "current_step_index": 2,
             "data": {
               "final_output": {
                 "paths": {
-                  "report_json_path": "outputs/run-1795200792995-9121/report.json",
-                  "report_md_path": "outputs/run-1795200792995-9121/report.md",
-                  "state_json_path": "outputs/run-1795200792995-9121/state.json",
-                  "trace_json_path": "outputs/run-1795200792995-9121/trace.json",
-                  "trace_md_path": "outputs/run-1795200792995-9121/trace.md"
+                  "report_json_path": "outputs/run-1795200968941-9962/report.json",
+                  "report_md_path": "outputs/run-1795200968941-9962/report.md",
+                  "state_json_path": "outputs/run-1795200968941-9962/state.json",
+                  "trace_json_path": "outputs/run-1795200968941-9962/trace.json",
+                  "trace_md_path": "outputs/run-1795200968941-9962/trace.md"
                 },
                 "report": {
                   "artifact_contract_version": 1,
@@ -506,7 +506,7 @@
                   "completed_steps": 1,
                   "confidence_notes": [],
                   "evidence": [],
-                  "generated_timestamp": "2026-11-20 18:53:13",
+                  "generated_timestamp": "2026-11-20 18:56:09",
                   "key_findings": [],
                   "limitations": [
                     "The demo relies on local fixture sources rather than live web retrieval.",
@@ -519,7 +519,7 @@
                           "decision_id": "route-86035df7f9c9e5a2d4e76d8f93a0a95905359e0151f08bd7b7eea9bcd468884e",
                           "fallback_index": 0,
                           "route": "planner::fixture::dispatch-frontier",
-                          "timestamp": "2026-11-20 18:53:13",
+                          "timestamp": "2026-11-20 18:56:09",
                           "type": "selected"
                         },
                         {
@@ -532,7 +532,7 @@
                             ]
                           },
                           "route": "planner::fixture::dispatch-frontier",
-                          "timestamp": "2026-11-20 18:53:13",
+                          "timestamp": "2026-11-20 18:56:09",
                           "type": "completed"
                         }
                       ]
@@ -581,12 +581,12 @@
                         "requested_agent_id": "planner",
                         "selected_agent_id": "planner",
                         "selected_agent_role": "planner",
-                        "selected_at": "2026-11-20 18:53:13",
+                        "selected_at": "2026-11-20 18:56:09",
                         "step_id": "plan"
                       }
                     }
                   },
-                  "run_id": "run-1795200792995-9121",
+                  "run_id": "run-1795200968941-9962",
                   "run_status": "running",
                   "schema_name": "dispatch-run-report",
                   "schema_version": 1,
@@ -594,14 +594,14 @@
                   "title": "Routed Review Output",
                   "topic": "Review an offline evidence package",
                   "total_steps": 2,
-                  "trace_id": "run-1795200792995-9121"
+                  "trace_id": "run-1795200968941-9962"
                 }
               },
               "input": {
                 "topic": "Review an offline evidence package"
               },
               "plan": {
-                "created_at": "2026-11-20 18:53:13",
+                "created_at": "2026-11-20 18:56:09",
                 "expected_sections": [
                   "Summary",
                   "Findings",
@@ -627,11 +627,11 @@
             "errors": [],
             "final_output": {
               "paths": {
-                "report_json_path": "outputs/run-1795200792995-9121/report.json",
-                "report_md_path": "outputs/run-1795200792995-9121/report.md",
-                "state_json_path": "outputs/run-1795200792995-9121/state.json",
-                "trace_json_path": "outputs/run-1795200792995-9121/trace.json",
-                "trace_md_path": "outputs/run-1795200792995-9121/trace.md"
+                "report_json_path": "outputs/run-1795200968941-9962/report.json",
+                "report_md_path": "outputs/run-1795200968941-9962/report.md",
+                "state_json_path": "outputs/run-1795200968941-9962/state.json",
+                "trace_json_path": "outputs/run-1795200968941-9962/trace.json",
+                "trace_md_path": "outputs/run-1795200968941-9962/trace.md"
               },
               "report": {
                 "artifact_contract_version": 1,
@@ -640,7 +640,7 @@
                 "completed_steps": 1,
                 "confidence_notes": [],
                 "evidence": [],
-                "generated_timestamp": "2026-11-20 18:53:13",
+                "generated_timestamp": "2026-11-20 18:56:09",
                 "key_findings": [],
                 "limitations": [
                   "The demo relies on local fixture sources rather than live web retrieval.",
@@ -653,7 +653,7 @@
                         "decision_id": "route-86035df7f9c9e5a2d4e76d8f93a0a95905359e0151f08bd7b7eea9bcd468884e",
                         "fallback_index": 0,
                         "route": "planner::fixture::dispatch-frontier",
-                        "timestamp": "2026-11-20 18:53:13",
+                        "timestamp": "2026-11-20 18:56:09",
                         "type": "selected"
                       },
                       {
@@ -666,7 +666,7 @@
                           ]
                         },
                         "route": "planner::fixture::dispatch-frontier",
-                        "timestamp": "2026-11-20 18:53:13",
+                        "timestamp": "2026-11-20 18:56:09",
                         "type": "completed"
                       }
                     ]
@@ -715,12 +715,12 @@
                       "requested_agent_id": "planner",
                       "selected_agent_id": "planner",
                       "selected_agent_role": "planner",
-                      "selected_at": "2026-11-20 18:53:13",
+                      "selected_at": "2026-11-20 18:56:09",
                       "step_id": "plan"
                     }
                   }
                 },
-                "run_id": "run-1795200792995-9121",
+                "run_id": "run-1795200968941-9962",
                 "run_status": "running",
                 "schema_name": "dispatch-run-report",
                 "schema_version": 1,
@@ -728,7 +728,7 @@
                 "title": "Routed Review Output",
                 "topic": "Review an offline evidence package",
                 "total_steps": 2,
-                "trace_id": "run-1795200792995-9121"
+                "trace_id": "run-1795200968941-9962"
               }
             },
             "handoffs": [],
@@ -741,28 +741,28 @@
                 "planner": [
                   {
                     "note": "Completed step plan",
-                    "timestamp": "2026-11-20 18:53:13"
+                    "timestamp": "2026-11-20 18:56:09"
                   }
                 ]
               },
               "history": [
                 {
                   "step_id": "plan",
-                  "timestamp": "2026-11-20 18:53:13"
+                  "timestamp": "2026-11-20 18:56:09"
                 },
                 {
                   "step_id": "final_output",
-                  "timestamp": "2026-11-20 18:53:13"
+                  "timestamp": "2026-11-20 18:56:09"
                 }
               ],
               "step_outputs": {
                 "final_output": {
                   "paths": {
-                    "report_json_path": "outputs/run-1795200792995-9121/report.json",
-                    "report_md_path": "outputs/run-1795200792995-9121/report.md",
-                    "state_json_path": "outputs/run-1795200792995-9121/state.json",
-                    "trace_json_path": "outputs/run-1795200792995-9121/trace.json",
-                    "trace_md_path": "outputs/run-1795200792995-9121/trace.md"
+                    "report_json_path": "outputs/run-1795200968941-9962/report.json",
+                    "report_md_path": "outputs/run-1795200968941-9962/report.md",
+                    "state_json_path": "outputs/run-1795200968941-9962/state.json",
+                    "trace_json_path": "outputs/run-1795200968941-9962/trace.json",
+                    "trace_md_path": "outputs/run-1795200968941-9962/trace.md"
                   },
                   "report": {
                     "artifact_contract_version": 1,
@@ -771,7 +771,7 @@
                     "completed_steps": 1,
                     "confidence_notes": [],
                     "evidence": [],
-                    "generated_timestamp": "2026-11-20 18:53:13",
+                    "generated_timestamp": "2026-11-20 18:56:09",
                     "key_findings": [],
                     "limitations": [
                       "The demo relies on local fixture sources rather than live web retrieval.",
@@ -784,7 +784,7 @@
                             "decision_id": "route-86035df7f9c9e5a2d4e76d8f93a0a95905359e0151f08bd7b7eea9bcd468884e",
                             "fallback_index": 0,
                             "route": "planner::fixture::dispatch-frontier",
-                            "timestamp": "2026-11-20 18:53:13",
+                            "timestamp": "2026-11-20 18:56:09",
                             "type": "selected"
                           },
                           {
@@ -797,7 +797,7 @@
                               ]
                             },
                             "route": "planner::fixture::dispatch-frontier",
-                            "timestamp": "2026-11-20 18:53:13",
+                            "timestamp": "2026-11-20 18:56:09",
                             "type": "completed"
                           }
                         ]
@@ -846,12 +846,12 @@
                           "requested_agent_id": "planner",
                           "selected_agent_id": "planner",
                           "selected_agent_role": "planner",
-                          "selected_at": "2026-11-20 18:53:13",
+                          "selected_at": "2026-11-20 18:56:09",
                           "step_id": "plan"
                         }
                       }
                     },
-                    "run_id": "run-1795200792995-9121",
+                    "run_id": "run-1795200968941-9962",
                     "run_status": "running",
                     "schema_name": "dispatch-run-report",
                     "schema_version": 1,
@@ -859,11 +859,11 @@
                     "title": "Routed Review Output",
                     "topic": "Review an offline evidence package",
                     "total_steps": 2,
-                    "trace_id": "run-1795200792995-9121"
+                    "trace_id": "run-1795200968941-9962"
                   }
                 },
                 "plan": {
-                  "created_at": "2026-11-20 18:53:13",
+                  "created_at": "2026-11-20 18:56:09",
                   "expected_sections": [
                     "Summary",
                     "Findings",
@@ -887,7 +887,7 @@
                 }
               },
               "workflow": {
-                "created_at": "2026-11-20 18:53:12",
+                "created_at": "2026-11-20 18:56:08",
                 "topic": "Review an offline evidence package"
               }
             },
@@ -897,7 +897,7 @@
               "auto_approve": true,
               "denied_tools": [],
               "interactive": false,
-              "sources_dir": "/Users/robertdevore/2026/Kujolang/kujo-repos/dispatch/examples/research-report/sources",
+              "sources_dir": "<dispatch>/examples/research-report/sources",
               "tags": [],
               "trace_max_events": 400,
               "trace_max_payload_chars": 2400,
@@ -907,7 +907,7 @@
             "provider_health": {
               "fixture": {
                 "consecutive_failures": 0,
-                "last_success_at": "2026-11-20 18:53:13",
+                "last_success_at": "2026-11-20 18:56:09",
                 "open_until_ms": 0,
                 "status": "healthy"
               }
@@ -923,7 +923,7 @@
                   "decision_id": "route-86035df7f9c9e5a2d4e76d8f93a0a95905359e0151f08bd7b7eea9bcd468884e",
                   "fallback_index": 0,
                   "route": "planner::fixture::dispatch-frontier",
-                  "timestamp": "2026-11-20 18:53:13",
+                  "timestamp": "2026-11-20 18:56:09",
                   "type": "selected"
                 },
                 {
@@ -936,7 +936,7 @@
                     ]
                   },
                   "route": "planner::fixture::dispatch-frontier",
-                  "timestamp": "2026-11-20 18:53:13",
+                  "timestamp": "2026-11-20 18:56:09",
                   "type": "completed"
                 }
               ]
@@ -985,15 +985,15 @@
                 "requested_agent_id": "planner",
                 "selected_agent_id": "planner",
                 "selected_agent_role": "planner",
-                "selected_at": "2026-11-20 18:53:13",
+                "selected_at": "2026-11-20 18:56:09",
                 "step_id": "plan"
               }
             },
-            "run_dir": "outputs/run-1795200792995-9121",
-            "run_id": "run-1795200792995-9121",
+            "run_dir": "outputs/run-1795200968941-9962",
+            "run_id": "run-1795200968941-9962",
             "schema_name": "dispatch-run-state",
             "schema_version": 2,
-            "started_at_ms": 1795200792996,
+            "started_at_ms": 1795200968943,
             "status": "completed",
             "steps": [
               {
@@ -1042,7 +1042,7 @@
                 "error": null,
                 "evaluation": {},
                 "evaluation_result_path": "",
-                "finished_at": "2026-11-20 18:53:13",
+                "finished_at": "2026-11-20 18:56:09",
                 "handoff": {},
                 "id": "plan",
                 "idempotency_key": "",
@@ -1059,7 +1059,7 @@
                 "name": "Plan Review",
                 "optional": false,
                 "output": {
-                  "created_at": "2026-11-20 18:53:13",
+                  "created_at": "2026-11-20 18:56:09",
                   "expected_sections": [
                     "Summary",
                     "Findings",
@@ -1128,7 +1128,7 @@
                   "requested_agent_id": "planner",
                   "selected_agent_id": "planner",
                   "selected_agent_role": "planner",
-                  "selected_at": "2026-11-20 18:53:13",
+                  "selected_at": "2026-11-20 18:56:09",
                   "step_id": "plan"
                 },
                 "route_evaluation": {
@@ -1149,7 +1149,7 @@
                   }
                 },
                 "routing_constraints": {},
-                "started_at": "2026-11-20 18:53:13",
+                "started_at": "2026-11-20 18:56:09",
                 "status": "completed",
                 "timeout_ms": 0,
                 "tool_name": "",
@@ -1192,13 +1192,13 @@
                 "error": null,
                 "evaluation": {},
                 "evaluation_result_path": "",
-                "finished_at": "2026-11-20 18:53:13",
+                "finished_at": "2026-11-20 18:56:09",
                 "handoff": {},
                 "id": "finalize",
                 "idempotency_key": "",
                 "input": {
                   "plan": {
-                    "created_at": "2026-11-20 18:53:13",
+                    "created_at": "2026-11-20 18:56:09",
                     "expected_sections": [
                       "Summary",
                       "Findings",
@@ -1230,11 +1230,11 @@
                 "optional": false,
                 "output": {
                   "paths": {
-                    "report_json_path": "outputs/run-1795200792995-9121/report.json",
-                    "report_md_path": "outputs/run-1795200792995-9121/report.md",
-                    "state_json_path": "outputs/run-1795200792995-9121/state.json",
-                    "trace_json_path": "outputs/run-1795200792995-9121/trace.json",
-                    "trace_md_path": "outputs/run-1795200792995-9121/trace.md"
+                    "report_json_path": "outputs/run-1795200968941-9962/report.json",
+                    "report_md_path": "outputs/run-1795200968941-9962/report.md",
+                    "state_json_path": "outputs/run-1795200968941-9962/state.json",
+                    "trace_json_path": "outputs/run-1795200968941-9962/trace.json",
+                    "trace_md_path": "outputs/run-1795200968941-9962/trace.md"
                   },
                   "report": {
                     "artifact_contract_version": 1,
@@ -1243,7 +1243,7 @@
                     "completed_steps": 1,
                     "confidence_notes": [],
                     "evidence": [],
-                    "generated_timestamp": "2026-11-20 18:53:13",
+                    "generated_timestamp": "2026-11-20 18:56:09",
                     "key_findings": [],
                     "limitations": [
                       "The demo relies on local fixture sources rather than live web retrieval.",
@@ -1256,7 +1256,7 @@
                             "decision_id": "route-86035df7f9c9e5a2d4e76d8f93a0a95905359e0151f08bd7b7eea9bcd468884e",
                             "fallback_index": 0,
                             "route": "planner::fixture::dispatch-frontier",
-                            "timestamp": "2026-11-20 18:53:13",
+                            "timestamp": "2026-11-20 18:56:09",
                             "type": "selected"
                           },
                           {
@@ -1269,7 +1269,7 @@
                               ]
                             },
                             "route": "planner::fixture::dispatch-frontier",
-                            "timestamp": "2026-11-20 18:53:13",
+                            "timestamp": "2026-11-20 18:56:09",
                             "type": "completed"
                           }
                         ]
@@ -1318,12 +1318,12 @@
                           "requested_agent_id": "planner",
                           "selected_agent_id": "planner",
                           "selected_agent_role": "planner",
-                          "selected_at": "2026-11-20 18:53:13",
+                          "selected_at": "2026-11-20 18:56:09",
                           "step_id": "plan"
                         }
                       }
                     },
-                    "run_id": "run-1795200792995-9121",
+                    "run_id": "run-1795200968941-9962",
                     "run_status": "running",
                     "schema_name": "dispatch-run-report",
                     "schema_version": 1,
@@ -1331,7 +1331,7 @@
                     "title": "Routed Review Output",
                     "topic": "Review an offline evidence package",
                     "total_steps": 2,
-                    "trace_id": "run-1795200792995-9121"
+                    "trace_id": "run-1795200968941-9962"
                   }
                 },
                 "output_key": "final_output",
@@ -1342,7 +1342,7 @@
                 "route_evaluation": null,
                 "routing": {},
                 "routing_constraints": {},
-                "started_at": "2026-11-20 18:53:13",
+                "started_at": "2026-11-20 18:56:09",
                 "status": "completed",
                 "timeout_ms": 0,
                 "tool_name": "",
@@ -1355,39 +1355,39 @@
               "event_count_total": 10,
               "events": [
                 {
-                  "id": "evt-1795200793136-1",
+                  "id": "evt-1795200969080-1",
                   "message": "Step started: Plan Review",
                   "payload": {
                     "input_summary": "{\"input\":{\"topic\":\"Review an offline evidence package\"}}",
                     "step_type": "agent"
                   },
                   "payload_summary": "{\"input_summary\":\"{\\\"input\\\":{\\\"topic\\\":\\\"Review an offline evidence package\\\"}}\",\"step_type\":\"agent\"}",
-                  "run_id": "run-1795200792995-9121",
-                  "span_id": "0501e8268842ab8f",
+                  "run_id": "run-1795200968941-9962",
+                  "span_id": "c4c943299f690579",
                   "step_id": "plan",
-                  "timestamp": "2026-11-20 18:53:13",
-                  "timestamp_unix_nano": "1795200793136000000",
-                  "trace_id": "ab6bf726c7359ff9af11fb4084265c0b",
+                  "timestamp": "2026-11-20 18:56:09",
+                  "timestamp_unix_nano": "1795200969080000000",
+                  "trace_id": "0fa111782025f048ba94bc3bd31bd62e",
                   "type": "step_started"
                 },
                 {
-                  "id": "evt-1795200793254-2",
+                  "id": "evt-1795200969195-2",
                   "message": "Route requested",
                   "payload": {
                     "policy_version": "1.0.0",
                     "requested_agent_id": "planner"
                   },
                   "payload_summary": "{\"policy_version\":\"1.0.0\",\"requested_agent_id\":\"planner\"}",
-                  "run_id": "run-1795200792995-9121",
-                  "span_id": "9ec801ce6788a796",
+                  "run_id": "run-1795200968941-9962",
+                  "span_id": "10ed2f2e137e5bad",
                   "step_id": "plan",
-                  "timestamp": "2026-11-20 18:53:13",
-                  "timestamp_unix_nano": "1795200793254000000",
-                  "trace_id": "ab6bf726c7359ff9af11fb4084265c0b",
+                  "timestamp": "2026-11-20 18:56:09",
+                  "timestamp_unix_nano": "1795200969195000000",
+                  "trace_id": "0fa111782025f048ba94bc3bd31bd62e",
                   "type": "route_requested"
                 },
                 {
-                  "id": "evt-1795200793256-3",
+                  "id": "evt-1795200969197-3",
                   "message": "Route candidates evaluated",
                   "payload": {
                     "candidate_count": 2,
@@ -1405,16 +1405,16 @@
                     ]
                   },
                   "payload_summary": "{\"candidate_count\":2,\"candidate_evaluations\":[{\"candidate_key\":\"planner::fixture::dispatch-frontier\",\"eligible\":true,\"reason_codes\":[]},{\"candidate_key\":\"planner::fixture::dispatch-standard\",\"eligible\":true,\"reason_codes\":[]}]}",
-                  "run_id": "run-1795200792995-9121",
-                  "span_id": "4e6863ecc89437a2",
+                  "run_id": "run-1795200968941-9962",
+                  "span_id": "2d5610ce4597a5fb",
                   "step_id": "plan",
-                  "timestamp": "2026-11-20 18:53:13",
-                  "timestamp_unix_nano": "1795200793256000000",
-                  "trace_id": "ab6bf726c7359ff9af11fb4084265c0b",
+                  "timestamp": "2026-11-20 18:56:09",
+                  "timestamp_unix_nano": "1795200969197000000",
+                  "trace_id": "0fa111782025f048ba94bc3bd31bd62e",
                   "type": "route_candidates_evaluated"
                 },
                 {
-                  "id": "evt-1795200793259-4",
+                  "id": "evt-1795200969200-4",
                   "message": "Route selected",
                   "payload": {
                     "decision": {
@@ -1460,21 +1460,21 @@
                       "requested_agent_id": "planner",
                       "selected_agent_id": "planner",
                       "selected_agent_role": "planner",
-                      "selected_at": "2026-11-20 18:53:13",
+                      "selected_at": "2026-11-20 18:56:09",
                       "step_id": "plan"
                     }
                   },
-                  "payload_summary": "{\"decision\":{\"candidate_count\":2,\"catalog_hash\":\"19361cd0c20683477da347fab722fc6437427eb53a3318e6020ebe7fd68636ad\",\"catalog_id\":\"dispatch-example-fixture\",\"catalog_version\":\"1\",\"constraints\":{\"maximum_risk\":\"low\",\"quality_floor\":\"standard\",\"require_catalog_membership\":true,\"required_capabilities\":[\"plan_research\"],\"required_context_tokens\":4000,\"unknown_metadata\":\"reject_constrained\"},\"decision_id\":\"route-86035df7f9c9e5a2d4e76d8f93a0a95905359e0151f08bd7b7eea9bcd468884e\",\"estimated_cost\":{\"currency\":\"USD\",\"input_per_million\":null,\"output_per_million\":null},\"estimated_latency_ms\":900,\"execution_contract\":{\"id\":\"research-planner\",\"version\":\"1\"},\"fallback_index\":0,\"handler_id\":\"planner\",\"model\":\"dispatch-frontier\",\"objective\":\"quality_first\",\"policy_version\":\"1.0.0\",\"provider_id\":\"fixture\",\"quality_tier\":\"frontier\",\"reason_codes\":[\"hard_constraints_satisfied\",\"quality_first\",\"deterministic_tiebreak\",\"requested_agent_preserved\"],\"relative_quality\":0.95,\"requested_agent_id\":\"planner\",\"selected_agent_id\":\"planner\",\"selected_agent_role\":\"planner\",\"selected_at\":\"2026-11-20 18:53:13\",\"step_id\":\"plan\"}}",
-                  "run_id": "run-1795200792995-9121",
-                  "span_id": "004b7d80cbaea943",
+                  "payload_summary": "{\"decision\":{\"candidate_count\":2,\"catalog_hash\":\"19361cd0c20683477da347fab722fc6437427eb53a3318e6020ebe7fd68636ad\",\"catalog_id\":\"dispatch-example-fixture\",\"catalog_version\":\"1\",\"constraints\":{\"maximum_risk\":\"low\",\"quality_floor\":\"standard\",\"require_catalog_membership\":true,\"required_capabilities\":[\"plan_research\"],\"required_context_tokens\":4000,\"unknown_metadata\":\"reject_constrained\"},\"decision_id\":\"route-86035df7f9c9e5a2d4e76d8f93a0a95905359e0151f08bd7b7eea9bcd468884e\",\"estimated_cost\":{\"currency\":\"USD\",\"input_per_million\":null,\"output_per_million\":null},\"estimated_latency_ms\":900,\"execution_contract\":{\"id\":\"research-planner\",\"version\":\"1\"},\"fallback_index\":0,\"handler_id\":\"planner\",\"model\":\"dispatch-frontier\",\"objective\":\"quality_first\",\"policy_version\":\"1.0.0\",\"provider_id\":\"fixture\",\"quality_tier\":\"frontier\",\"reason_codes\":[\"hard_constraints_satisfied\",\"quality_first\",\"deterministic_tiebreak\",\"requested_agent_preserved\"],\"relative_quality\":0.95,\"requested_agent_id\":\"planner\",\"selected_agent_id\":\"planner\",\"selected_agent_role\":\"planner\",\"selected_at\":\"2026-11-20 18:56:09\",\"step_id\":\"plan\"}}",
+                  "run_id": "run-1795200968941-9962",
+                  "span_id": "06068b7d330400ad",
                   "step_id": "plan",
-                  "timestamp": "2026-11-20 18:53:13",
-                  "timestamp_unix_nano": "1795200793259000000",
-                  "trace_id": "ab6bf726c7359ff9af11fb4084265c0b",
+                  "timestamp": "2026-11-20 18:56:09",
+                  "timestamp_unix_nano": "1795200969200000000",
+                  "trace_id": "0fa111782025f048ba94bc3bd31bd62e",
                   "type": "route_selected"
                 },
                 {
-                  "id": "evt-1795200793379-5",
+                  "id": "evt-1795200969320-5",
                   "message": "Model call started",
                   "payload": {
                     "decision_id": "route-86035df7f9c9e5a2d4e76d8f93a0a95905359e0151f08bd7b7eea9bcd468884e",
@@ -1482,16 +1482,16 @@
                     "provider_id": "fixture"
                   },
                   "payload_summary": "{\"decision_id\":\"route-86035df7f9c9e5a2d4e76d8f93a0a95905359e0151f08bd7b7eea9bcd468884e\",\"model\":\"dispatch-frontier\",\"provider_id\":\"fixture\"}",
-                  "run_id": "run-1795200792995-9121",
-                  "span_id": "8dd5e0961b3c7594",
+                  "run_id": "run-1795200968941-9962",
+                  "span_id": "5661251b0278950b",
                   "step_id": "plan",
-                  "timestamp": "2026-11-20 18:53:13",
-                  "timestamp_unix_nano": "1795200793379000000",
-                  "trace_id": "ab6bf726c7359ff9af11fb4084265c0b",
+                  "timestamp": "2026-11-20 18:56:09",
+                  "timestamp_unix_nano": "1795200969320000000",
+                  "trace_id": "0fa111782025f048ba94bc3bd31bd62e",
                   "type": "model_call_started"
                 },
                 {
-                  "id": "evt-1795200793518-6",
+                  "id": "evt-1795200969452-6",
                   "message": "Model call completed",
                   "payload": {
                     "decision_id": "route-86035df7f9c9e5a2d4e76d8f93a0a95905359e0151f08bd7b7eea9bcd468884e",
@@ -1512,16 +1512,16 @@
                     "provider_id": "fixture"
                   },
                   "payload_summary": "{\"decision_id\":\"route-86035df7f9c9e5a2d4e76d8f93a0a95905359e0151f08bd7b7eea9bcd468884e\",\"model\":\"dispatch-frontier\",\"model_calls\":[{\"model\":\"dispatch-frontier\",\"ok\":true,\"provider\":\"fixture\",\"usage\":{\"estimated\":true,\"input_tokens\":76,\"output_tokens\":115,\"total_tokens\":191}}],\"provider_id\":\"fixture\"}",
-                  "run_id": "run-1795200792995-9121",
-                  "span_id": "750172999e20ee7a",
+                  "run_id": "run-1795200968941-9962",
+                  "span_id": "11fc7021f041b6f5",
                   "step_id": "plan",
-                  "timestamp": "2026-11-20 18:53:13",
-                  "timestamp_unix_nano": "1795200793518000000",
-                  "trace_id": "ab6bf726c7359ff9af11fb4084265c0b",
+                  "timestamp": "2026-11-20 18:56:09",
+                  "timestamp_unix_nano": "1795200969452000000",
+                  "trace_id": "0fa111782025f048ba94bc3bd31bd62e",
                   "type": "model_call_completed"
                 },
                 {
-                  "id": "evt-1795200793651-7",
+                  "id": "evt-1795200969570-7",
                   "message": "Step completed: Plan Review",
                   "payload": {
                     "attempt_records": [
@@ -1529,56 +1529,56 @@
                         "attempt": 1,
                         "error": null,
                         "ok": true,
-                        "timestamp": "2026-11-20 18:53:13"
+                        "timestamp": "2026-11-20 18:56:09"
                       }
                     ],
                     "attempts": 1,
-                    "output_summary": "{\"created_at\":\"2026-11-20 18:53:13\",\"expected_sections\":[\"Summary\",\"Findings\",\"Claims\",\"Evidence\",\"Limitations\"],\"model_brief\":\"Dispatch offline fixture response for: Create a concise research plan for topic: Review an o..."
+                    "output_summary": "{\"created_at\":\"2026-11-20 18:56:09\",\"expected_sections\":[\"Summary\",\"Findings\",\"Claims\",\"Evidence\",\"Limitations\"],\"model_brief\":\"Dispatch offline fixture response for: Create a concise research plan for topic: Review an o..."
                   },
-                  "payload_summary": "{\"attempt_records\":[{\"attempt\":1,\"error\":null,\"ok\":true,\"timestamp\":\"2026-11-20 18:53:13\"}],\"attempts\":1,\"output_summary\":\"{\\\"created_at\\\":\\\"2026-11-20 18:53:13\\\",\\\"expected_sections\\\":[\\\"Summary\\\",\\\"Findings\\\",\\\"Claims\\\",\\\"Evidence\\\",\\\"Limitations\\\"],\\\"model_brief\\\":\\\"Dispatch offline fixture response for: Create a concise research plan for topic: Review an o...\"}",
-                  "run_id": "run-1795200792995-9121",
-                  "span_id": "85e54f2676de5245",
+                  "payload_summary": "{\"attempt_records\":[{\"attempt\":1,\"error\":null,\"ok\":true,\"timestamp\":\"2026-11-20 18:56:09\"}],\"attempts\":1,\"output_summary\":\"{\\\"created_at\\\":\\\"2026-11-20 18:56:09\\\",\\\"expected_sections\\\":[\\\"Summary\\\",\\\"Findings\\\",\\\"Claims\\\",\\\"Evidence\\\",\\\"Limitations\\\"],\\\"model_brief\\\":\\\"Dispatch offline fixture response for: Create a concise research plan for topic: Review an o...\"}",
+                  "run_id": "run-1795200968941-9962",
+                  "span_id": "9e13a42c403d8c60",
                   "step_id": "plan",
-                  "timestamp": "2026-11-20 18:53:13",
-                  "timestamp_unix_nano": "1795200793651000000",
-                  "trace_id": "ab6bf726c7359ff9af11fb4084265c0b",
+                  "timestamp": "2026-11-20 18:56:09",
+                  "timestamp_unix_nano": "1795200969570000000",
+                  "trace_id": "0fa111782025f048ba94bc3bd31bd62e",
                   "type": "step_completed"
                 },
                 {
-                  "id": "evt-1795200793785-8",
+                  "id": "evt-1795200969695-8",
                   "message": "Step started: Finalize",
                   "payload": {
-                    "input_summary": "{\"plan\":{\"created_at\":\"2026-11-20 18:53:13\",\"expected_sections\":[\"Summary\",\"Findings\",\"Claims\",\"Evidence\",\"Limitations\"],\"model_brief\":\"Dispatch offline fixture response for: Create a concise research plan for topic: Rev...",
+                    "input_summary": "{\"plan\":{\"created_at\":\"2026-11-20 18:56:09\",\"expected_sections\":[\"Summary\",\"Findings\",\"Claims\",\"Evidence\",\"Limitations\"],\"model_brief\":\"Dispatch offline fixture response for: Create a concise research plan for topic: Rev...",
                     "step_type": "report"
                   },
-                  "payload_summary": "{\"input_summary\":\"{\\\"plan\\\":{\\\"created_at\\\":\\\"2026-11-20 18:53:13\\\",\\\"expected_sections\\\":[\\\"Summary\\\",\\\"Findings\\\",\\\"Claims\\\",\\\"Evidence\\\",\\\"Limitations\\\"],\\\"model_brief\\\":\\\"Dispatch offline fixture response for: Create a concise research plan for topic: Rev...\",\"step_type\":\"report\"}",
-                  "run_id": "run-1795200792995-9121",
-                  "span_id": "d043ee321e4f8d4e",
+                  "payload_summary": "{\"input_summary\":\"{\\\"plan\\\":{\\\"created_at\\\":\\\"2026-11-20 18:56:09\\\",\\\"expected_sections\\\":[\\\"Summary\\\",\\\"Findings\\\",\\\"Claims\\\",\\\"Evidence\\\",\\\"Limitations\\\"],\\\"model_brief\\\":\\\"Dispatch offline fixture response for: Create a concise research plan for topic: Rev...\",\"step_type\":\"report\"}",
+                  "run_id": "run-1795200968941-9962",
+                  "span_id": "25ff1c7dde9646e0",
                   "step_id": "finalize",
-                  "timestamp": "2026-11-20 18:53:13",
-                  "timestamp_unix_nano": "1795200793785000000",
-                  "trace_id": "ab6bf726c7359ff9af11fb4084265c0b",
+                  "timestamp": "2026-11-20 18:56:09",
+                  "timestamp_unix_nano": "1795200969695000000",
+                  "trace_id": "0fa111782025f048ba94bc3bd31bd62e",
                   "type": "step_started"
                 },
                 {
-                  "id": "evt-1795200793971-9",
+                  "id": "evt-1795200969852-9",
                   "message": "Step completed: Finalize",
                   "payload": {
                     "attempt_records": [],
                     "attempts": 1,
-                    "output_summary": "{\"paths\":{\"report_json_path\":\"outputs/run-1795200792995-9121/report.json\",\"report_md_path\":\"outputs/run-1795200792995-9121/report.md\",\"state_json_path\":\"outputs/run-1795200792995-9121/state.json\",\"trace_json_path\":\"outpu..."
+                    "output_summary": "{\"paths\":{\"report_json_path\":\"outputs/run-1795200968941-9962/report.json\",\"report_md_path\":\"outputs/run-1795200968941-9962/report.md\",\"state_json_path\":\"outputs/run-1795200968941-9962/state.json\",\"trace_json_path\":\"outpu..."
                   },
-                  "payload_summary": "{\"attempt_records\":[],\"attempts\":1,\"output_summary\":\"{\\\"paths\\\":{\\\"report_json_path\\\":\\\"outputs/run-1795200792995-9121/report.json\\\",\\\"report_md_path\\\":\\\"outputs/run-1795200792995-9121/report.md\\\",\\\"state_json_path\\\":\\\"outputs/run-1795200792995-9121/state.json\\\",\\\"trace_json_path\\\":\\\"outpu...\"}",
-                  "run_id": "run-1795200792995-9121",
-                  "span_id": "acdb5ba80e7f57b4",
+                  "payload_summary": "{\"attempt_records\":[],\"attempts\":1,\"output_summary\":\"{\\\"paths\\\":{\\\"report_json_path\\\":\\\"outputs/run-1795200968941-9962/report.json\\\",\\\"report_md_path\\\":\\\"outputs/run-1795200968941-9962/report.md\\\",\\\"state_json_path\\\":\\\"outputs/run-1795200968941-9962/state.json\\\",\\\"trace_json_path\\\":\\\"outpu...\"}",
+                  "run_id": "run-1795200968941-9962",
+                  "span_id": "78225c1cdb3a504c",
                   "step_id": "finalize",
-                  "timestamp": "2026-11-20 18:53:13",
-                  "timestamp_unix_nano": "1795200793971000000",
-                  "trace_id": "ab6bf726c7359ff9af11fb4084265c0b",
+                  "timestamp": "2026-11-20 18:56:09",
+                  "timestamp_unix_nano": "1795200969852000000",
+                  "trace_id": "0fa111782025f048ba94bc3bd31bd62e",
                   "type": "step_completed"
                 },
                 {
-                  "id": "evt-1795200794121-10",
+                  "id": "evt-1795200969993-10",
                   "message": "Workflow completed successfully",
                   "payload": {
                     "approvals": 0,
@@ -1586,26 +1586,26 @@
                     "handoffs": 0
                   },
                   "payload_summary": "{\"approvals\":0,\"completed_steps\":2,\"handoffs\":0}",
-                  "run_id": "run-1795200792995-9121",
-                  "span_id": "ee43290bb9642225",
+                  "run_id": "run-1795200968941-9962",
+                  "span_id": "3795957cbb2faa17",
                   "step_id": "workflow",
-                  "timestamp": "2026-11-20 18:53:14",
-                  "timestamp_unix_nano": "1795200794121000000",
-                  "trace_id": "ab6bf726c7359ff9af11fb4084265c0b",
+                  "timestamp": "2026-11-20 18:56:09",
+                  "timestamp_unix_nano": "1795200969993000000",
+                  "trace_id": "0fa111782025f048ba94bc3bd31bd62e",
                   "type": "run_completed"
                 }
               ],
-              "finished_at": "2026-11-20 18:53:14",
+              "finished_at": "2026-11-20 18:56:09",
               "limits": {
                 "max_events": 400,
                 "max_payload_chars": 2400
               },
-              "run_id": "run-1795200792995-9121",
+              "run_id": "run-1795200968941-9962",
               "schema_name": "dispatch-trace",
               "schema_version": 1,
-              "started_at": "2026-11-20 18:53:12",
+              "started_at": "2026-11-20 18:56:08",
               "status": "completed",
-              "trace_id": "ab6bf726c7359ff9af11fb4084265c0b",
+              "trace_id": "0fa111782025f048ba94bc3bd31bd62e",
               "truncated": {
                 "events_dropped": 0,
                 "max_events": 400,
@@ -1614,7 +1614,7 @@
               },
               "workflow_name": "Routed Review"
             },
-            "updated_at": "2026-11-20 18:53:14",
+            "updated_at": "2026-11-20 18:56:10",
             "workflow_definition": {
               "active_plugins": [],
               "agents": {
@@ -1753,7 +1753,7 @@
                   "version": "1"
                 },
                 "model_catalog_file": "routed-review.catalog.json",
-                "model_catalog_source": "/Users/robertdevore/2026/Kujolang/kujo-repos/dispatch/examples/workflows/routed-review.catalog.json",
+                "model_catalog_source": "<dispatch>/examples/workflows/routed-review.catalog.json",
                 "policy_version": "1.0.0"
               },
               "steps": [
@@ -1914,39 +1914,39 @@
             "event_count_total": 10,
             "events": [
               {
-                "id": "evt-1795200793136-1",
+                "id": "evt-1795200969080-1",
                 "message": "Step started: Plan Review",
                 "payload": {
                   "input_summary": "{\"input\":{\"topic\":\"Review an offline evidence package\"}}",
                   "step_type": "agent"
                 },
                 "payload_summary": "{\"input_summary\":\"{\\\"input\\\":{\\\"topic\\\":\\\"Review an offline evidence package\\\"}}\",\"step_type\":\"agent\"}",
-                "run_id": "run-1795200792995-9121",
-                "span_id": "0501e8268842ab8f",
+                "run_id": "run-1795200968941-9962",
+                "span_id": "c4c943299f690579",
                 "step_id": "plan",
-                "timestamp": "2026-11-20 18:53:13",
-                "timestamp_unix_nano": "1795200793136000000",
-                "trace_id": "ab6bf726c7359ff9af11fb4084265c0b",
+                "timestamp": "2026-11-20 18:56:09",
+                "timestamp_unix_nano": "1795200969080000000",
+                "trace_id": "0fa111782025f048ba94bc3bd31bd62e",
                 "type": "step_started"
               },
               {
-                "id": "evt-1795200793254-2",
+                "id": "evt-1795200969195-2",
                 "message": "Route requested",
                 "payload": {
                   "policy_version": "1.0.0",
                   "requested_agent_id": "planner"
                 },
                 "payload_summary": "{\"policy_version\":\"1.0.0\",\"requested_agent_id\":\"planner\"}",
-                "run_id": "run-1795200792995-9121",
-                "span_id": "9ec801ce6788a796",
+                "run_id": "run-1795200968941-9962",
+                "span_id": "10ed2f2e137e5bad",
                 "step_id": "plan",
-                "timestamp": "2026-11-20 18:53:13",
-                "timestamp_unix_nano": "1795200793254000000",
-                "trace_id": "ab6bf726c7359ff9af11fb4084265c0b",
+                "timestamp": "2026-11-20 18:56:09",
+                "timestamp_unix_nano": "1795200969195000000",
+                "trace_id": "0fa111782025f048ba94bc3bd31bd62e",
                 "type": "route_requested"
               },
               {
-                "id": "evt-1795200793256-3",
+                "id": "evt-1795200969197-3",
                 "message": "Route candidates evaluated",
                 "payload": {
                   "candidate_count": 2,
@@ -1964,16 +1964,16 @@
                   ]
                 },
                 "payload_summary": "{\"candidate_count\":2,\"candidate_evaluations\":[{\"candidate_key\":\"planner::fixture::dispatch-frontier\",\"eligible\":true,\"reason_codes\":[]},{\"candidate_key\":\"planner::fixture::dispatch-standard\",\"eligible\":true,\"reason_codes\":[]}]}",
-                "run_id": "run-1795200792995-9121",
-                "span_id": "4e6863ecc89437a2",
+                "run_id": "run-1795200968941-9962",
+                "span_id": "2d5610ce4597a5fb",
                 "step_id": "plan",
-                "timestamp": "2026-11-20 18:53:13",
-                "timestamp_unix_nano": "1795200793256000000",
-                "trace_id": "ab6bf726c7359ff9af11fb4084265c0b",
+                "timestamp": "2026-11-20 18:56:09",
+                "timestamp_unix_nano": "1795200969197000000",
+                "trace_id": "0fa111782025f048ba94bc3bd31bd62e",
                 "type": "route_candidates_evaluated"
               },
               {
-                "id": "evt-1795200793259-4",
+                "id": "evt-1795200969200-4",
                 "message": "Route selected",
                 "payload": {
                   "decision": {
@@ -2019,21 +2019,21 @@
                     "requested_agent_id": "planner",
                     "selected_agent_id": "planner",
                     "selected_agent_role": "planner",
-                    "selected_at": "2026-11-20 18:53:13",
+                    "selected_at": "2026-11-20 18:56:09",
                     "step_id": "plan"
                   }
                 },
-                "payload_summary": "{\"decision\":{\"candidate_count\":2,\"catalog_hash\":\"19361cd0c20683477da347fab722fc6437427eb53a3318e6020ebe7fd68636ad\",\"catalog_id\":\"dispatch-example-fixture\",\"catalog_version\":\"1\",\"constraints\":{\"maximum_risk\":\"low\",\"quality_floor\":\"standard\",\"require_catalog_membership\":true,\"required_capabilities\":[\"plan_research\"],\"required_context_tokens\":4000,\"unknown_metadata\":\"reject_constrained\"},\"decision_id\":\"route-86035df7f9c9e5a2d4e76d8f93a0a95905359e0151f08bd7b7eea9bcd468884e\",\"estimated_cost\":{\"currency\":\"USD\",\"input_per_million\":null,\"output_per_million\":null},\"estimated_latency_ms\":900,\"execution_contract\":{\"id\":\"research-planner\",\"version\":\"1\"},\"fallback_index\":0,\"handler_id\":\"planner\",\"model\":\"dispatch-frontier\",\"objective\":\"quality_first\",\"policy_version\":\"1.0.0\",\"provider_id\":\"fixture\",\"quality_tier\":\"frontier\",\"reason_codes\":[\"hard_constraints_satisfied\",\"quality_first\",\"deterministic_tiebreak\",\"requested_agent_preserved\"],\"relative_quality\":0.95,\"requested_agent_id\":\"planner\",\"selected_agent_id\":\"planner\",\"selected_agent_role\":\"planner\",\"selected_at\":\"2026-11-20 18:53:13\",\"step_id\":\"plan\"}}",
-                "run_id": "run-1795200792995-9121",
-                "span_id": "004b7d80cbaea943",
+                "payload_summary": "{\"decision\":{\"candidate_count\":2,\"catalog_hash\":\"19361cd0c20683477da347fab722fc6437427eb53a3318e6020ebe7fd68636ad\",\"catalog_id\":\"dispatch-example-fixture\",\"catalog_version\":\"1\",\"constraints\":{\"maximum_risk\":\"low\",\"quality_floor\":\"standard\",\"require_catalog_membership\":true,\"required_capabilities\":[\"plan_research\"],\"required_context_tokens\":4000,\"unknown_metadata\":\"reject_constrained\"},\"decision_id\":\"route-86035df7f9c9e5a2d4e76d8f93a0a95905359e0151f08bd7b7eea9bcd468884e\",\"estimated_cost\":{\"currency\":\"USD\",\"input_per_million\":null,\"output_per_million\":null},\"estimated_latency_ms\":900,\"execution_contract\":{\"id\":\"research-planner\",\"version\":\"1\"},\"fallback_index\":0,\"handler_id\":\"planner\",\"model\":\"dispatch-frontier\",\"objective\":\"quality_first\",\"policy_version\":\"1.0.0\",\"provider_id\":\"fixture\",\"quality_tier\":\"frontier\",\"reason_codes\":[\"hard_constraints_satisfied\",\"quality_first\",\"deterministic_tiebreak\",\"requested_agent_preserved\"],\"relative_quality\":0.95,\"requested_agent_id\":\"planner\",\"selected_agent_id\":\"planner\",\"selected_agent_role\":\"planner\",\"selected_at\":\"2026-11-20 18:56:09\",\"step_id\":\"plan\"}}",
+                "run_id": "run-1795200968941-9962",
+                "span_id": "06068b7d330400ad",
                 "step_id": "plan",
-                "timestamp": "2026-11-20 18:53:13",
-                "timestamp_unix_nano": "1795200793259000000",
-                "trace_id": "ab6bf726c7359ff9af11fb4084265c0b",
+                "timestamp": "2026-11-20 18:56:09",
+                "timestamp_unix_nano": "1795200969200000000",
+                "trace_id": "0fa111782025f048ba94bc3bd31bd62e",
                 "type": "route_selected"
               },
               {
-                "id": "evt-1795200793379-5",
+                "id": "evt-1795200969320-5",
                 "message": "Model call started",
                 "payload": {
                   "decision_id": "route-86035df7f9c9e5a2d4e76d8f93a0a95905359e0151f08bd7b7eea9bcd468884e",
@@ -2041,16 +2041,16 @@
                   "provider_id": "fixture"
                 },
                 "payload_summary": "{\"decision_id\":\"route-86035df7f9c9e5a2d4e76d8f93a0a95905359e0151f08bd7b7eea9bcd468884e\",\"model\":\"dispatch-frontier\",\"provider_id\":\"fixture\"}",
-                "run_id": "run-1795200792995-9121",
-                "span_id": "8dd5e0961b3c7594",
+                "run_id": "run-1795200968941-9962",
+                "span_id": "5661251b0278950b",
                 "step_id": "plan",
-                "timestamp": "2026-11-20 18:53:13",
-                "timestamp_unix_nano": "1795200793379000000",
-                "trace_id": "ab6bf726c7359ff9af11fb4084265c0b",
+                "timestamp": "2026-11-20 18:56:09",
+                "timestamp_unix_nano": "1795200969320000000",
+                "trace_id": "0fa111782025f048ba94bc3bd31bd62e",
                 "type": "model_call_started"
               },
               {
-                "id": "evt-1795200793518-6",
+                "id": "evt-1795200969452-6",
                 "message": "Model call completed",
                 "payload": {
                   "decision_id": "route-86035df7f9c9e5a2d4e76d8f93a0a95905359e0151f08bd7b7eea9bcd468884e",
@@ -2071,16 +2071,16 @@
                   "provider_id": "fixture"
                 },
                 "payload_summary": "{\"decision_id\":\"route-86035df7f9c9e5a2d4e76d8f93a0a95905359e0151f08bd7b7eea9bcd468884e\",\"model\":\"dispatch-frontier\",\"model_calls\":[{\"model\":\"dispatch-frontier\",\"ok\":true,\"provider\":\"fixture\",\"usage\":{\"estimated\":true,\"input_tokens\":76,\"output_tokens\":115,\"total_tokens\":191}}],\"provider_id\":\"fixture\"}",
-                "run_id": "run-1795200792995-9121",
-                "span_id": "750172999e20ee7a",
+                "run_id": "run-1795200968941-9962",
+                "span_id": "11fc7021f041b6f5",
                 "step_id": "plan",
-                "timestamp": "2026-11-20 18:53:13",
-                "timestamp_unix_nano": "1795200793518000000",
-                "trace_id": "ab6bf726c7359ff9af11fb4084265c0b",
+                "timestamp": "2026-11-20 18:56:09",
+                "timestamp_unix_nano": "1795200969452000000",
+                "trace_id": "0fa111782025f048ba94bc3bd31bd62e",
                 "type": "model_call_completed"
               },
               {
-                "id": "evt-1795200793651-7",
+                "id": "evt-1795200969570-7",
                 "message": "Step completed: Plan Review",
                 "payload": {
                   "attempt_records": [
@@ -2088,56 +2088,56 @@
                       "attempt": 1,
                       "error": null,
                       "ok": true,
-                      "timestamp": "2026-11-20 18:53:13"
+                      "timestamp": "2026-11-20 18:56:09"
                     }
                   ],
                   "attempts": 1,
-                  "output_summary": "{\"created_at\":\"2026-11-20 18:53:13\",\"expected_sections\":[\"Summary\",\"Findings\",\"Claims\",\"Evidence\",\"Limitations\"],\"model_brief\":\"Dispatch offline fixture response for: Create a concise research plan for topic: Review an o..."
+                  "output_summary": "{\"created_at\":\"2026-11-20 18:56:09\",\"expected_sections\":[\"Summary\",\"Findings\",\"Claims\",\"Evidence\",\"Limitations\"],\"model_brief\":\"Dispatch offline fixture response for: Create a concise research plan for topic: Review an o..."
                 },
-                "payload_summary": "{\"attempt_records\":[{\"attempt\":1,\"error\":null,\"ok\":true,\"timestamp\":\"2026-11-20 18:53:13\"}],\"attempts\":1,\"output_summary\":\"{\\\"created_at\\\":\\\"2026-11-20 18:53:13\\\",\\\"expected_sections\\\":[\\\"Summary\\\",\\\"Findings\\\",\\\"Claims\\\",\\\"Evidence\\\",\\\"Limitations\\\"],\\\"model_brief\\\":\\\"Dispatch offline fixture response for: Create a concise research plan for topic: Review an o...\"}",
-                "run_id": "run-1795200792995-9121",
-                "span_id": "85e54f2676de5245",
+                "payload_summary": "{\"attempt_records\":[{\"attempt\":1,\"error\":null,\"ok\":true,\"timestamp\":\"2026-11-20 18:56:09\"}],\"attempts\":1,\"output_summary\":\"{\\\"created_at\\\":\\\"2026-11-20 18:56:09\\\",\\\"expected_sections\\\":[\\\"Summary\\\",\\\"Findings\\\",\\\"Claims\\\",\\\"Evidence\\\",\\\"Limitations\\\"],\\\"model_brief\\\":\\\"Dispatch offline fixture response for: Create a concise research plan for topic: Review an o...\"}",
+                "run_id": "run-1795200968941-9962",
+                "span_id": "9e13a42c403d8c60",
                 "step_id": "plan",
-                "timestamp": "2026-11-20 18:53:13",
-                "timestamp_unix_nano": "1795200793651000000",
-                "trace_id": "ab6bf726c7359ff9af11fb4084265c0b",
+                "timestamp": "2026-11-20 18:56:09",
+                "timestamp_unix_nano": "1795200969570000000",
+                "trace_id": "0fa111782025f048ba94bc3bd31bd62e",
                 "type": "step_completed"
               },
               {
-                "id": "evt-1795200793785-8",
+                "id": "evt-1795200969695-8",
                 "message": "Step started: Finalize",
                 "payload": {
-                  "input_summary": "{\"plan\":{\"created_at\":\"2026-11-20 18:53:13\",\"expected_sections\":[\"Summary\",\"Findings\",\"Claims\",\"Evidence\",\"Limitations\"],\"model_brief\":\"Dispatch offline fixture response for: Create a concise research plan for topic: Rev...",
+                  "input_summary": "{\"plan\":{\"created_at\":\"2026-11-20 18:56:09\",\"expected_sections\":[\"Summary\",\"Findings\",\"Claims\",\"Evidence\",\"Limitations\"],\"model_brief\":\"Dispatch offline fixture response for: Create a concise research plan for topic: Rev...",
                   "step_type": "report"
                 },
-                "payload_summary": "{\"input_summary\":\"{\\\"plan\\\":{\\\"created_at\\\":\\\"2026-11-20 18:53:13\\\",\\\"expected_sections\\\":[\\\"Summary\\\",\\\"Findings\\\",\\\"Claims\\\",\\\"Evidence\\\",\\\"Limitations\\\"],\\\"model_brief\\\":\\\"Dispatch offline fixture response for: Create a concise research plan for topic: Rev...\",\"step_type\":\"report\"}",
-                "run_id": "run-1795200792995-9121",
-                "span_id": "d043ee321e4f8d4e",
+                "payload_summary": "{\"input_summary\":\"{\\\"plan\\\":{\\\"created_at\\\":\\\"2026-11-20 18:56:09\\\",\\\"expected_sections\\\":[\\\"Summary\\\",\\\"Findings\\\",\\\"Claims\\\",\\\"Evidence\\\",\\\"Limitations\\\"],\\\"model_brief\\\":\\\"Dispatch offline fixture response for: Create a concise research plan for topic: Rev...\",\"step_type\":\"report\"}",
+                "run_id": "run-1795200968941-9962",
+                "span_id": "25ff1c7dde9646e0",
                 "step_id": "finalize",
-                "timestamp": "2026-11-20 18:53:13",
-                "timestamp_unix_nano": "1795200793785000000",
-                "trace_id": "ab6bf726c7359ff9af11fb4084265c0b",
+                "timestamp": "2026-11-20 18:56:09",
+                "timestamp_unix_nano": "1795200969695000000",
+                "trace_id": "0fa111782025f048ba94bc3bd31bd62e",
                 "type": "step_started"
               },
               {
-                "id": "evt-1795200793971-9",
+                "id": "evt-1795200969852-9",
                 "message": "Step completed: Finalize",
                 "payload": {
                   "attempt_records": [],
                   "attempts": 1,
-                  "output_summary": "{\"paths\":{\"report_json_path\":\"outputs/run-1795200792995-9121/report.json\",\"report_md_path\":\"outputs/run-1795200792995-9121/report.md\",\"state_json_path\":\"outputs/run-1795200792995-9121/state.json\",\"trace_json_path\":\"outpu..."
+                  "output_summary": "{\"paths\":{\"report_json_path\":\"outputs/run-1795200968941-9962/report.json\",\"report_md_path\":\"outputs/run-1795200968941-9962/report.md\",\"state_json_path\":\"outputs/run-1795200968941-9962/state.json\",\"trace_json_path\":\"outpu..."
                 },
-                "payload_summary": "{\"attempt_records\":[],\"attempts\":1,\"output_summary\":\"{\\\"paths\\\":{\\\"report_json_path\\\":\\\"outputs/run-1795200792995-9121/report.json\\\",\\\"report_md_path\\\":\\\"outputs/run-1795200792995-9121/report.md\\\",\\\"state_json_path\\\":\\\"outputs/run-1795200792995-9121/state.json\\\",\\\"trace_json_path\\\":\\\"outpu...\"}",
-                "run_id": "run-1795200792995-9121",
-                "span_id": "acdb5ba80e7f57b4",
+                "payload_summary": "{\"attempt_records\":[],\"attempts\":1,\"output_summary\":\"{\\\"paths\\\":{\\\"report_json_path\\\":\\\"outputs/run-1795200968941-9962/report.json\\\",\\\"report_md_path\\\":\\\"outputs/run-1795200968941-9962/report.md\\\",\\\"state_json_path\\\":\\\"outputs/run-1795200968941-9962/state.json\\\",\\\"trace_json_path\\\":\\\"outpu...\"}",
+                "run_id": "run-1795200968941-9962",
+                "span_id": "78225c1cdb3a504c",
                 "step_id": "finalize",
-                "timestamp": "2026-11-20 18:53:13",
-                "timestamp_unix_nano": "1795200793971000000",
-                "trace_id": "ab6bf726c7359ff9af11fb4084265c0b",
+                "timestamp": "2026-11-20 18:56:09",
+                "timestamp_unix_nano": "1795200969852000000",
+                "trace_id": "0fa111782025f048ba94bc3bd31bd62e",
                 "type": "step_completed"
               },
               {
-                "id": "evt-1795200794121-10",
+                "id": "evt-1795200969993-10",
                 "message": "Workflow completed successfully",
                 "payload": {
                   "approvals": 0,
@@ -2145,26 +2145,26 @@
                   "handoffs": 0
                 },
                 "payload_summary": "{\"approvals\":0,\"completed_steps\":2,\"handoffs\":0}",
-                "run_id": "run-1795200792995-9121",
-                "span_id": "ee43290bb9642225",
+                "run_id": "run-1795200968941-9962",
+                "span_id": "3795957cbb2faa17",
                 "step_id": "workflow",
-                "timestamp": "2026-11-20 18:53:14",
-                "timestamp_unix_nano": "1795200794121000000",
-                "trace_id": "ab6bf726c7359ff9af11fb4084265c0b",
+                "timestamp": "2026-11-20 18:56:09",
+                "timestamp_unix_nano": "1795200969993000000",
+                "trace_id": "0fa111782025f048ba94bc3bd31bd62e",
                 "type": "run_completed"
               }
             ],
-            "finished_at": "2026-11-20 18:53:14",
+            "finished_at": "2026-11-20 18:56:09",
             "limits": {
               "max_events": 400,
               "max_payload_chars": 2400
             },
-            "run_id": "run-1795200792995-9121",
+            "run_id": "run-1795200968941-9962",
             "schema_name": "dispatch-trace",
             "schema_version": 1,
-            "started_at": "2026-11-20 18:53:12",
+            "started_at": "2026-11-20 18:56:08",
             "status": "completed",
-            "trace_id": "ab6bf726c7359ff9af11fb4084265c0b",
+            "trace_id": "0fa111782025f048ba94bc3bd31bd62e",
             "truncated": {
               "events_dropped": 0,
               "max_events": 400,
@@ -2180,7 +2180,7 @@
             "completed_steps": 2,
             "confidence_notes": [],
             "evidence": [],
-            "generated_timestamp": "2026-11-20 18:53:14",
+            "generated_timestamp": "2026-11-20 18:56:09",
             "key_findings": [],
             "limitations": [
               "The demo relies on local fixture sources rather than live web retrieval.",
@@ -2193,7 +2193,7 @@
                     "decision_id": "route-86035df7f9c9e5a2d4e76d8f93a0a95905359e0151f08bd7b7eea9bcd468884e",
                     "fallback_index": 0,
                     "route": "planner::fixture::dispatch-frontier",
-                    "timestamp": "2026-11-20 18:53:13",
+                    "timestamp": "2026-11-20 18:56:09",
                     "type": "selected"
                   },
                   {
@@ -2206,7 +2206,7 @@
                       ]
                     },
                     "route": "planner::fixture::dispatch-frontier",
-                    "timestamp": "2026-11-20 18:53:13",
+                    "timestamp": "2026-11-20 18:56:09",
                     "type": "completed"
                   }
                 ]
@@ -2255,12 +2255,12 @@
                   "requested_agent_id": "planner",
                   "selected_agent_id": "planner",
                   "selected_agent_role": "planner",
-                  "selected_at": "2026-11-20 18:53:13",
+                  "selected_at": "2026-11-20 18:56:09",
                   "step_id": "plan"
                 }
               }
             },
-            "run_id": "run-1795200792995-9121",
+            "run_id": "run-1795200968941-9962",
             "run_status": "completed",
             "schema_name": "dispatch-run-report",
             "schema_version": 1,
@@ -2268,9 +2268,9 @@
             "title": "Routed Review Output",
             "topic": "Review an offline evidence package",
             "total_steps": 2,
-            "trace_id": "run-1795200792995-9121"
+            "trace_id": "run-1795200968941-9962"
           },
-          "provenance": "Live Dispatch execution with offline model fixtures. Token and cost fields come from budget_usage and are fixture accounting.",
+          "provenance": "Live Dispatch execution with offline model fixtures. Token and cost fields come from budget_usage and are fixture accounting. Absolute tool paths are shown relative to the Dispatch checkout.",
           "processExitCode": 0
         }
       },
@@ -2281,11 +2281,11 @@
         "state": "completed",
         "metric": "agent",
         "note": "planner",
-        "duration": 515,
-        "reference": "run-1795200792995-9121/trace.json",
+        "duration": 490,
+        "reference": "run-1795200968941-9962/trace.json",
         "url": "https://github.com/kujolang/dispatch/blob/18b5c73/examples/workflows/routed-review.json",
         "evidence": {
-          "run_id": "run-1795200792995-9121",
+          "run_id": "run-1795200968941-9962",
           "step": {
             "id": "plan",
             "name": "Plan Review",
@@ -2308,39 +2308,39 @@
           },
           "events": [
             {
-              "id": "evt-1795200793136-1",
+              "id": "evt-1795200969080-1",
               "message": "Step started: Plan Review",
               "payload": {
                 "input_summary": "{\"input\":{\"topic\":\"Review an offline evidence package\"}}",
                 "step_type": "agent"
               },
               "payload_summary": "{\"input_summary\":\"{\\\"input\\\":{\\\"topic\\\":\\\"Review an offline evidence package\\\"}}\",\"step_type\":\"agent\"}",
-              "run_id": "run-1795200792995-9121",
-              "span_id": "0501e8268842ab8f",
+              "run_id": "run-1795200968941-9962",
+              "span_id": "c4c943299f690579",
               "step_id": "plan",
-              "timestamp": "2026-11-20 18:53:13",
-              "timestamp_unix_nano": "1795200793136000000",
-              "trace_id": "ab6bf726c7359ff9af11fb4084265c0b",
+              "timestamp": "2026-11-20 18:56:09",
+              "timestamp_unix_nano": "1795200969080000000",
+              "trace_id": "0fa111782025f048ba94bc3bd31bd62e",
               "type": "step_started"
             },
             {
-              "id": "evt-1795200793254-2",
+              "id": "evt-1795200969195-2",
               "message": "Route requested",
               "payload": {
                 "policy_version": "1.0.0",
                 "requested_agent_id": "planner"
               },
               "payload_summary": "{\"policy_version\":\"1.0.0\",\"requested_agent_id\":\"planner\"}",
-              "run_id": "run-1795200792995-9121",
-              "span_id": "9ec801ce6788a796",
+              "run_id": "run-1795200968941-9962",
+              "span_id": "10ed2f2e137e5bad",
               "step_id": "plan",
-              "timestamp": "2026-11-20 18:53:13",
-              "timestamp_unix_nano": "1795200793254000000",
-              "trace_id": "ab6bf726c7359ff9af11fb4084265c0b",
+              "timestamp": "2026-11-20 18:56:09",
+              "timestamp_unix_nano": "1795200969195000000",
+              "trace_id": "0fa111782025f048ba94bc3bd31bd62e",
               "type": "route_requested"
             },
             {
-              "id": "evt-1795200793256-3",
+              "id": "evt-1795200969197-3",
               "message": "Route candidates evaluated",
               "payload": {
                 "candidate_count": 2,
@@ -2358,16 +2358,16 @@
                 ]
               },
               "payload_summary": "{\"candidate_count\":2,\"candidate_evaluations\":[{\"candidate_key\":\"planner::fixture::dispatch-frontier\",\"eligible\":true,\"reason_codes\":[]},{\"candidate_key\":\"planner::fixture::dispatch-standard\",\"eligible\":true,\"reason_codes\":[]}]}",
-              "run_id": "run-1795200792995-9121",
-              "span_id": "4e6863ecc89437a2",
+              "run_id": "run-1795200968941-9962",
+              "span_id": "2d5610ce4597a5fb",
               "step_id": "plan",
-              "timestamp": "2026-11-20 18:53:13",
-              "timestamp_unix_nano": "1795200793256000000",
-              "trace_id": "ab6bf726c7359ff9af11fb4084265c0b",
+              "timestamp": "2026-11-20 18:56:09",
+              "timestamp_unix_nano": "1795200969197000000",
+              "trace_id": "0fa111782025f048ba94bc3bd31bd62e",
               "type": "route_candidates_evaluated"
             },
             {
-              "id": "evt-1795200793259-4",
+              "id": "evt-1795200969200-4",
               "message": "Route selected",
               "payload": {
                 "decision": {
@@ -2413,21 +2413,21 @@
                   "requested_agent_id": "planner",
                   "selected_agent_id": "planner",
                   "selected_agent_role": "planner",
-                  "selected_at": "2026-11-20 18:53:13",
+                  "selected_at": "2026-11-20 18:56:09",
                   "step_id": "plan"
                 }
               },
-              "payload_summary": "{\"decision\":{\"candidate_count\":2,\"catalog_hash\":\"19361cd0c20683477da347fab722fc6437427eb53a3318e6020ebe7fd68636ad\",\"catalog_id\":\"dispatch-example-fixture\",\"catalog_version\":\"1\",\"constraints\":{\"maximum_risk\":\"low\",\"quality_floor\":\"standard\",\"require_catalog_membership\":true,\"required_capabilities\":[\"plan_research\"],\"required_context_tokens\":4000,\"unknown_metadata\":\"reject_constrained\"},\"decision_id\":\"route-86035df7f9c9e5a2d4e76d8f93a0a95905359e0151f08bd7b7eea9bcd468884e\",\"estimated_cost\":{\"currency\":\"USD\",\"input_per_million\":null,\"output_per_million\":null},\"estimated_latency_ms\":900,\"execution_contract\":{\"id\":\"research-planner\",\"version\":\"1\"},\"fallback_index\":0,\"handler_id\":\"planner\",\"model\":\"dispatch-frontier\",\"objective\":\"quality_first\",\"policy_version\":\"1.0.0\",\"provider_id\":\"fixture\",\"quality_tier\":\"frontier\",\"reason_codes\":[\"hard_constraints_satisfied\",\"quality_first\",\"deterministic_tiebreak\",\"requested_agent_preserved\"],\"relative_quality\":0.95,\"requested_agent_id\":\"planner\",\"selected_agent_id\":\"planner\",\"selected_agent_role\":\"planner\",\"selected_at\":\"2026-11-20 18:53:13\",\"step_id\":\"plan\"}}",
-              "run_id": "run-1795200792995-9121",
-              "span_id": "004b7d80cbaea943",
+              "payload_summary": "{\"decision\":{\"candidate_count\":2,\"catalog_hash\":\"19361cd0c20683477da347fab722fc6437427eb53a3318e6020ebe7fd68636ad\",\"catalog_id\":\"dispatch-example-fixture\",\"catalog_version\":\"1\",\"constraints\":{\"maximum_risk\":\"low\",\"quality_floor\":\"standard\",\"require_catalog_membership\":true,\"required_capabilities\":[\"plan_research\"],\"required_context_tokens\":4000,\"unknown_metadata\":\"reject_constrained\"},\"decision_id\":\"route-86035df7f9c9e5a2d4e76d8f93a0a95905359e0151f08bd7b7eea9bcd468884e\",\"estimated_cost\":{\"currency\":\"USD\",\"input_per_million\":null,\"output_per_million\":null},\"estimated_latency_ms\":900,\"execution_contract\":{\"id\":\"research-planner\",\"version\":\"1\"},\"fallback_index\":0,\"handler_id\":\"planner\",\"model\":\"dispatch-frontier\",\"objective\":\"quality_first\",\"policy_version\":\"1.0.0\",\"provider_id\":\"fixture\",\"quality_tier\":\"frontier\",\"reason_codes\":[\"hard_constraints_satisfied\",\"quality_first\",\"deterministic_tiebreak\",\"requested_agent_preserved\"],\"relative_quality\":0.95,\"requested_agent_id\":\"planner\",\"selected_agent_id\":\"planner\",\"selected_agent_role\":\"planner\",\"selected_at\":\"2026-11-20 18:56:09\",\"step_id\":\"plan\"}}",
+              "run_id": "run-1795200968941-9962",
+              "span_id": "06068b7d330400ad",
               "step_id": "plan",
-              "timestamp": "2026-11-20 18:53:13",
-              "timestamp_unix_nano": "1795200793259000000",
-              "trace_id": "ab6bf726c7359ff9af11fb4084265c0b",
+              "timestamp": "2026-11-20 18:56:09",
+              "timestamp_unix_nano": "1795200969200000000",
+              "trace_id": "0fa111782025f048ba94bc3bd31bd62e",
               "type": "route_selected"
             },
             {
-              "id": "evt-1795200793379-5",
+              "id": "evt-1795200969320-5",
               "message": "Model call started",
               "payload": {
                 "decision_id": "route-86035df7f9c9e5a2d4e76d8f93a0a95905359e0151f08bd7b7eea9bcd468884e",
@@ -2435,16 +2435,16 @@
                 "provider_id": "fixture"
               },
               "payload_summary": "{\"decision_id\":\"route-86035df7f9c9e5a2d4e76d8f93a0a95905359e0151f08bd7b7eea9bcd468884e\",\"model\":\"dispatch-frontier\",\"provider_id\":\"fixture\"}",
-              "run_id": "run-1795200792995-9121",
-              "span_id": "8dd5e0961b3c7594",
+              "run_id": "run-1795200968941-9962",
+              "span_id": "5661251b0278950b",
               "step_id": "plan",
-              "timestamp": "2026-11-20 18:53:13",
-              "timestamp_unix_nano": "1795200793379000000",
-              "trace_id": "ab6bf726c7359ff9af11fb4084265c0b",
+              "timestamp": "2026-11-20 18:56:09",
+              "timestamp_unix_nano": "1795200969320000000",
+              "trace_id": "0fa111782025f048ba94bc3bd31bd62e",
               "type": "model_call_started"
             },
             {
-              "id": "evt-1795200793518-6",
+              "id": "evt-1795200969452-6",
               "message": "Model call completed",
               "payload": {
                 "decision_id": "route-86035df7f9c9e5a2d4e76d8f93a0a95905359e0151f08bd7b7eea9bcd468884e",
@@ -2465,16 +2465,16 @@
                 "provider_id": "fixture"
               },
               "payload_summary": "{\"decision_id\":\"route-86035df7f9c9e5a2d4e76d8f93a0a95905359e0151f08bd7b7eea9bcd468884e\",\"model\":\"dispatch-frontier\",\"model_calls\":[{\"model\":\"dispatch-frontier\",\"ok\":true,\"provider\":\"fixture\",\"usage\":{\"estimated\":true,\"input_tokens\":76,\"output_tokens\":115,\"total_tokens\":191}}],\"provider_id\":\"fixture\"}",
-              "run_id": "run-1795200792995-9121",
-              "span_id": "750172999e20ee7a",
+              "run_id": "run-1795200968941-9962",
+              "span_id": "11fc7021f041b6f5",
               "step_id": "plan",
-              "timestamp": "2026-11-20 18:53:13",
-              "timestamp_unix_nano": "1795200793518000000",
-              "trace_id": "ab6bf726c7359ff9af11fb4084265c0b",
+              "timestamp": "2026-11-20 18:56:09",
+              "timestamp_unix_nano": "1795200969452000000",
+              "trace_id": "0fa111782025f048ba94bc3bd31bd62e",
               "type": "model_call_completed"
             },
             {
-              "id": "evt-1795200793651-7",
+              "id": "evt-1795200969570-7",
               "message": "Step completed: Plan Review",
               "payload": {
                 "attempt_records": [
@@ -2482,19 +2482,19 @@
                     "attempt": 1,
                     "error": null,
                     "ok": true,
-                    "timestamp": "2026-11-20 18:53:13"
+                    "timestamp": "2026-11-20 18:56:09"
                   }
                 ],
                 "attempts": 1,
-                "output_summary": "{\"created_at\":\"2026-11-20 18:53:13\",\"expected_sections\":[\"Summary\",\"Findings\",\"Claims\",\"Evidence\",\"Limitations\"],\"model_brief\":\"Dispatch offline fixture response for: Create a concise research plan for topic: Review an o..."
+                "output_summary": "{\"created_at\":\"2026-11-20 18:56:09\",\"expected_sections\":[\"Summary\",\"Findings\",\"Claims\",\"Evidence\",\"Limitations\"],\"model_brief\":\"Dispatch offline fixture response for: Create a concise research plan for topic: Review an o..."
               },
-              "payload_summary": "{\"attempt_records\":[{\"attempt\":1,\"error\":null,\"ok\":true,\"timestamp\":\"2026-11-20 18:53:13\"}],\"attempts\":1,\"output_summary\":\"{\\\"created_at\\\":\\\"2026-11-20 18:53:13\\\",\\\"expected_sections\\\":[\\\"Summary\\\",\\\"Findings\\\",\\\"Claims\\\",\\\"Evidence\\\",\\\"Limitations\\\"],\\\"model_brief\\\":\\\"Dispatch offline fixture response for: Create a concise research plan for topic: Review an o...\"}",
-              "run_id": "run-1795200792995-9121",
-              "span_id": "85e54f2676de5245",
+              "payload_summary": "{\"attempt_records\":[{\"attempt\":1,\"error\":null,\"ok\":true,\"timestamp\":\"2026-11-20 18:56:09\"}],\"attempts\":1,\"output_summary\":\"{\\\"created_at\\\":\\\"2026-11-20 18:56:09\\\",\\\"expected_sections\\\":[\\\"Summary\\\",\\\"Findings\\\",\\\"Claims\\\",\\\"Evidence\\\",\\\"Limitations\\\"],\\\"model_brief\\\":\\\"Dispatch offline fixture response for: Create a concise research plan for topic: Review an o...\"}",
+              "run_id": "run-1795200968941-9962",
+              "span_id": "9e13a42c403d8c60",
               "step_id": "plan",
-              "timestamp": "2026-11-20 18:53:13",
-              "timestamp_unix_nano": "1795200793651000000",
-              "trace_id": "ab6bf726c7359ff9af11fb4084265c0b",
+              "timestamp": "2026-11-20 18:56:09",
+              "timestamp_unix_nano": "1795200969570000000",
+              "trace_id": "0fa111782025f048ba94bc3bd31bd62e",
               "type": "step_completed"
             }
           ],
@@ -2544,7 +2544,7 @@
             "error": null,
             "evaluation": {},
             "evaluation_result_path": "",
-            "finished_at": "2026-11-20 18:53:13",
+            "finished_at": "2026-11-20 18:56:09",
             "handoff": {},
             "id": "plan",
             "idempotency_key": "",
@@ -2561,7 +2561,7 @@
             "name": "Plan Review",
             "optional": false,
             "output": {
-              "created_at": "2026-11-20 18:53:13",
+              "created_at": "2026-11-20 18:56:09",
               "expected_sections": [
                 "Summary",
                 "Findings",
@@ -2630,7 +2630,7 @@
               "requested_agent_id": "planner",
               "selected_agent_id": "planner",
               "selected_agent_role": "planner",
-              "selected_at": "2026-11-20 18:53:13",
+              "selected_at": "2026-11-20 18:56:09",
               "step_id": "plan"
             },
             "route_evaluation": {
@@ -2651,7 +2651,7 @@
               }
             },
             "routing_constraints": {},
-            "started_at": "2026-11-20 18:53:13",
+            "started_at": "2026-11-20 18:56:09",
             "status": "completed",
             "timeout_ms": 0,
             "tool_name": "",
@@ -2663,7 +2663,7 @@
             }
           },
           "output": {
-            "created_at": "2026-11-20 18:53:13",
+            "created_at": "2026-11-20 18:56:09",
             "expected_sections": [
               "Summary",
               "Findings",
@@ -2694,11 +2694,11 @@
         "state": "completed",
         "metric": "report",
         "note": "final_output",
-        "duration": 186,
-        "reference": "run-1795200792995-9121/trace.json",
+        "duration": 157,
+        "reference": "run-1795200968941-9962/trace.json",
         "url": "https://github.com/kujolang/dispatch/blob/18b5c73/examples/workflows/routed-review.json",
         "evidence": {
-          "run_id": "run-1795200792995-9121",
+          "run_id": "run-1795200968941-9962",
           "step": {
             "id": "finalize",
             "name": "Finalize",
@@ -2710,36 +2710,36 @@
           },
           "events": [
             {
-              "id": "evt-1795200793785-8",
+              "id": "evt-1795200969695-8",
               "message": "Step started: Finalize",
               "payload": {
-                "input_summary": "{\"plan\":{\"created_at\":\"2026-11-20 18:53:13\",\"expected_sections\":[\"Summary\",\"Findings\",\"Claims\",\"Evidence\",\"Limitations\"],\"model_brief\":\"Dispatch offline fixture response for: Create a concise research plan for topic: Rev...",
+                "input_summary": "{\"plan\":{\"created_at\":\"2026-11-20 18:56:09\",\"expected_sections\":[\"Summary\",\"Findings\",\"Claims\",\"Evidence\",\"Limitations\"],\"model_brief\":\"Dispatch offline fixture response for: Create a concise research plan for topic: Rev...",
                 "step_type": "report"
               },
-              "payload_summary": "{\"input_summary\":\"{\\\"plan\\\":{\\\"created_at\\\":\\\"2026-11-20 18:53:13\\\",\\\"expected_sections\\\":[\\\"Summary\\\",\\\"Findings\\\",\\\"Claims\\\",\\\"Evidence\\\",\\\"Limitations\\\"],\\\"model_brief\\\":\\\"Dispatch offline fixture response for: Create a concise research plan for topic: Rev...\",\"step_type\":\"report\"}",
-              "run_id": "run-1795200792995-9121",
-              "span_id": "d043ee321e4f8d4e",
+              "payload_summary": "{\"input_summary\":\"{\\\"plan\\\":{\\\"created_at\\\":\\\"2026-11-20 18:56:09\\\",\\\"expected_sections\\\":[\\\"Summary\\\",\\\"Findings\\\",\\\"Claims\\\",\\\"Evidence\\\",\\\"Limitations\\\"],\\\"model_brief\\\":\\\"Dispatch offline fixture response for: Create a concise research plan for topic: Rev...\",\"step_type\":\"report\"}",
+              "run_id": "run-1795200968941-9962",
+              "span_id": "25ff1c7dde9646e0",
               "step_id": "finalize",
-              "timestamp": "2026-11-20 18:53:13",
-              "timestamp_unix_nano": "1795200793785000000",
-              "trace_id": "ab6bf726c7359ff9af11fb4084265c0b",
+              "timestamp": "2026-11-20 18:56:09",
+              "timestamp_unix_nano": "1795200969695000000",
+              "trace_id": "0fa111782025f048ba94bc3bd31bd62e",
               "type": "step_started"
             },
             {
-              "id": "evt-1795200793971-9",
+              "id": "evt-1795200969852-9",
               "message": "Step completed: Finalize",
               "payload": {
                 "attempt_records": [],
                 "attempts": 1,
-                "output_summary": "{\"paths\":{\"report_json_path\":\"outputs/run-1795200792995-9121/report.json\",\"report_md_path\":\"outputs/run-1795200792995-9121/report.md\",\"state_json_path\":\"outputs/run-1795200792995-9121/state.json\",\"trace_json_path\":\"outpu..."
+                "output_summary": "{\"paths\":{\"report_json_path\":\"outputs/run-1795200968941-9962/report.json\",\"report_md_path\":\"outputs/run-1795200968941-9962/report.md\",\"state_json_path\":\"outputs/run-1795200968941-9962/state.json\",\"trace_json_path\":\"outpu..."
               },
-              "payload_summary": "{\"attempt_records\":[],\"attempts\":1,\"output_summary\":\"{\\\"paths\\\":{\\\"report_json_path\\\":\\\"outputs/run-1795200792995-9121/report.json\\\",\\\"report_md_path\\\":\\\"outputs/run-1795200792995-9121/report.md\\\",\\\"state_json_path\\\":\\\"outputs/run-1795200792995-9121/state.json\\\",\\\"trace_json_path\\\":\\\"outpu...\"}",
-              "run_id": "run-1795200792995-9121",
-              "span_id": "acdb5ba80e7f57b4",
+              "payload_summary": "{\"attempt_records\":[],\"attempts\":1,\"output_summary\":\"{\\\"paths\\\":{\\\"report_json_path\\\":\\\"outputs/run-1795200968941-9962/report.json\\\",\\\"report_md_path\\\":\\\"outputs/run-1795200968941-9962/report.md\\\",\\\"state_json_path\\\":\\\"outputs/run-1795200968941-9962/state.json\\\",\\\"trace_json_path\\\":\\\"outpu...\"}",
+              "run_id": "run-1795200968941-9962",
+              "span_id": "78225c1cdb3a504c",
               "step_id": "finalize",
-              "timestamp": "2026-11-20 18:53:13",
-              "timestamp_unix_nano": "1795200793971000000",
-              "trace_id": "ab6bf726c7359ff9af11fb4084265c0b",
+              "timestamp": "2026-11-20 18:56:09",
+              "timestamp_unix_nano": "1795200969852000000",
+              "trace_id": "0fa111782025f048ba94bc3bd31bd62e",
               "type": "step_completed"
             }
           ],
@@ -2780,13 +2780,13 @@
             "error": null,
             "evaluation": {},
             "evaluation_result_path": "",
-            "finished_at": "2026-11-20 18:53:13",
+            "finished_at": "2026-11-20 18:56:09",
             "handoff": {},
             "id": "finalize",
             "idempotency_key": "",
             "input": {
               "plan": {
-                "created_at": "2026-11-20 18:53:13",
+                "created_at": "2026-11-20 18:56:09",
                 "expected_sections": [
                   "Summary",
                   "Findings",
@@ -2818,11 +2818,11 @@
             "optional": false,
             "output": {
               "paths": {
-                "report_json_path": "outputs/run-1795200792995-9121/report.json",
-                "report_md_path": "outputs/run-1795200792995-9121/report.md",
-                "state_json_path": "outputs/run-1795200792995-9121/state.json",
-                "trace_json_path": "outputs/run-1795200792995-9121/trace.json",
-                "trace_md_path": "outputs/run-1795200792995-9121/trace.md"
+                "report_json_path": "outputs/run-1795200968941-9962/report.json",
+                "report_md_path": "outputs/run-1795200968941-9962/report.md",
+                "state_json_path": "outputs/run-1795200968941-9962/state.json",
+                "trace_json_path": "outputs/run-1795200968941-9962/trace.json",
+                "trace_md_path": "outputs/run-1795200968941-9962/trace.md"
               },
               "report": {
                 "artifact_contract_version": 1,
@@ -2831,7 +2831,7 @@
                 "completed_steps": 1,
                 "confidence_notes": [],
                 "evidence": [],
-                "generated_timestamp": "2026-11-20 18:53:13",
+                "generated_timestamp": "2026-11-20 18:56:09",
                 "key_findings": [],
                 "limitations": [
                   "The demo relies on local fixture sources rather than live web retrieval.",
@@ -2844,7 +2844,7 @@
                         "decision_id": "route-86035df7f9c9e5a2d4e76d8f93a0a95905359e0151f08bd7b7eea9bcd468884e",
                         "fallback_index": 0,
                         "route": "planner::fixture::dispatch-frontier",
-                        "timestamp": "2026-11-20 18:53:13",
+                        "timestamp": "2026-11-20 18:56:09",
                         "type": "selected"
                       },
                       {
@@ -2857,7 +2857,7 @@
                           ]
                         },
                         "route": "planner::fixture::dispatch-frontier",
-                        "timestamp": "2026-11-20 18:53:13",
+                        "timestamp": "2026-11-20 18:56:09",
                         "type": "completed"
                       }
                     ]
@@ -2906,12 +2906,12 @@
                       "requested_agent_id": "planner",
                       "selected_agent_id": "planner",
                       "selected_agent_role": "planner",
-                      "selected_at": "2026-11-20 18:53:13",
+                      "selected_at": "2026-11-20 18:56:09",
                       "step_id": "plan"
                     }
                   }
                 },
-                "run_id": "run-1795200792995-9121",
+                "run_id": "run-1795200968941-9962",
                 "run_status": "running",
                 "schema_name": "dispatch-run-report",
                 "schema_version": 1,
@@ -2919,7 +2919,7 @@
                 "title": "Routed Review Output",
                 "topic": "Review an offline evidence package",
                 "total_steps": 2,
-                "trace_id": "run-1795200792995-9121"
+                "trace_id": "run-1795200968941-9962"
               }
             },
             "output_key": "final_output",
@@ -2930,7 +2930,7 @@
             "route_evaluation": null,
             "routing": {},
             "routing_constraints": {},
-            "started_at": "2026-11-20 18:53:13",
+            "started_at": "2026-11-20 18:56:09",
             "status": "completed",
             "timeout_ms": 0,
             "tool_name": "",
@@ -2938,7 +2938,7 @@
           },
           "input": {
             "plan": {
-              "created_at": "2026-11-20 18:53:13",
+              "created_at": "2026-11-20 18:56:09",
               "expected_sections": [
                 "Summary",
                 "Findings",
@@ -2963,11 +2963,11 @@
           },
           "output": {
             "paths": {
-              "report_json_path": "outputs/run-1795200792995-9121/report.json",
-              "report_md_path": "outputs/run-1795200792995-9121/report.md",
-              "state_json_path": "outputs/run-1795200792995-9121/state.json",
-              "trace_json_path": "outputs/run-1795200792995-9121/trace.json",
-              "trace_md_path": "outputs/run-1795200792995-9121/trace.md"
+              "report_json_path": "outputs/run-1795200968941-9962/report.json",
+              "report_md_path": "outputs/run-1795200968941-9962/report.md",
+              "state_json_path": "outputs/run-1795200968941-9962/state.json",
+              "trace_json_path": "outputs/run-1795200968941-9962/trace.json",
+              "trace_md_path": "outputs/run-1795200968941-9962/trace.md"
             },
             "report": {
               "artifact_contract_version": 1,
@@ -2976,7 +2976,7 @@
               "completed_steps": 1,
               "confidence_notes": [],
               "evidence": [],
-              "generated_timestamp": "2026-11-20 18:53:13",
+              "generated_timestamp": "2026-11-20 18:56:09",
               "key_findings": [],
               "limitations": [
                 "The demo relies on local fixture sources rather than live web retrieval.",
@@ -2989,7 +2989,7 @@
                       "decision_id": "route-86035df7f9c9e5a2d4e76d8f93a0a95905359e0151f08bd7b7eea9bcd468884e",
                       "fallback_index": 0,
                       "route": "planner::fixture::dispatch-frontier",
-                      "timestamp": "2026-11-20 18:53:13",
+                      "timestamp": "2026-11-20 18:56:09",
                       "type": "selected"
                     },
                     {
@@ -3002,7 +3002,7 @@
                         ]
                       },
                       "route": "planner::fixture::dispatch-frontier",
-                      "timestamp": "2026-11-20 18:53:13",
+                      "timestamp": "2026-11-20 18:56:09",
                       "type": "completed"
                     }
                   ]
@@ -3051,12 +3051,12 @@
                     "requested_agent_id": "planner",
                     "selected_agent_id": "planner",
                     "selected_agent_role": "planner",
-                    "selected_at": "2026-11-20 18:53:13",
+                    "selected_at": "2026-11-20 18:56:09",
                     "step_id": "plan"
                   }
                 }
               },
-              "run_id": "run-1795200792995-9121",
+              "run_id": "run-1795200968941-9962",
               "run_status": "running",
               "schema_name": "dispatch-run-report",
               "schema_version": 1,
@@ -3064,7 +3064,7 @@
               "title": "Routed Review Output",
               "topic": "Review an offline evidence package",
               "total_steps": 2,
-              "trace_id": "run-1795200792995-9121"
+              "trace_id": "run-1795200968941-9962"
             }
           }
         }
