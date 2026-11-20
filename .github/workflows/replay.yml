@@ -56,6 +56,5 @@ jobs:
           tools/lab final .scratch/ci-sweep
           tools/lab verify results .scratch/ci-sweep --behavior
           tools/lab report results .scratch/ci-visual-data
-          for file in .scratch/ci-visual-data/*; do
-            cmp "$file" "video/visual-data/${file##*/}"
-          done
+          diff -r -x README.md -x cassette-flow.json -x baseline-terminal.json -x winner-terminal.json \
+            video/visual-data .scratch/ci-visual-data
