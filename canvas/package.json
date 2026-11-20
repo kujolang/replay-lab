@@ -10,7 +10,11 @@
     "test": "node --test test/*.test.mjs",
     "test:browser": "node scripts/browser.mjs test",
     "benchmark": "node scripts/browser.mjs benchmark",
-    "capture": "node scripts/browser.mjs capture"
+    "capture": "node scripts/browser.mjs capture",
+    "showcase:test": "node scripts/showcase.mjs test",
+    "showcase:capture": "node scripts/showcase.mjs capture",
+    "showcase:benchmark": "node scripts/showcase.mjs benchmark",
+    "showcase:export": "node scripts/showcase.mjs export"
   },
   "devDependencies": { "playwright": "1.57.0" }
 }

@@ -35,12 +35,16 @@ let captionRect;
 let captionOpacity = 0;
 let resolution = 1;
 let disposed = false;
+const minPitch = (w, h) => Math.sqrt(w * h / (aspect * 168000));
+const maxPitch = (w, h) => Math.max(w, h) * .51;
 
 function resize() {
   const nextWidth = canvas.clientWidth;
   const nextHeight = canvas.clientHeight;
   if (!nextWidth || !nextHeight) return;
-  if (manual && height) camera = { ...camera, pitch: camera.pitch * nextHeight / height };
+  if (manual && height) {
+    camera = { ...camera, pitch: clamp(camera.pitch * nextHeight / height, minPitch(nextWidth, nextHeight), maxPitch(nextWidth, nextHeight)) };
+  }
   width = nextWidth;
   height = nextHeight;
   ratio = Math.min(devicePixelRatio, 2, 1920 / width, 1080 / height) * resolution;
@@ -122,7 +126,7 @@ function frame(now) {
   if (disposed) return;
   const dt = previous ? now - previous : 0;
   previous = now;
-  if (playing) time += dt / 1000;
+  if (playing && !document.hidden) time += dt / 1000;
   if (playing || dirty || tracking || manual && performance.now() < blendStart + 880) {
     const start = performance.now();
     draw(tracking);
@@ -141,8 +145,7 @@ function takeControl() {
 }
 function scaleAt(x, y, target) {
   takeControl();
-  const min = Math.sqrt(width * height / (aspect * 168000));
-  camera = zoomAt(camera, x, y, clamp(target, min, Math.max(width, height) * .51), width, height);
+  camera = zoomAt(camera, x, y, clamp(target, minPitch(width, height), maxPitch(width, height)), width, height);
   dirty = true;
 }
 
@@ -274,6 +277,8 @@ window.addEventListener('keydown', (event) => {
 });
 const reduced = (event) => { if (event.matches) pause(false); };
 media.addEventListener('change', reduced);
+const resetClock = () => { previous = 0; };
+document.addEventListener('visibilitychange', resetClock);
 
 function failure(message) {
   const p = element('failure');
@@ -312,6 +317,7 @@ addEventListener('pagehide', (event) => {
   clearTimeout(pressTimer);
   observer.disconnect();
   media.removeEventListener('change', reduced);
+  document.removeEventListener('visibilitychange', resetClock);
   gpu?.dispose();
 });
 

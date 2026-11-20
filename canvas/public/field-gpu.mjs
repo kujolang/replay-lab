@@ -186,7 +186,9 @@ void main() {
   float waveShade = smoothstep(.12, .85, activity * .76 + stipple * .24);
   vec3 mono = mix(vec3(.001), vec3(.998), waveShade);
   surface = mix(surface, mono, vInk.x);
-  vec3 markColor = mix(vec3(.962, .959, .944), vec3(.011 + activity * .13), vInk.z);
+  vec3 outerPaper = mix(vec3(.962, .959, .944), mono, vInk.x * .34);
+  vec3 innerInk = mix(vec3(.011 + activity * .13), mono, vInk.x * .22);
+  vec3 markColor = mix(outerPaper, innerInk, vInk.z);
   surface = mix(surface, markColor, vInk.y);
   vec3 pixel = mix(mix(paper, black, shadow * (.17 + vInk.x * .08) * (1.0-vInk.y)), surface, body);
   outColor = vec4(mix(paper, pixel, vInk.w), 1.0);

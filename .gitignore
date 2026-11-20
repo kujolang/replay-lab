@@ -5,3 +5,5 @@ eval_results/
 canvas/node_modules/
 canvas/artifacts/.recording/
 video/production-workspace/production/hyperframes/.thumbnails/
+
+canvas/artifacts/immersive/.showcase.h264

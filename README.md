@@ -10,7 +10,7 @@ Candidate 36 raised the weighted score from **70.8% to 100%** on tuning and from
 
 ## Interactive canvas
 
-Run the [local Replay Lab canvas](canvas/README.md) to execute a Dispatch fixture, replay a recorded Kujo response, run Eval checks, and inspect their evidence. The canvas also includes a separately labeled synthetic rendering benchmark.
+Open the [Kujo Infinite Canvas](docs/IMMERSIVE_CANVAS.md) for a full-screen field animated from replay, evaluation, and workflow evidence. The local [Replay Lab workbench](canvas/README.md) runs the three native scenarios and lets you inspect their results.
 
 ## Demo
 
