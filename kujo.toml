@@ -1,6 +1,6 @@
 [package]
 name = "kujo-replay-lab"
-version = "1.0.0"
+version = "0.1.0"
 description = "Deterministic issue triage experiments with native Kujo AI cassettes"
 license = "MIT"
 

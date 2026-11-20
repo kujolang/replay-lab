@@ -1,6 +1,6 @@
 # Replay Lab
 
-[![Version](https://img.shields.io/badge/version-1.0.0-black)](https://github.com/kujolang/replay-lab)
+[![Version](https://img.shields.io/badge/version-0.1.0-black)](https://github.com/kujolang/replay-lab/releases/tag/v0.1.0)
 [![License](https://img.shields.io/badge/license-MIT-lightgrey)](LICENSE)
 [![Built with Kujo](https://img.shields.io/badge/built%20with-Kujo-white.svg)](https://github.com/kujolang/kujo)
 
