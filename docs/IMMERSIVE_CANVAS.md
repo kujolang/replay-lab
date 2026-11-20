@@ -71,8 +71,10 @@ Measured in headed Chrome 157.0.8103.80 at 1,280 × 720 on a 16 GB Intel Core i7
 
 The full run averaged 60.0 fps during expansion, massive scale, and logo formation. Five of 1,774 observed frames exceeded 20 ms. Reported GPU draw times exclude compositing. The live renderer used 8.6% of one CPU core, Chrome as a whole used 24.0%, and the main-thread draw-call P95 was 0.2 ms. Total Chrome RSS was 466 MiB, which can include shared pages. The busiest shared macOS GPU counter read 98–100% and includes other processes. Per-tab GPU utilization and VRAM were unavailable. After 12 repeated phase jumps and forced collection, the browser retained 93 DOM nodes and approximately 2.15 MiB of JS heap.
 
-The renderer requires WebGL2. Browsers without it can open the retained workbench. The raster scale control trades pixel resolution for rendering headroom. This benchmark covers one physical machine.
+A [repeat on the final renderer](../canvas/artifacts/immersive/performance-repeat.json) also averaged 59.1 fps. Its P95 was 17.3 ms and its longest frame was 133.2 ms. Five of 1,773 observed frames exceeded 20 ms.
+
+The renderer requires WebGL2 and OffscreenCanvas. Browsers without it can open the retained workbench. The raster scale control trades pixel resolution for rendering headroom. This benchmark covers one physical machine.
 
 ## Video export
 
-The exporter seeks the same live renderer at exact increments of 1/60 second and encodes each rendered frame with Chrome WebCodecs. The script verifies each encoded timestamp before writing the stream. FFmpeg muxes the bitstream and FFprobe checks decoded frame count, rate and duration. The output cadence is independent of live wall-clock rendering speed.
+The exporter seeks the same live renderer at exact increments of 1/60 second and encodes each rendered frame with Chrome WebCodecs. The script verifies each encoded timestamp before writing the stream. FFmpeg muxes the bitstream, applying a bounded bitrate for large outputs. FFprobe checks decoded frame count, rate and duration. The output cadence is independent of live wall-clock rendering speed.

@@ -292,8 +292,9 @@ async function exportVideo() {
   } finally { await stream.close(); }
   await page.evaluate(() => window.closeEncoder());
   assert.equal(encoded, count);
-  const videoCodec = (await stat(paths.stream)).size > 45 * 2 ** 20
-    ? ['-c:v','libx264','-preset','fast','-crf','18','-pix_fmt','yuv420p'] : ['-c:v','copy'];
+  const cappedBitrate = (await stat(paths.stream)).size > 45 * 2 ** 20;
+  const videoCodec = cappedBitrate
+    ? ['-c:v','libx264','-preset','medium','-crf','18','-maxrate','12M','-bufsize','12M','-pix_fmt','yuv420p'] : ['-c:v','copy'];
   await cli('ffmpeg', ['-y','-v','error','-fflags','+genpts','-r',String(fps),'-f','h264','-i',paths.stream,
     ...videoCodec,'-movflags','+faststart',paths.mp4]);
   const { stdout } = await cli('ffprobe', ['-v','error','-count_frames','-select_streams','v:0','-show_entries',
@@ -303,7 +304,8 @@ async function exportVideo() {
   assert.equal(video.avg_frame_rate, '60/1');
   assert.ok(Math.abs(Number(video.duration) - scene.duration) < .02);
   await writeFile(join(artifacts, 'export.json'), JSON.stringify({ codec, video, renderedFrames: encoded,
-    wallSeconds: (performance.now() - start) / 1000, browser: browser.version() }, null, 2) + '\n');
+    wallSeconds: (performance.now() - start) / 1000, browser: browser.version(),
+    delivery: { codec: 'H.264', maxBitrateMbps: cappedBitrate ? 12 : null, bytes: (await stat(paths.mp4)).size } }, null, 2) + '\n');
   await rm(paths.stream);
   assert.deepEqual(errors, []);
   await context.close();
