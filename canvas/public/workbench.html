@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en" data-theme="kujo-light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Explore recorded model responses, replay decisions, and inspect Kujo execution evidence.">
+  <meta name="theme-color" content="#f9f9f9">
+  <title>Replay Lab · Kujo</title>
+  <link rel="icon" href="/kujo.svg" type="image/svg+xml">
+  <link rel="preload" href="/vendor/fonts/DepartureMono-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/vendor/sitekit.css">
+  <link rel="stylesheet" href="/lab.css">
+  <script type="module" src="/lab.mjs"></script>
+</head>
+<body>
+  <header class="masthead">
+    <a class="brand" href="https://kujolang.ai" aria-label="Kujo home"><img src="/kujo.svg" alt="" width="29" height="29"> KUJO</a>
+    <span class="mast-divider"></span><a class="mast-label" href="/">Infinite canvas</a>
+    <a class="source" href="https://github.com/kujolang/replay-lab"><svg aria-hidden="true"><use href="/vendor/tabler.svg#brand-github"></use></svg> <span>Source</span></a>
+  </header>
+  <main>
+    <div class="intro">
+      <div>
+        <p class="eyebrow"><span class="cross" aria-hidden="true">✛</span> KUJO TOOLS / REPRODUCIBILITY</p>
+        <h1>Replay Lab<span>.</span></h1>
+        <p class="description">Run a workflow. Replay a recorded response. Verify what changed.</p>
+      </div>
+      <div class="guide">
+        <label for="mode">Field mode</label>
+        <select id="mode">
+          <option value="evidence">Execution evidence</option>
+          <option value="synthetic">Synthetic stress test</option>
+        </select>
+      </div>
+    </div>
+
+    <section class="instrument" aria-label="Replay Lab workspace">
+      <div class="toolbar">
+        <div class="actions" aria-label="Demonstration actions">
+          <button class="sk-button" id="execute" data-operation="execute"><span aria-hidden="true">▷</span> Execute</button>
+          <button class="sk-button" data-variant="secondary" data-operation="replay"><svg aria-hidden="true"><use href="/vendor/tabler.svg#rotate-clockwise"></use></svg> Replay</button>
+          <button class="sk-button" data-variant="secondary" id="compare"><span aria-hidden="true">⇄</span> Compare</button>
+          <button class="sk-button" data-variant="secondary" data-operation="evaluate"><svg aria-hidden="true"><use href="/vendor/tabler.svg#check"></use></svg> Evaluate</button>
+        </div>
+        <p id="operation-status" role="status"><span class="status-dot" aria-hidden="true"></span><span id="operation-text">Loading execution evidence</span><output id="elapsed" aria-label="Seconds since operation started" aria-live="off"></output></p>
+      </div>
+      <div class="workbench">
+        <div class="field">
+          <div class="field-caption">
+            <div id="field-label"><i aria-hidden="true"></i> <span id="field-title">Execution field</span></div>
+            <label id="density-control" hidden>Density
+              <select id="density">
+                <option value="1024">1,024 max</option>
+                <option value="4096">4,096 max</option>
+                <option value="8192">8,192 max</option>
+                <option value="16384">16,384 max</option>
+                <option value="65536">65,536 max</option>
+                <option value="262144" selected>262,144 max</option>
+              </select>
+            </label>
+          </div>
+          <div id="stage" class="stage" tabindex="0" role="region" aria-label="Canvas. Arrow keys pan. Plus and minus zoom. Home fits the field." aria-describedby="navigation-help">
+            <canvas id="decoration" aria-hidden="true"></canvas>
+            <canvas id="synthetic-canvas" aria-hidden="true" hidden></canvas>
+            <div id="world" class="world"></div>
+          </div>
+          <div class="viewbar">
+            <div class="view-buttons" aria-label="Canvas controls">
+              <button id="zoom-out" aria-label="Zoom out">−</button>
+              <output id="zoom" aria-label="Zoom level">100%</output>
+              <button id="zoom-in" aria-label="Zoom in">+</button>
+              <button id="fit" aria-label="Fit field">Fit</button>
+              <button id="motion" aria-pressed="false" aria-label="Pause animation">Pause</button>
+            </div>
+            <p id="coordinates" aria-hidden="true"></p>
+            <p id="navigation-help">Drag to pan • Scroll or pinch to zoom</p>
+          </div>
+        </div>
+        <aside class="inspector" aria-label="Evidence inspector">
+          <div class="inspector-caption"><h2 id="inspector-heading">Inspector</h2><span id="inspector-source">Fixture evidence</span></div>
+          <div class="inspector-body" id="inspector"></div>
+        </aside>
+      </div>
+      <footer class="readout">
+        <span><b id="object-count">—</b> <span id="object-label">evidence cards</span></span>
+        <span id="renderer">Evidence canvas</span>
+        <span id="fps" title="Recent animation frame cadence">— fps</span>
+      </footer>
+    </section>
+    <footer class="legend"><span id="provenance">Prepared offline from Kujo, Dispatch and Eval.</span><a href="https://github.com/kujolang/replay-lab/blob/main/docs/CANVAS_CAPABILITIES.md">Capability map <svg aria-hidden="true"><use href="/vendor/tabler.svg#external-link"></use></svg></a></footer>
+  </main>
+</body>
+</html>

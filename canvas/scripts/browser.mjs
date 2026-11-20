@@ -25,7 +25,7 @@ async function setup(context, query = 'benchmark') {
   const page = await context.newPage();
   const errors = [];
   page.on('pageerror', (error) => errors.push(error.message));
-  await page.goto(url + '/?' + query);
+  await page.goto(url + '/workbench.html?' + query);
   await page.waitForFunction(() => document.querySelectorAll('.field-card').length === 12 && labBenchmark.state().count === 12);
   await page.evaluate(() => document.fonts.ready);
   return { page, errors };
