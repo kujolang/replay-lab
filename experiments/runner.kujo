@@ -129,9 +129,10 @@ func main() {
     assert_equal(row["experiment_id"], argv[1])
     verify_row(row, manifest)
     let actual := evaluate(dataset, row["policy"], failure_index(baseline))
-    for field in ["decision_sha256", "cassette_sha256", "scenario_version_sha256", "score_points",
-                  "passed_tests", "safety_violations", "replay_mismatches"] {
-        assert_equal(actual[field], row[field])
+    for field in keys(actual) {
+        if field != "runtime_ms" {
+            assert_equal(actual[field], row[field])
+        }
     }
     print(to_json(actual))
 }

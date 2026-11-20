@@ -31,3 +31,38 @@ test "published scores must agree with the per-field counts" {
     }
     assert_true(refused)
 }
+
+test "a tuning safety tally must match the recorded hard failures" {
+    from experiments.provenance import read_manifest, read_candidates, verify_row
+    let manifest := read_manifest("results")
+    mut row := read_candidates("results")[192]
+    verify_row(row, manifest)
+    assert_equal(row["safety_violations"], 12)
+    row["safety_violations"] := 0
+    row["gate_passed"] := true
+    mut refused := false
+    try {
+        verify_row(row, manifest)
+    } except error {
+        refused = true
+    }
+    assert_true(refused)
+}
+
+test "a held-out score must match the published field counts" {
+    from experiments.provenance import load_evidence, verify_final
+    let selection := load_evidence("results", "selection")
+    mut final := load_evidence("results", "final")
+    verify_final(final, selection)
+    mut winner := final["winner"]
+    winner["score_pct"] := 98
+    final["winner"] := winner
+    final["delta_score_pct"] := winner["score_pct"] - final["baseline"]["score_pct"]
+    mut refused := false
+    try {
+        verify_final(final, selection)
+    } except error {
+        refused = true
+    }
+    assert_true(refused)
+}

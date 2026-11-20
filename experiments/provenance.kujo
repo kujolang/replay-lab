@@ -24,19 +24,39 @@ export func read_manifest(directory) {
     return manifest
 }
 
+func verify_measurement(row, scenario_set, count) {
+    assert_equal(row["scenario_set"], scenario_set)
+    assert_equal(row["scenario_count"], count)
+    assert_equal(row["replay_mismatches"], len(row["mismatch_details"]))
+    assert_equal(row["successful_replays"], count - row["replay_mismatches"])
+    assert_equal(row["failed_tests"], len(row["failures"]))
+    assert_equal(row["passed_tests"], count - row["failed_tests"])
+    assert_equal(row["regression_count"], len(row["regressions"]))
+    assert_true(row["replay_mismatches"] <= row["failed_tests"] && row["failed_tests"] <= count)
+    mut violations := 0
+    for failure in row["failures"] {
+        if failure["hard_violation"] {
+            violations = violations + 1
+        }
+    }
+    assert_equal(row["safety_violations"], violations)
+    assert_equal(row["gate_passed"], row["safety_violations"] == 0 && row["replay_mismatches"] == 0)
+    let correct := row["correct_fields"]
+    for field in ["category", "severity", "priority", "human_review", "action"] {
+        assert_true(type(correct[field]) == "int" && correct[field] >= row["passed_tests"] && correct[field] <= count)
+    }
+    assert_equal(row["max_points"], count * 10)
+    assert_equal(row["score_points"], weighted_points(correct))
+    assert_equal(row["score_pct"], row["score_points"] * 10.0 / count)
+}
+
 export func verify_row(row, manifest) {
     assert_equal(row["source_sha256"], manifest["source_sha256"])
     assert_equal(row["cassette_sha256"], manifest["cassette_sha256"])
     assert_equal(row["scenario_version_sha256"], manifest["scenario_sha256"])
     assert_true(policy_valid(row["policy"]))
     assert_equal(row["configuration_sha256"], sha256(to_json(row["policy"])))
-    assert_equal(row["scenario_count"], 100)
-    assert_equal(row["successful_replays"] + row["replay_mismatches"], row["scenario_count"])
-    assert_equal(row["passed_tests"] + row["failed_tests"], row["scenario_count"])
-    assert_equal(row["gate_passed"], row["safety_violations"] == 0 && row["replay_mismatches"] == 0)
-    assert_equal(row["max_points"], row["scenario_count"] * 10)
-    assert_equal(row["score_points"], weighted_points(row["correct_fields"]))
-    assert_equal(row["score_pct"], row["score_points"] * 10.0 / row["scenario_count"])
+    verify_measurement(row, "tuning-v1", 100)
 }
 
 export func changed_parameters(parent, candidate) {
@@ -104,12 +124,12 @@ export func verify_final(final, selection) {
     assert_equal(final["source_sha256"], winner["source_sha256"])
     assert_true(final["heldout_seal_verified"])
     assert_equal(final["delta_score_pct"], final["winner"]["score_pct"] - final["baseline"]["score_pct"])
-    assert_equal(final["deployable_in_lab"], final["winner"]["gate_passed"])
+    assert_true(final["deployable_in_lab"])
+    assert_true(final["winner"]["gate_passed"])
     for key in ["baseline", "winner"] {
         mut measured := final[key]
-        assert_equal(measured["scenario_set"], "heldout-v1")
-        assert_equal(measured["scenario_count"], 24)
-        assert_equal(measured["successful_replays"] + measured["replay_mismatches"], 24)
+        verify_measurement(measured, "heldout-v1", 24)
+        assert_equal(measured["replay_mismatches"], 0)
     }
     assert_equal(final["baseline"]["cassette_sha256"], final["winner"]["cassette_sha256"])
     assert_equal(final["baseline"]["scenario_version_sha256"], final["winner"]["scenario_version_sha256"])
