@@ -15,7 +15,7 @@ cd replay-lab/canvas
 npm start
 ```
 
-Open [the immersive field](http://127.0.0.1:4173) or [the workbench](http://127.0.0.1:4173/workbench.html). Set `KUJO_BIN` for a runtime outside `PATH`, `EVAL_ROOT` and `DISPATCH_ROOT` for differently located checkouts, or `PORT` to use another local port. Use absolute paths for the overrides. No credentials, paid API calls, application dependency installation, or build step are required to launch.
+Open [the immersive field](http://127.0.0.1:4181) or [the workbench](http://127.0.0.1:4181/workbench.html). Set `KUJO_BIN` for a runtime outside `PATH`, `EVAL_ROOT` and `DISPATCH_ROOT` for differently located checkouts, or `PORT` to use another local port. Use absolute paths for the overrides. No credentials, paid API calls, application dependency installation, or build step are required to launch.
 
 ## Workbench scenarios
 

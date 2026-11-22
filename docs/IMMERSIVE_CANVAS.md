@@ -13,7 +13,7 @@ The square rules, grayscale palette, and Departure Mono typography follow [kujol
 
 ## Reproduce
 
-From `canvas/`, run `npm start` and open [http://127.0.0.1:4173](http://127.0.0.1:4173). The field loads the last evidence returned by the running lab, or the bundled prepared snapshot. For fresh runs, press **I** or right-click, open the workbench, and run the three native scenarios using the [runtime setup](../canvas/README.md). The canvas reads the latest results on its next load. Tap to launch a wave, drag to pan, and scroll or pinch to zoom. Use Space to pause and Home to start the sequence again. A touch long-press opens the controls. Reduced-motion settings start the page paused.
+From `canvas/`, run `npm start` and open [http://127.0.0.1:4181](http://127.0.0.1:4181). The field loads the last evidence returned by the running lab, or the bundled prepared snapshot. For fresh runs, press **I** or right-click, open the workbench, and run the three native scenarios using the [runtime setup](../canvas/README.md). The canvas reads the latest results on its next load. Tap to launch a wave, drag to pan, and scroll or pinch to zoom. Use Space to pause and Home to start the sequence again. A touch long-press opens the controls. Reduced-motion settings start the page paused.
 
 For automated verification and artifacts, install the test dependency with `npm ci` and install FFmpeg and a Chrome browser with WebGL2 and WebCodecs H.264 encoding. Run:
 

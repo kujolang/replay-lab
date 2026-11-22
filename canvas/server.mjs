@@ -60,7 +60,7 @@ export async function createLabServer({ actions = operations } = {}) {
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   const server = await createLabServer();
-  server.listen(Number(process.env.PORT || 4173), '127.0.0.1', () => {
+  server.listen(Number(process.env.PORT || 4181), '127.0.0.1', () => {
     console.log(`Replay Lab — http://127.0.0.1:${server.address().port}`);
   });
 }
