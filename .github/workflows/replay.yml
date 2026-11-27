@@ -10,6 +10,22 @@ permissions:
   contents: read
 
 jobs:
+  canvas:
+    name: Canvas tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24.22.3'
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+        working-directory: canvas
+      - run: npm test
+        working-directory: canvas
+
   native-replay:
     name: Native replay (${{ matrix.runtime }})
     runs-on: ubuntu-latest

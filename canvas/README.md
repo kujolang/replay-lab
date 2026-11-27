@@ -4,7 +4,7 @@ Replay Lab starts with the [immersive Kujo Infinite Canvas](../docs/IMMERSIVE_CA
 
 ## Launch
 
-On macOS or Linux, install Node.js 22 or newer and [Kujo 1.9.0](https://github.com/kujolang/kujo/releases/tag/v1.9.0). From a parent directory containing the Replay Lab clone, obtain the two sibling tools.
+On macOS or Linux, install Node.js 24.22.3 or a compatible patched release from `package.json` and [Kujo 1.9.0](https://github.com/kujolang/kujo/releases/tag/v1.9.0). From a parent directory containing the Replay Lab clone, obtain the two sibling tools.
 
 ```sh
 git clone https://github.com/kujolang/eval.git
