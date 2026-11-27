@@ -448,9 +448,8 @@ $('compare').addEventListener('click', () => {
   inspect('compare', { reveal: true });
 });
 
-async function stateRequest(action) {
-  const response = await fetch(action ? '/api/' + action : '/api/state',
-    action ? { method: 'POST', headers: { 'X-Replay-Lab': '1' } } : {});
+async function requestEvidence(route, options) {
+  const response = await fetch('/api/' + route, options);
   const result = await response.json();
   if (!response.ok) throw new Error(result.error);
   return result;
@@ -477,19 +476,20 @@ async function runOperation(action) {
   if (!data || active) return;
   setMode(false);
   inspect(mainCard[action], { reveal: true });
-  active = { action, startedAt: Date.now() };
+  const operation = { action, startedAt: Date.now() };
+  active = operation;
   activeEvent = null;
   status(activeText[action], { busy: true });
   runningCard();
   for (const button of operationButtons) button.setAttribute('aria-disabled', 'true');
   let checking = false;
-  pollingHandle = setInterval(async () => {
-    if (checking || action !== 'execute') return;
+  if (action === 'execute') pollingHandle = setInterval(async () => {
+    if (checking) return;
     checking = true;
     try {
-      const snapshot = await stateRequest();
+      const snapshot = await requestEvidence('progress');
       const event = snapshot.active?.event;
-      if (active?.action === action && event?.id && event.id !== activeEvent) {
+      if (active === operation && snapshot.active?.action === action && event?.id && event.id !== activeEvent) {
         activeEvent = event.id;
         status(event.message, { busy: true });
         runningCard(event.type === 'step_completed' ? null : 'step-' + event.step_id);
@@ -498,7 +498,7 @@ async function runOperation(action) {
     finally { checking = false; }
   }, 160);
   try {
-    const result = await stateRequest(action);
+    const result = await requestEvidence(action, { method: 'POST', headers: { 'X-Replay-Lab': '1' } });
     data = result;
     const current = selected;
     renderCards();
@@ -523,7 +523,7 @@ observer.observe(stage);
 raf = requestAnimationFrame(animate);
 const start = async () => {
   try {
-    data = await stateRequest();
+    data = await requestEvidence('state');
     resize();
     renderCards();
     inspect(selected);

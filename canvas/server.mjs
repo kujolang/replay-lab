@@ -1,18 +1,20 @@
 import { createServer } from 'node:http';
 import { createReadStream } from 'node:fs';
-import { stat } from 'node:fs/promises';
+import { realpath, stat } from 'node:fs/promises';
 import { extname, join, resolve, sep } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { canvas, operations, readJson, scenarioOrder } from './scenarios.mjs';
 
 const publicDir = join(canvas, 'public');
 const types = { '.html': 'text/html', '.css': 'text/css', '.mjs': 'text/javascript', '.svg': 'image/svg+xml',
-  '.woff2': 'font/woff2', '.json': 'application/json', '.txt': 'text/plain' };
+  '.woff': 'font/woff', '.woff2': 'font/woff2', '.json': 'application/json', '.txt': 'text/plain' };
 
 export async function createLabServer({ actions = operations } = {}) {
-  const seed = await readJson(join(publicDir, 'snapshot.json'));
+  const assets = await realpath(publicDir);
+  const seed = await readJson(join(assets, 'snapshot.json'));
   const state = { preparedAt: seed.preparedAt, scenarios: seed.scenarios, updated: {}, active: null };
-  return createServer(async (req, res) => {
+  const limits = { requestTimeout: 10_000, headersTimeout: 5_000, connectionsCheckingInterval: 1_000 };
+  return createServer(limits, async (req, res) => {
     const send = (code, data) => {
       res.writeHead(code, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' });
       res.end(JSON.stringify(data));
@@ -20,13 +22,24 @@ export async function createLabServer({ actions = operations } = {}) {
     res.setHeader('X-Content-Type-Options', 'nosniff');
     res.setHeader('Content-Security-Policy', "default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'");
     try {
-      if (!['127.0.0.1', 'localhost'].includes(req.headers.host?.split(':')[0])) return send(403, { error: 'Use the local address.' });
+      const port = req.socket.localPort;
+      const authority = req.headers.host?.toLowerCase();
+      const local = ['127.0.0.1', 'localhost'].map((host) => port === 80 ? host : `${host}:${port}`);
+      if (!['127.0.0.1', '::1', '::ffff:127.0.0.1'].includes(req.socket.remoteAddress) || !local.includes(authority)) {
+        return send(403, { error: 'Use the local address.' });
+      }
+      if (!req.url.startsWith('/') || req.url.startsWith('//')) return send(400, { error: 'Invalid request target.' });
+      if (req.headers['transfer-encoding'] || (req.headers['content-length'] && req.headers['content-length'] !== '0')) {
+        res.setHeader('Connection', 'close');
+        return send(400, { error: 'Requests must have an empty body.' });
+      }
       const url = new URL(req.url, 'http://127.0.0.1');
       if (req.method === 'GET' && url.pathname === '/api/state') return send(200, state);
+      if (req.method === 'GET' && url.pathname === '/api/progress') return send(200, { active: state.active });
       if (url.pathname.startsWith('/api/')) {
         const action = url.pathname.slice(5);
         if (req.method !== 'POST' || !scenarioOrder.includes(action)) return send(404, { error: 'Unknown operation.' });
-        if (req.headers.origin !== 'http://' + req.headers.host ||
+        if (req.headers.origin !== 'http://' + authority ||
             req.headers['x-replay-lab'] !== '1') return send(403, { error: 'Operations require a same-origin request.' });
         if (state.active) return send(409, { error: 'An operation is already running.' });
         const active = { action, startedAt: Date.now(), event: null };
@@ -41,11 +54,14 @@ export async function createLabServer({ actions = operations } = {}) {
         return send(200, state);
       }
       if (req.method !== 'GET' && req.method !== 'HEAD') return send(405, { error: 'Method not allowed.' });
-      const path = resolve(publicDir, '.' + decodeURIComponent(url.pathname === '/' ? '/index.html' : url.pathname));
-      if (!path.startsWith(publicDir + sep) || !types[extname(path)]) return send(404, { error: 'File not found.' });
+      const requested = resolve(assets, '.' + decodeURIComponent(url.pathname === '/' ? '/index.html' : url.pathname));
+      const type = types[extname(requested)];
+      if (!requested.startsWith(assets + sep) || !type) return send(404, { error: 'File not found.' });
+      const path = await realpath(requested).catch(() => null);
+      if (!path?.startsWith(assets + sep)) return send(404, { error: 'File not found.' });
       const file = await stat(path).catch(() => null);
       if (!file?.isFile()) return send(404, { error: 'File not found.' });
-      res.writeHead(200, { 'Content-Type': types[extname(path)], 'Content-Length': file.size, 'Cache-Control': 'no-cache' });
+      res.writeHead(200, { 'Content-Type': type, 'Content-Length': file.size, 'Cache-Control': 'no-cache' });
       if (req.method === 'HEAD') return res.end();
       const stream = createReadStream(path);
       stream.on('error', () => res.destroy());

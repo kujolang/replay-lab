@@ -63,18 +63,26 @@ test('loopback API serializes operations, rejects foreign origins, and recovers 
   await once(server, 'listening');
   const url = 'http://127.0.0.1:' + server.address().port;
   const get = async () => (await fetch(url + '/api/state')).json();
-  const post = (route, origin = url) => fetch(url + '/api/' + route,
-    { method: 'POST', headers: { Origin: origin, 'X-Replay-Lab': '1' } });
+  const post = (route, origin = url, body) => fetch(url + '/api/' + route,
+    { method: 'POST', body, headers: { Origin: origin, 'X-Replay-Lab': '1' } });
+  const progress = async () => (await fetch(url + '/api/progress')).json();
   try {
     assert.equal((await post('replay', 'https://elsewhere.example')).status, 403);
+    assert.equal((await post('replay', url, 'unexpected')).status, 400);
     assert.equal((await fetch(url + '/api/replay')).status, 404);
     assert.equal((await fetch(url + '/%2e%2e%2fscenarios.mjs')).status, 404);
+    const font = await fetch(url + '/vendor/fonts/DepartureMono-Regular.woff', { method: 'HEAD' });
+    assert.equal(font.status, 200);
+    assert.equal(font.headers.get('content-type'), 'font/woff');
+    assert.deepEqual(await progress(), { active: null });
     const initial = await get();
     assert.equal(Object.values(initial.scenarios).flat().length, 12);
     const pending = post('replay');
     let active;
     for (let attempt = 0; attempt < 100 && !active; attempt++) {
-      active = (await get()).active;
+      const update = await progress();
+      assert.deepEqual(Object.keys(update), ['active']);
+      active = update.active;
       if (!active) await new Promise((resolve) => setTimeout(resolve, 10));
     }
     assert.equal(active?.action, 'replay');
@@ -84,6 +92,7 @@ test('loopback API serializes operations, rejects foreign origins, and recovers 
     assert.equal((await post('evaluate')).status, 422);
     const final = await get();
     assert.equal(final.active, null);
+    assert.deepEqual(await progress(), { active: null });
     assert.deepEqual(final.scenarios.evaluate, initial.scenarios.evaluate);
     assert.ok(final.updated.replay);
   } finally {
