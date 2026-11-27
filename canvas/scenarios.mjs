@@ -116,15 +116,18 @@ export async function evaluate() {
 
 async function findDispatchRun(dir) {
   const outputs = join(dir, 'outputs');
-  const names = await readdir(outputs);
-  const name = names.find((entry) => /^run-[\d-]+$/.test(entry));
-  return name ? join(outputs, name) : null;
+  const entries = await readdir(outputs, { withFileTypes: true });
+  const runs = entries.filter((entry) => entry.isDirectory() && /^run-[\d-]+$/.test(entry.name));
+  if (runs.length > 1) throw new Error('Dispatch produced multiple run directories.');
+  return runs.length === 1 ? join(outputs, runs[0].name) : null;
 }
 
 export async function execute(progress = () => {}) {
   return temporary(async (dir) => {
     const topic = 'Review an offline evidence package';
     let polling = false;
+    let finished = false;
+    let lastEvent;
     const timer = setInterval(async () => {
       if (polling) return;
       polling = true;
@@ -132,7 +135,11 @@ export async function execute(progress = () => {}) {
         const runPath = await findDispatchRun(dir);
         if (!runPath) return;
         const trace = await readJson(join(runPath, 'trace.json'));
-        progress(trace.events.at(-1));
+        const event = trace.events.at(-1);
+        if (!finished && event?.id && lastEvent !== event.id) {
+          lastEvent = event.id;
+          progress(event);
+        }
       } catch (error) {
         if (error.code !== 'ENOENT' && !(error instanceof SyntaxError)) console.error(error.message);
       } finally { polling = false; }
@@ -148,7 +155,10 @@ export async function execute(progress = () => {}) {
         if (typeof error.code === 'number' && !error.killed) return { failure: error.code };
         throw error;
       });
-    } finally { clearInterval(timer); }
+    } finally {
+      finished = true;
+      clearInterval(timer);
+    }
     const runPath = await findDispatchRun(dir);
     if (!runPath) throw new Error('Dispatch produced no run evidence.');
     const [state, trace, report, definition, receipt] = await Promise.all([
